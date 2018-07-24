@@ -19,3 +19,303 @@
       width: 1170px;
     }
   }
+  /* @media (min-width: 768px){
+.navbar-toggle {
+    display: none;
+}
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  border-color: #d3e0e9;
+}
+@media (min-width: 768px){
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+  margin-right: 0;
+  margin-left: 0;
+}
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+  margin-right: -15px;
+  margin-left: -15px;
+}}
+@media (min-width: 768px){
+.navbar-collapse.collapse {
+  display: block!important;
+  height: auto!important;
+  padding-bottom: 0;
+  overflow: visible!important;
+}}
+@media (min-width: 768px){
+.navbar-collapse {
+  width: auto;
+  border-top: 0;
+  box-shadow: none;
+}
+}
+.navbar-collapse {
+  overflow-x: visible;
+  padding-right: 15px;
+  padding-left: 15px;
+  border-top: 1px solid transparent;
+  box-shadow: inset 0 1px 0 hsla(0,0%,100%,.1);
+  -webkit-overflow-scrolling: touch;
+}
+  .navbar-default {
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+    background-color: #fff;
+    border: 0;
+    border-radius: 0;
+}
+.container-fluid>.navbar-collapse, .container-fluid>.navbar-header, .container>.navbar-collapse, .container>.navbar-header {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.navbar-header {
+  margin-top: 20px;
+}
+.navbar-toggle {
+  position: relative;
+  float: right;
+  margin-right: 15px;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #888;
+}
+.navbar-toggle .icon-bar+.icon-bar {
+  margin-top: 4px;
+}
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+  margin-left: 10px;
+  vertical-align: middle;
+  display: inline-block;
+  float: none;
+  height: auto;
+  padding: 0;
+  line-height: inherit;
+}
+.nav li, .nav li a {
+  display: inline-block;
+}
+.nav li a {
+  font-size: 12px;
+  text-transform: uppercase;
+  padding: 25px 15px;
+  color: #6c7380;
+  font-family: "Raleway-SemiBold";
+}
+.nav {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+@media (max-width: 767px){
+.nav {
+    margin-bottom: 20px;
+}
+}
+@media (min-width: 768px){
+.navbar-header {
+    float: left;
+}
+} */
+
+
+.navbar {
+  position: relative;
+  min-height: 50px;/**导航条最小宽度为50px**/
+  margin-bottom: 20px;/****/
+  border: 1px solid transparent;
+}
+@media (min-width: 768px) {/**>=768的设备，其实就是pc，移动设备width属性都小于768px**//**可能有很多人不理解，实际上移动端的width属性是以device-width来计量的，不是单纯的像数的概念，建议有疑问的同学自行搜索device-width关键字**/
+  .navbar {
+    border-radius: 4px;/****/
+  }
+}
+.navbar-default {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  background-color: #fff;
+  border: 0;
+  border-radius: 0;
+}
+.navbar-fixed-top,
+.navbar-fixed-bottom {
+  position: fixed;/**相对浏览器定位**/
+  right: 0;
+  left: 0;
+  z-index: 1030;/**样式层叠在上层的优先级**/
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #888;
+}
+.navbar-toggle .icon-bar+.icon-bar {
+  margin-top: 4px;
+}
+.navbar-toggle .icon-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+/**在pc端显示时向右浮动，在移动端此样式无效**/
+@media (min-width: 768px) {
+  .navbar-header {
+    float: left;
+  }
+}
+.navbar-toggle {/**在最右侧画了一个圆角矩形**/
+  position: relative;
+  float: right;
+  padding: 9px 10px;
+  margin-top: 8px;
+  margin-right: 15px;
+  margin-bottom: 8px;
+  background-color: transparent;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.navbar-toggle:focus {
+  outline: 0;
+}
+@media (min-width: 768px) {/**此button在pc端不显示**/
+  .navbar-toggle {
+    display: none;
+  }
+}
+.navbar-toggle .icon-bar {/**icon-bar负责在button盒子里画横线**/
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 1px;
+}
+
+.navbar-brand {
+  float: left;
+  height: 50px;
+  padding: 15px 15px;
+  font-size: 18px;
+  line-height: 20px;
+}
+/**由于.navbar-collapse，.navbar-collapse.in，.collapse在（@meida min-width:768px）pc端均有定义，故一下的属性只对移动端有效**/
+.navbar-collapse {
+  padding-right: 15px;
+  padding-left: 15px;
+  overflow-x: visible;
+  -webkit-overflow-scrolling: touch;
+  border-top: 1px solid transparent;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+          box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+.navbar-collapse.in {/**点击navbar-header的navbar-toggle的button后， navbar-collapse collapse会被js修改成。navbar-collapse collapse in**/
+  overflow-y: auto;
+}
+.collapse {/**决定了本组件在移动端时不显示**/
+  display: none;/**点击事件发生后将被覆盖**/
+}
+
+ .collapse.in {/**点击事件发生后，以块级元素显示，覆盖掉display：none**/
+  　　display: block;
+ }
+@media (min-width: 768px) {/**pc端**/
+  .navbar-collapse {
+    width: auto;
+    border-top: 0;
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+  .navbar-collapse.collapse {
+    display: block !important;/**作为块级显示，由于兄弟节点navbar-header是浮动元素，所以navbar-collapse会占满父元素的宽高**/
+    height: auto !important;
+    padding-bottom: 0;
+    overflow: visible !important;
+  }
+  .navbar-collapse.in {
+    overflow-y: visible;
+  }
+  .navbar-fixed-top .navbar-collapse,
+  .navbar-static-top .navbar-collapse,
+  .navbar-fixed-bottom .navbar-collapse {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+  margin-left: 10px;
+  vertical-align: middle;
+  display: inline-block;
+  float: none;
+  height: auto;
+  padding: 0;
+  line-height: inherit;
+}
+.navbar-default .navbar-brand>img, .navbar-inverse .navbar-brand>img {
+  top: auto;
+  width: 160px;
+  position: relative;
+}
+.navbar-header {
+  margin-top: 20px;
+}
+.nav:after, .nav:before {
+  content: " ";
+  display: table;
+}
+.navbar-collapse:after, .navbar-collapse:before {
+  content: " ";
+  display: table;
+}
+.text-center>ul>li{
+  display: inline-block;
+}
+@media (max-width: 767px){
+  .text-center>ul>li {
+    display: block;
+}
+}
+.collapse.in {
+  display: block
+}
+.navbar-collapse.in {
+  overflow-y: auto
+}
+@media(min-width:768px) {
+  .navbar-collapse.in {
+      overflow-y: visible
+  }
+}
+

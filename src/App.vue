@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <div class="menu">
+    <header>
+    <nav class="navbar navbar-default" >
+      <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand page-scroll" href="/"><img src="https://confidentcustomer.com/img/site/logo.png" class="img-responsive"></a>
+    </div>
+    <div class="collapse navbar-collapse text-center" id="bs-example-navbar-collapse-1">
       <el-menu :default-active="$route.path" router class="el-menu-demo" mode="horizontal">
-        <li class="menu-logo">
-          <img src="../static/img/apxq_head_portrait@2x.png" class="menu-icon">
-        </li>
-        <div class="text-center">
-          <ul>
         <el-menu-item index="/" class="menu-box">首页</el-menu-item>
         <el-submenu index="1">
           <template slot="title">金融服务</template>
@@ -29,13 +36,15 @@
           <el-menu-item index="Loaninquiry">贷款查询</el-menu-item>
         </el-submenu>
         <el-menu-item index="Find">发现</el-menu-item>
-        <el-button class="menu-btn" size="small">退出</el-button>
+        <li class="menu-btn">
         <img src="../static/img/apxq_head_portrait@2x.png" class="menu-icon">
-        </ul>
-        </div>
-        
+        <el-button size="small">退出</el-button>
+        </li>
       </el-menu>
     </div>
+</div>
+    </nav>
+</header>
     <router-view/>
     <div class="foot ">
       <div class="container">
@@ -73,50 +82,19 @@
     width: 100%;
     margin: 0;
   }
-
-  .el-menu-demo.el-menu--horizontal.el-menu {
-    border-bottom: unset;
-    margin-right: auto;
-    margin-left: auto;
-    padding-left: 15px;
-    padding-right: 15px;
+  .el-menu--horizontal>.el-submenu {
+    float: unset;
   }
-  @media (min-width: 768px) {
-    .el-menu-demo.el-menu--horizontal.el-menu {
-      width: 750px;
-    }
-    .menu-logo {
-        float: left;
-        margin-right: 0;
-        margin-left: 0
-    }
+  .el-menu--horizontal>.el-menu-item {
+    float: unset;
   }
-  .menu-logo {
-    margin-right: -15px;
-    margin-left: -15px
-  }
-  @media (min-width: 992px) {
-    .el-menu-demo.el-menu--horizontal.el-menu {
-      width: 970px;
-    }
-  }
-  @media (min-width: 1200px) {
-    .el-menu-demo.el-menu--horizontal.el-menu {
-      width: 1170px;
-    }
+  .el-menu {
+      position: unset;
   }
 
   .text-center{
     text-align: center;
   }
-  .text-center>ul>li{
-    display: inline-block;
-  }
-  .el-submenu__icon-arrow {
-    position: unset;
-    margin-top: 0;
-    margin-left: 14px;
-}
 
   .menu-name,
   .menu-logo {
@@ -130,7 +108,6 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    float: right;
     margin-right: 20px;
   }
 
