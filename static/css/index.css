@@ -1,4 +1,11 @@
-
+html,
+  body {
+    width: 100%;
+    margin: 0;
+  }
+.el-carousel__container{
+  margin-top: 60px;
+}
 @media (min-width:768px) {
   .navbar-right .dropdown-menu {
     right: 0;
@@ -634,9 +641,8 @@
 .navbar-default .navbar-nav>.active>a,
 .navbar-default .navbar-nav>.active>a:focus,
 .navbar-default .navbar-nav>.active>a:hover {
-  color: #555;
-  border-bottom: 2px solid #CEAA70
-  /* background-color: #e7e7e7 */
+  color: #CEAA70;
+  /* border-bottom: 2px solid #CEAA70 */
 }
 
 .navbar-default .navbar-nav>.disabled>a,
@@ -1229,12 +1235,6 @@ button.list-group-item-danger.active:hover {
   -o-transition-property: height, visibility;
   transition-property: height, visibility
 }
-@media (min-width: 768px){
-.navbar-nav>li>a {
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-}
 .navbar-nav>li>a {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1274,7 +1274,7 @@ button.list-group-item-danger.active:hover {
 }
 .dropdown-menu>li>a {
   display: block;
-  padding: 3px 20px;
+  padding: 5px 20px;
   clear: both;
   font-weight: 400;
   line-height: 1.42857143;

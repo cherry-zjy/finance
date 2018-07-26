@@ -106,12 +106,6 @@
 </script>
 
 <style>
-  html,
-  body {
-    width: 100%;
-    margin: 0;
-  }
-
   .text-center{
     text-align: center;
   }

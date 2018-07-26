@@ -15,7 +15,7 @@
               <el-tag v-for="tag in tags" :key="tag.name">
                 {{tag.name}}
               </el-tag>
-              <el-button type="primary" class="card-btn" @click="apply('1')">免费申请</el-button>
+              <el-button type="primary" class="card-btn">免费申请</el-button>
             </div>
           </el-card>
         </el-col>
@@ -134,9 +134,6 @@
       }
     },
     methods:{
-      apply(id){
-        this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
-      },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
