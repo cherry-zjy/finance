@@ -1202,7 +1202,7 @@ button.list-group-item-danger.active:hover {
   position: relative;
 }
 .navbar-header {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .nav:after, .nav:before {
   content: " ";

@@ -13,7 +13,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -28,7 +29,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -43,7 +45,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -55,6 +58,7 @@
             </div>
           </el-card>
         </el-col>
+        
       </el-row>
     </div>
     <div class="dark">
@@ -219,6 +223,9 @@
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
+  .header-icon{
+    vertical-align: middle;
+  }
 
   .body {
     text-align: center;
@@ -255,7 +262,7 @@
   /* 优势 */
 
   .dark {
-    background: url(../../static/img/1.gif);
+    background: url(../../static/img/sy_bj.png);
     color: #eee;
     background-size: 100% 100%;
     padding: 80px 0;

@@ -1,105 +1,40 @@
 <template>
   <div id="app">
-    
     <div class="container">
-      <h3>小额超市</h3>
-      <el-row :gutter="10">
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <span>宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-      </el-row>
-      <!-- 分页 -->
-    <div class="block">
-      <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next,jumper" :page-count="pageCount" :current-page="currentPage">
-      </el-pagination>
-    </div>
+      <div class="box"></div>
+        <div class="main">
+      <div class="dark">
+        <h4>宜人贷</h4>
+        <p>申请人数：19356566人&nbsp;&nbsp;&nbsp;&nbsp;可借贷款：1万-2万&nbsp;&nbsp;&nbsp;借款期限：24个月以上&nbsp;&nbsp;&nbsp;平均办理时间：1-3天</p>
+      </div>
+      <div class="dark">
+        <h4>申请条件</h4>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <h4>费用说明</h4>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+        <p>年龄要求：18周岁以上</p>
+      </div>
+      <div class="dark bottom">
+        <h4>如何快速申请</h4>
+        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+        <el-button type="primary" size="small">立即申请</el-button>
+      </div>
+      
+      </div>
+      
     </div>
   </div>
 </template>
@@ -108,7 +43,7 @@
   export default {
     data() {
       return {
-        pageIndex:1,
+        pageIndex: 1,
         pageCount: 10,
         tags: [{
             name: '标签一'
@@ -133,7 +68,7 @@
         return this.pageIndex
       }
     },
-    methods:{
+    methods: {
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
@@ -146,71 +81,32 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h3 {
-    text-align: center;
-    margin-top: 150px;
+  #app{
+    background-color: #F5F5F5
   }
-
-  .product-title {
-    border-bottom: 3px solid #CEAA70;
-    padding: 0 10px 10px 10px;
+  .box{
+    height: 60px;
   }
-
-  .el-row {
+  .main{
     margin-top: 60px;
+    background-color: #fff
   }
-
-  .el-card {
-    width: 96%;
-    margin-left: 2%;
-    margin-top: 20px;
+  .dark{
+    padding: 50px 20px 10px 20px;
+    margin: 0 30px;
+    color: #666666;
+    font-family:MicrosoftYaHei; 
   }
-
-  .item {
-    margin-bottom: 18px;
+  .dark+.dark{
+    padding-top: 10px;
+    border-top: 1px solid #EEEEEE;
   }
-
-  .header {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+  .drak.bottom{
+    padding-bottom: 80px;
   }
-
-  .body {
-    text-align: center;
+  h3{
+    font-weight: 400;
+    
   }
-
-  .card-money {
-    font-size: 30px;
-    font-weight: bold;
-    margin: 30px 0 0 0 !important;
-  }
-
-  .card-title {
-    color: #BBBBBB;
-    font-size: 15px;
-    margin: 0 !important;
-  }
-
-  .body .el-tag+.el-tag {
-    margin-left: 10px;
-  }
-
-  .el-tag {
-    margin-top: 20px;
-    background-color: #fff;
-    color: #CEAA70;
-    border: 1px solid #CEAA70;
-  }
-
-  .card-btn {
-    width: 80%;
-    margin-top: 50px;
-  }
-
-  .el-pagination {
-    margin-top: 50px;
-    text-align: center;
-    margin-bottom: 100px;
-}
 
 </style>

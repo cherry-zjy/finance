@@ -7,7 +7,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -22,7 +23,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -37,7 +39,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -52,7 +55,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -67,7 +71,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -82,7 +87,8 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <span>宜人贷</span>
+              <img src="../../../static/img/touxiang.png" class="header-icon">
+              <span class="header-icon">宜人贷</span>
             </div>
             <div class="body">
               <p class="card-money">10000</p>
@@ -176,6 +182,9 @@
   .header {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+  }
+  .header-icon{
+    vertical-align: middle;
   }
 
   .body {
