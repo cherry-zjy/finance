@@ -10,7 +10,7 @@
     </h3>
     <div class="container">
       <el-row :gutter="10">
-        <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
               <span>宜人贷</span>
@@ -25,7 +25,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
               <span>宜人贷</span>
@@ -40,7 +40,7 @@
             </div>
           </el-card>
         </el-col>
-        <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
           <el-card class="box-card" shadow="hover">
             <div class="header">
               <span>宜人贷</span>
@@ -63,7 +63,7 @@
       </h3>
       <div class="container">
         <el-row :gutter="10">
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
@@ -72,7 +72,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
@@ -81,7 +81,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
@@ -90,7 +90,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
@@ -99,7 +99,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
@@ -108,7 +108,7 @@
               </div>
             </el-card>
           </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
+          <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
             <el-card class="box-card" shadow="hover">
               <div class="body">
                 <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
