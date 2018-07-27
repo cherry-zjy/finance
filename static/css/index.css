@@ -1328,4 +1328,15 @@ html {
   margin-right: auto;
   margin-left: auto
 }
+.el-checkbox__input.is-checked+.el-checkbox__label{
+  color: #606266;
+}
+.el-dialog{
+  width: 40%!important;
+}
+@media (max-width:768px) {
+  .el-dialog{
+    width: 80%!important;
+  }
+}
 

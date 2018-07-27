@@ -2,34 +2,46 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="证件" prop="zj">
-            <el-input v-model="ruleForm.zj"></el-input>
-          </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="code">
-            <el-input v-model="ruleForm.code"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
-          </el-form-item>
-          <el-form-item prop="type">
-            <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-          <el-form-item style="text-align: center;">
-            <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
-          </el-form-item>
-        </el-form>
+        <h3>填写信息详情</h3>
         <div class="dark">
-        <p>选择添加申请人信息: </p>
-        <p>请确保选择或添加的申请人信息与贷款申请表所填信息保持真实一致，以免影响信用贷款进度；本平台对此信息保密。</p>
-      </div>
+          <el-row>
+            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="(o,index) in 4" :key="index">
+              <el-card class="box-card">
+                <div class="text item">
+                  姓名：张先生
+                  <img src="../../../static/img/tick.png" class="tick-icon" v-if="choose==index">
+                  <img src="../../../static/img/tick_no.png" class="tick-icon" v-if="choose!==index" @click="choosethis(index)">
+                </div>
+                <div class="text item">
+                  证件：332316199204075024
+                </div>
+                <div class="text item">
+                  电话：275471255
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
+          <el-checkbox v-model="checked">阅读并同意《金融联盟服务协议》</el-checkbox>
+        </div>
+        <div class="btnbox">
+          <el-button>添加申请人信息</el-button>
+          <el-button type="primary" @click="dialogFormVisible=true">下一步</el-button>
+        </div>
       </div>
     </div>
+    <el-dialog title="交通银行" :visible.sync="dialogFormVisible" center>
+  <el-form :model="form">
+    <p>正在给张三手机号178***000办理信用卡,请认真核对信息</p>
+    <p>内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容 内容内容内容内内容内容内容内容内容内</p>
+    <el-form-item>
+      <el-input v-model="form.name" placeholder="请输入验证码" class="form-input"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
+    </el-form-item>
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+  </div>
+</el-dialog>
   </div>
 </template>
 
@@ -37,7 +49,10 @@
   export default {
     data() {
       return {
-        ruleForm: {
+        choose: 0,
+        checked: true,
+        dialogFormVisible: false,
+        form: {
           name: '',
           region: '',
           date1: '',
@@ -47,52 +62,14 @@
           resource: '',
           desc: ''
         },
-        rules: {
-          name: [{
-            required: true,
-            message: '请输入姓名',
-            trigger: 'blur'
-          }, ],
-          zj: [{
-            required: true,
-            message: '请输入证件',
-            trigger: 'blur'
-          }, ],
-          phone: [{
-            required: true,
-            message: '请输入电话',
-            trigger: 'blur'
-          }, ],
-          code: [{
-            required: true,
-            message: '请输入验证码',
-            trigger: 'blur'
-          }, ],
-          type: [{
-            type: 'array',
-            required: true,
-            message: '请先阅读并同意《金融联盟服务协议》',
-            trigger: 'change'
-          }],
-        }
       }
     },
     computed: {
 
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      choosethis(index) {
+        this.choose = index
       }
     }
   }
@@ -111,23 +88,65 @@
     margin-bottom: 60px;
   }
 
-  form {
-    padding: 100px 0 0 0;
-    width: 40%;
-    margin-left: 30%;
+  h3 {
+    padding: 20px 30px;
   }
 
-  #getcode {
-    position: absolute;
-    margin-left: 20px;
-  }
-
-  .dark{
-    padding: 50px 20px 80px 20px;
+  .dark {
+    padding: 30px 0 80px 0;
     margin: 0 30px;
     color: #666666;
-    font-family:MicrosoftYaHei; 
+    font-family: MicrosoftYaHei;
     border-top: 1px solid #EEEEEE;
   }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+
+  .clearfix:after {
+    clear: both
+  }
+
+  .el-card {
+    width: 92%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #F5F5F5;
+    color: #666666;
+    position: relative;
+    margin-top: 20px;
+  }
+
+  .tick-icon {
+    position: absolute;
+    right: 10px;
+    top: 15px;
+  }
+  .el-checkbox{
+    padding: 30px 10px;
+  }
+  .btnbox{
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 50px;
+  }
+  .form-input{
+    width: 50%;
+  }
+  #getcode{
+    margin-left: 10px;
+  }
+  
 
 </style>
