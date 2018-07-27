@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
+      <div class="box"></div>
         <div class="main">
       <div class="dark">
         <h4>宜人贷</h4>
@@ -29,7 +30,7 @@
         <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
         <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
         <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
-        <el-button type="primary" size="small" @click="apply()">立即申请</el-button>
+        <el-button type="primary" size="small">立即申请</el-button>
       </div>
       
       </div>
@@ -73,10 +74,6 @@
         this.filters.pageIndex = val;
         // this.getInfo();
       },
-      apply(){
-        this.$router.push("/Finance/SmallSupermarketApply/id=" + window.location.href.split("id=")[1]);
-       
-      }
     }
   }
 
@@ -86,6 +83,9 @@
 <style scoped>
   #app{
     background-color: #F5F5F5
+  }
+  .box{
+    height: 60px;
   }
   .main{
     margin-top: 60px;
@@ -109,6 +109,7 @@
   }
   h3{
     font-weight: 400;
+    
   }
 
 </style>

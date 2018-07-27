@@ -50,6 +50,7 @@
 </div>
     </nav>
 </header>
+<div class="shelter"></div>
     <router-view/>
     <div class="foot ">
       <div class="container">
@@ -157,6 +158,9 @@
   }
   .el-submenu__icon-arrow {
     position: unset;
+  }
+  .shelter{
+    height: 60px;
   }
 
 </style>

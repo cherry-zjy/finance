@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 // import Finance from '@/components/Finance'
 import SmallSupermarket from '@/components/Finance/SmallSupermarket'
 import SmallSupermarketDetail from '@/components/Finance/SmallSupermarketDetail'
+import SmallSupermarketApply from '@/components/Finance/SmallSupermarketApply'
 import CreditManager from '@/components/Finance/CreditManager'
 import BankLoan from '@/components/Finance/BankLoan'
 import CardSupermarket from '@/components/Finance/CardSupermarket'
@@ -25,7 +26,9 @@ export default new Router({
   routes: [
     { path: '/',name: '主页',component: Home,},
     { path: '/Finance/SmallSupermarket', component: SmallSupermarket, name: '小额超市' },       
-    { path: '/Finance/SmallSupermarketDetail/:id', component: SmallSupermarketDetail, name: '小额超市' },       
+    { path: '/Finance/SmallSupermarketDetail/:id', component: SmallSupermarketDetail, name: '小额超市详情' },       
+    { path: '/Finance/SmallSupermarketApply/:id', component: SmallSupermarketApply, name: '小额超市申请' },       
+    
     { path: '/Finance/CreditManager', component: CreditManager, name: '信贷经理' },       
     { path: '/Finance/BankLoan', component: BankLoan, name: '银行借贷' },       
     { path: '/Finance/CardSupermarket', component: CardSupermarket, name: '信用卡超市' },       
