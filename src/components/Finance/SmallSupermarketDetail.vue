@@ -42,24 +42,7 @@
   export default {
     data() {
       return {
-        pageIndex: 1,
-        pageCount: 10,
-        tags: [{
-            name: '标签一'
-          },
-          {
-            name: '标签二'
-          },
-          {
-            name: '标签三'
-          },
-          {
-            name: '标签四'
-          },
-          {
-            name: '标签五'
-          }
-        ]
+        
       }
     },
     computed: {

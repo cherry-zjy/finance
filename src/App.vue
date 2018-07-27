@@ -55,8 +55,8 @@
     <div class="foot ">
       <div class="container">
       <el-row :gutter="10">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">客服热线：400-800-800 周一至周六（9:00-18:00）</el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">公司地址：江苏省无锡市太湖b区2幢905</el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8"><img src="../static/img/customer_service_hotline.png" class="foot-icon">客服热线：400-800-800 周一至周六（9:00-18:00）</el-col>
+      <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8"><img src="../static/img/place.png" class="foot-icon">公司地址：江苏省无锡市太湖b区2幢905</el-col>
       <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8"><span style="font-family:Arial;">©</span>2002-2017. 无锡太湖有限公司. 版权所有.</el-col>
       </el-row>
       </div>
@@ -161,6 +161,11 @@
   }
   .shelter{
     height: 60px;
+  }
+  .foot-icon{
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
   }
 
 </style>
