@@ -1347,5 +1347,23 @@ html {
     width: 80%!important;
   }
 }
+/* 步骤条 */
+.el-step__head.is-finish .el-step__icon.is-text{
+  background-color: #CEAA70;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+}
+.el-step__head.is-process .el-step__icon.is-text,
+.el-step__head.is-wait .el-step__icon.is-text{
+  background-color: #C9C9C9;
+  color: #fff;
+  border: unset;
+  width: 40px;
+  height: 40px;
+}
+.el-step.is-horizontal .el-step__line {
+  top: 20px!important;
+}
 
 

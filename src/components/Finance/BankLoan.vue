@@ -5,7 +5,7 @@
       <h3>银行信贷</h3>
       <el-row :gutter="10">
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <img src="../../../static/img/housing_loan.png" class="background-img">
+          <img src="../../../static/img/housing_loan.png" class="background-img" @click="apply(1)">
           <h2 class="card-name">房屋贷款</h2>
           <div class="imgbox">
             <el-row>
@@ -52,7 +52,7 @@
     },
     methods: {
       apply(id) {
-        this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
+        this.$router.push("/Finance/BankLoanApplyfirst/id=" + id);
       },
     }
   }

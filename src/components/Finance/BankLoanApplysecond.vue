@@ -2,10 +2,14 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
+        <div class="step">
+          <el-steps :active="1">
+            <el-step></el-step>
+            <el-step></el-step>
+            <el-step></el-step>
+          </el-steps>
+        </div>
+        <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="证件" prop="zj">
             <el-input v-model="ruleForm.zj"></el-input>
           </el-form-item>
@@ -20,14 +24,10 @@
               <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item style="text-align: center;">
+          <el-form-item style="text-align: center;padding-bottom: 80px;">
             <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
           </el-form-item>
         </el-form>
-        <div class="dark">
-        <p>选择添加申请人信息: </p>
-        <p>请确保选择或添加的申请人信息与贷款申请表所填信息保持真实一致，以免影响信用贷款进度；本平台对此信息保密。</p>
-      </div>
       </div>
     </div>
   </div>
@@ -38,7 +38,6 @@
     data() {
       return {
         ruleForm: {
-          name: '',
           region: '',
           date1: '',
           date2: '',
@@ -48,11 +47,6 @@
           desc: ''
         },
         rules: {
-          name: [{
-            required: true,
-            message: '请输入姓名',
-            trigger: 'blur'
-          }, ],
           zj: [{
             required: true,
             message: '请输入证件',
@@ -90,7 +84,7 @@
         //     return false;
         //   }
         // });
-        this.$router.push("/Finance/CreditManagerApplyDetail/id=" + window.location.href.split("id=")[1]);
+        this.$router.push("/Finance/BankLoanApplysecond/id=" + window.location.href.split("id=")[1]);
       },
     }
   }
@@ -111,21 +105,18 @@
 
   form {
     padding: 100px 0 0 0;
-    width: 40%;
-    margin-left: 30%;
+    width: 80%;
+    margin-left: 10%;
+  }
+  .step{
+    padding: 100px 0 0 0;
+    width: 50%;
+    margin-left: 25%;
   }
 
   #getcode {
     position: absolute;
     margin-left: 20px;
-  }
-
-  .dark{
-    padding: 50px 20px 80px 20px;
-    margin: 0 30px;
-    color: #666666;
-    font-family:MicrosoftYaHei; 
-    border-top: 1px solid #EEEEEE;
   }
 
 </style>

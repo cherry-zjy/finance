@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-// import Finance from '@/components/Finance'
+
 import SmallSupermarket from '@/components/Finance/SmallSupermarket'
 import SmallSupermarketDetail from '@/components/Finance/SmallSupermarketDetail'
 import SmallSupermarketApply from '@/components/Finance/SmallSupermarketApply'
@@ -10,7 +10,12 @@ import SmallSupermarketApplyDetail from '@/components/Finance/SmallSupermarketAp
 import CreditManager from '@/components/Finance/CreditManager'
 import CreditManagerApply from '@/components/Finance/CreditManagerApply'
 import CreditManagerApplyDetail from '@/components/Finance/CreditManagerApplyDetail'
+
 import BankLoan from '@/components/Finance/BankLoan'
+import BankLoanApplyfirst from '@/components/Finance/BankLoanApplyfirst'
+import BankLoanApplysecond from '@/components/Finance/BankLoanApplysecond'
+import BankLoanApplythird from '@/components/Finance/BankLoanApplythird'
+
 import CardSupermarket from '@/components/Finance/CardSupermarket'
 import CarSupermarket from '@/components/Finance/CarSupermarket'
 import POSSupermarket from '@/components/Finance/POSSupermarket'
@@ -37,7 +42,12 @@ export default new Router({
     { path: '/Finance/CreditManager', component: CreditManager, name: '信贷经理' },       
     { path: '/Finance/CreditManagerApply/:id', component: CreditManagerApply, name: '信贷经理申请' },       
     { path: '/Finance/CreditManagerApplyDetail/:id', component: CreditManagerApplyDetail, name: '信贷经理申请详情' },       
+    
     { path: '/Finance/BankLoan', component: BankLoan, name: '银行借贷' },       
+    { path: '/Finance/BankLoanApplyfirst/:id', component: BankLoanApplyfirst, name: '银行借贷申请' },       
+    { path: '/Finance/BankLoanApplysecond/:id', component: BankLoanApplysecond, name: '银行借贷' },       
+    { path: '/Finance/BankLoanApplythird/:id', component: BankLoanApplythird, name: '银行借贷' },       
+    
     { path: '/Finance/CardSupermarket', component: CardSupermarket, name: '信用卡超市' },       
     { path: '/Finance/CarSupermarket', component: CarSupermarket, name: '车险超市' },       
     { path: '/Finance/POSSupermarket', component: POSSupermarket, name: 'POS超市' },       
