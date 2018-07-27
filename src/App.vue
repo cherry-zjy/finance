@@ -19,7 +19,7 @@
           <ul class="dropdown-menu">
             <li><a @click="navto('/Finance/SmallSupermarket')">小额超市</a></li>
             <li><a @click="navto('/Finance/CreditManager')">信贷经理</a></li>
-            <li><a @click="navto('/Finance/BankLoan')">银行借贷</a></li>
+            <li><a @click="navto('/Finance/BankLoan')">银行信贷</a></li>
             <li><a @click="navto('/Finance/CardSupermarket')">信用卡超市</a></li>
             <li><a @click="navto('/Finance/CarSupermarket')">车险超市</a></li>
             <li><a @click="navto('/Finance/POSSupermarket')">POS超市</a></li>
@@ -150,7 +150,14 @@
     background-color: #3B3B3B;
     color: #fff;
     margin: 0;
-    padding: 50px 30px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+  }
+  .foot .el-row{
+    margin-top: 40px;
   }
 
   .foot .foot-text+.foot-text {

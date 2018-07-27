@@ -157,7 +157,9 @@
 <style scoped>
   h3 {
     text-align: center;
-    margin-top: 150px;
+    margin-top: 90px;
+    font-family:MicrosoftYaHei;
+    color:rgba(43,43,43,1);
   }
 
   .product-title {
