@@ -1,15 +1,152 @@
 <template>
-
+  <div id="app">
+    <div class="container">
+      <div class="main">
+        <h3>信贷经理</h3>
+        <div class="dark">
+          <div class="managerlist" v-for="(item,index) in 10" :key="index">
+            <img src="../../../static/img/apxq_head_portrait@2x.png" class="manager-icon">
+            <div class="manager-msg">
+              <p class="manager-name">张三</p>
+              <p class="manager-money">利率：
+                <span class="yellow">5%</span>
+                <span class="tall">最高：
+                  <span class="yellow">80万</span>
+                </span>
+              </p>
+              <p class="manager-text">微粒贷</p>
+            </div>
+            <el-button type="primary" class="manager-btn" size="small" @click="apply('1')">免费申请</el-button>
+          </div>
+        </div>
+        <!-- 分页 -->
+      <div class="block">
+        <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next,jumper" :page-count="pageCount" :current-page="currentPage">
+        </el-pagination>
+      </div>
+      </div>
+      
+    </div>
+  </div>
 </template>
 
 <script>
   export default {
-
+    data() {
+      return {
+        pageIndex: 1,
+        pageCount: 10,
+      }
+    },
+    computed: {
+      currentPage: function () {
+        return this.pageIndex
+      }
+    },
+    methods: {
+      // 分页
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+        // this.getInfo();
+      },
+    }
   }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
+  #app {
+    background-color: #F5F5F5
+  }
+
+  .main {
+    margin-top: 60px;
+    background-color: #fff;
+    margin-bottom: 60px;
+    float: left;
+  }
+
+  h3 {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .dark {
+    margin: 0 30px;
+    color: #666666;
+    font-family: MicrosoftYaHei;
+    border-top: 1px solid #EEEEEE;
+  }
+
+  .managerlist {
+    float: left;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .manager-icon {
+    width: 100px;
+    height: 100px;
+    float: left;
+    border-radius: 50%;
+  }
+
+  .manager-msg {
+    float: left;
+    margin-left: 30px;
+  }
+
+  @media (max-width:768px) {
+    .manager-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+    .manager-msg {
+      margin-left: 1rem;
+    }
+  }
+
+  .manager-name {
+    margin: 10px 0;
+    font-weight: bolder;
+    color: #333333;
+  }
+
+  .manager-money {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  span.yellow {
+    color: #CEAA70;
+  }
+
+  .tall {
+    margin-left: 20px;
+  }
+
+  .manager-text {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  .manager-btn {
+    float: right;
+    margin-top: 33px;
+  }
+  .block{
+    float: left;
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 80px;
+    width: 100%;
+  }
+  /* .el-pager li,.el-pagination .btn-next, .el-pagination .btn-prev，.el-pagination button:disabled{
+    color: unset;
+  } */
+
 </style>
