@@ -49,6 +49,9 @@
         this.filters.pageIndex = val;
         // this.getInfo();
       },
+      apply(id){
+        this.$router.push("/Finance/CreditManagerApply/id=" + id);
+      }
     }
   }
 
