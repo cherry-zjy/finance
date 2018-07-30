@@ -1,15 +1,183 @@
 <template>
+  <div id="app">
+    <el-carousel indicator-position="none" arrow="always" height="500px">
+      <el-carousel-item v-for="item in bannerlist" :key="item.url">
+        <img :src="item.url" class="banner-img">
+      </el-carousel-item>
+    </el-carousel>
+    <div class="container">
+      <div class="main">
+        <h3>信用卡超市</h3>
+        <div class="dark">
+          <div class="managerlist" v-for="(item,index) in 10" :key="index" @click="apply(1)">
+            <img src="../../../static/img/apxq_head_portrait@2x.png" class="manager-icon">
+            <div class="manager-msg">
+              <p class="manager-name">张三</p>
+              <p class="manager-money">利率：
+                <span class="yellow">5%</span>
+                <span class="tall">最高：
+                  <span class="yellow">80万</span>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <div class="block">
+          <!-- <el-pagination layout="prev, pager, next,jumper" :page-count="pageCount" :current-page="currentPage">
+        </el-pagination> -->
+          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          </el-pagination>
+        </div>
+      </div>
 
+    </div>
+  </div>
 </template>
 
 <script>
   export default {
-
+    data() {
+      return {
+        bannerlist: [{
+          url: "../../static/img/banner.png"
+        }, {
+          url: "../../static/img/1920x896.jpg"
+        }],
+        pageIndex: 1,
+        pageCount: 10,
+      }
+    },
+    mounted: function() {
+      document.getElementsByTagName("body")[0].className="add_bg"; 
+    },
+    beforeDestroy: function() {
+        document.body.removeAttribute("class","add_bg");
+    },
+    computed: {
+      currentPage: function () {
+        return this.pageIndex
+      }
+    },
+    methods: {
+      // 分页
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+        // this.getInfo();
+      },
+      apply(id) {
+        this.$router.push("/Finance/CardSupermarketProduct/id=" + id);
+      }
+    }
   }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
+  .banner-img {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* banner居中显示，不受屏幕大小失真 */
+
+  .el-carousel__container {
+    position: relative;
+  }
+
+  .el-carousel__item.is-animating {
+    width: 1920px;
+    position: absolute;
+    left: 50%;
+    margin-left: -960px;
+  }
+
+  .main {
+    margin-top: 60px;
+    background-color: #fff;
+    margin-bottom: 60px;
+    float: left;
+  }
+
+  h3 {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .dark {
+    margin: 0 30px;
+    color: #666666;
+    font-family: MicrosoftYaHei;
+    border-top: 1px solid #EEEEEE;
+  }
+
+  .managerlist {
+    float: left;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .manager-icon {
+    width: 100px;
+    height: 100px;
+    float: left;
+    border-radius: 50%;
+  }
+
+  .manager-msg {
+    float: left;
+    margin-left: 30px;
+  }
+
+  @media (max-width:768px) {
+    .manager-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+    .manager-msg {
+      margin-left: 1rem;
+    }
+  }
+
+  .manager-name {
+    margin: 10px 0;
+    font-weight: bolder;
+    color: #333333;
+  }
+
+  .manager-money {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  span.yellow {
+    color: #CEAA70;
+  }
+
+  .tall {
+    margin-left: 20px;
+  }
+
+  .manager-text {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  .manager-btn {
+    float: right;
+    margin-top: 33px;
+  }
+
+  .block {
+    float: left;
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 80px;
+    width: 100%;
+  }
+
 </style>

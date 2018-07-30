@@ -1,14 +1,9 @@
-<style>
-  body {
-    background-color: #F5F5F5;
-  }
-</style>
 <template>
   <div id="app">
     <div class="container">
       <div class="main">
         <div class="step">
-          <el-steps :active="1">
+          <el-steps :active="2">
             <el-step></el-step>
             <el-step></el-step>
             <el-step></el-step>
@@ -139,6 +134,12 @@
         }
       }
     },
+    mounted: function() {
+      document.getElementsByTagName("body")[0].className="add_bg"; 
+    },
+    beforeDestroy: function() {
+        document.body.removeAttribute("class","add_bg");
+    },
     computed: {
 
     },
@@ -164,10 +165,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  body {
-    background-color: #F5F5F5
-  }
-
   .main {
     margin-top: 60px;
     background-color: #fff;

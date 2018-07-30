@@ -17,6 +17,10 @@ import BankLoanApplysecond from '@/components/Finance/BankLoanApplysecond'
 import BankLoanApplythird from '@/components/Finance/BankLoanApplythird'
 
 import CardSupermarket from '@/components/Finance/CardSupermarket'
+import CardSupermarketProduct from '@/components/Finance/CardSupermarketProduct'
+import CardSupermarketDetail from '@/components/Finance/CardSupermarketDetail'
+
+
 import CarSupermarket from '@/components/Finance/CarSupermarket'
 import POSSupermarket from '@/components/Finance/POSSupermarket'
 // import Help from '@/components/Help'
@@ -48,7 +52,11 @@ export default new Router({
     { path: '/Finance/BankLoanApplysecond/:id', component: BankLoanApplysecond, name: '银行借贷' },       
     { path: '/Finance/BankLoanApplythird/:id', component: BankLoanApplythird, name: '银行借贷' },       
     
-    { path: '/Finance/CardSupermarket', component: CardSupermarket, name: '信用卡超市' },       
+    { path: '/Finance/CardSupermarket', component: CardSupermarket, name: '信用卡超市' },
+    { path: '/Finance/CardSupermarketProduct/:id', component: CardSupermarketProduct, name: '信用卡超市商品' },
+    { path: '/Finance/CardSupermarketDetail/:id', component: CardSupermarketDetail, name: '信用卡商品详情' },
+    
+    
     { path: '/Finance/CarSupermarket', component: CarSupermarket, name: '车险超市' },       
     { path: '/Finance/POSSupermarket', component: POSSupermarket, name: 'POS超市' },       
 

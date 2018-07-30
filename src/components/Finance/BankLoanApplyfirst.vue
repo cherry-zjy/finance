@@ -1,8 +1,3 @@
-<style>
-  body {
-      background-color: #F5F5F5;
-  }
-</style>
 <template>
   <div id="app">
     <div class="container">
@@ -76,6 +71,12 @@
         }
       }
     },
+    mounted: function() {
+      document.getElementsByTagName("body")[0].className="add_bg"; 
+    },
+    beforeDestroy: function() {
+        document.body.removeAttribute("class","add_bg");
+    },
     computed: {
 
     },
@@ -98,7 +99,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
   .main {
     margin-top: 60px;
     background-color: #fff;

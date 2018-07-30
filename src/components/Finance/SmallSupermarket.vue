@@ -1,3 +1,4 @@
+
 <template>
   <div id="app">
     
@@ -103,8 +104,8 @@
       </el-row>
       <!-- 分页 -->
     <div class="block">
-      <el-pagination @current-change="handleCurrentChange" layout="prev, pager, next,jumper" :page-count="pageCount" :current-page="currentPage">
-      </el-pagination>
+      <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          </el-pagination>
     </div>
     </div>
   </div>

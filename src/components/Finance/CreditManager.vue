@@ -38,6 +38,12 @@
         pageCount: 10,
       }
     },
+    mounted: function() {
+      document.getElementsByTagName("body")[0].className="add_bg"; 
+    },
+    beforeDestroy: function() {
+        document.body.removeAttribute("class","add_bg");
+    },
     computed: {
       currentPage: function () {
         return this.pageIndex
@@ -59,10 +65,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  #app {
-    background-color: #F5F5F5
-  }
-
   .main {
     margin-top: 60px;
     background-color: #fff;

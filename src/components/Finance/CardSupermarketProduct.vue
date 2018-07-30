@@ -1,26 +1,24 @@
+<style>
+  body {
+    background-color: #F5F5F5;
+  }
+
+</style>
 <template>
   <div id="app">
     <div class="container">
       <div class="main">
-        <div class="step">
-          <el-steps :active="3">
-            <el-step></el-step>
-            <el-step></el-step>
-            <el-step></el-step>
-          </el-steps>
-        </div>
+        <h3>信用卡列表</h3>
         <div class="dark">
           <div class="managerlist" v-for="(item,index) in 10" :key="index">
-            <img src="../../../static/img/apxq_head_portrait@2x.png" class="manager-icon">
+            <img src="../../../static/img/icbc.png" class="manager-icon">
             <div class="manager-msg">
               <p class="manager-name">张三</p>
               <p class="manager-money">利率：
                 <span class="yellow">5%</span>
-                <span class="tall">最高：
-                  <span class="yellow">80万</span>
+                <span class="tall">不差进度7-12工作日自动结算
                 </span>
               </p>
-              <p class="manager-text">微粒贷</p>
             </div>
             <el-button type="primary" class="manager-btn" size="small" @click="apply('1')">申请</el-button>
           </div>
@@ -44,12 +42,6 @@
         pageCount: 10,
       }
     },
-    mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
-    },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
-    },
     computed: {
       currentPage: function () {
         return this.pageIndex
@@ -61,6 +53,9 @@
         this.filters.pageIndex = val;
         // this.getInfo();
       },
+      apply(id) {
+        this.$router.push("/Finance/CardSupermarketDetail/id=" + window.location.href.split("id=")[1]);
+      }
     }
   }
 
@@ -68,6 +63,11 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  h3 {
+    text-align: center;
+    padding: 30px 0;
+  }
+
   .main {
     margin-top: 60px;
     background-color: #fff;

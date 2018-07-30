@@ -144,6 +144,9 @@
     .menu-btn button{
       float: right;
     }
+    .foot .el-row{
+      margin-top: 40px;
+    }
   }
 
   .foot {
@@ -156,9 +159,7 @@
     width: 100%;
     height: 100px;
   }
-  .foot .el-row{
-    margin-top: 40px;
-  }
+  
 
   .foot .foot-text+.foot-text {
     margin-left: 120px;
