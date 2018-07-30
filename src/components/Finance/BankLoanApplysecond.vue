@@ -1,3 +1,8 @@
+<style>
+  body {
+    background-color: #F5F5F5;
+  }
+</style>
 <template>
   <div id="app">
     <div class="container">
@@ -9,25 +14,103 @@
             <el-step></el-step>
           </el-steps>
         </div>
-        <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="证件" prop="zj">
-            <el-input v-model="ruleForm.zj"></el-input>
-          </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="验证码" prop="code">
-            <el-input v-model="ruleForm.code"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
-          </el-form-item>
-          <el-form-item prop="type">
-            <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-          <el-form-item style="text-align: center;padding-bottom: 80px;">
-            <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
-          </el-form-item>
-        </el-form>
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm two">
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="活动区域" prop="region">
+                <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                  <el-option label="区域一" value="shanghai"></el-option>
+                  <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item prop="type" style="margin-left: -100px">
+                <el-checkbox-group v-model="ruleForm.type">
+                  <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+        <div class="text-center">
+           <el-button @click="back()">上一步</el-button>
+          <el-button type="primary" @click="submitForm()">确认提交</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -39,29 +122,14 @@
       return {
         ruleForm: {
           region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          type: true
         },
         rules: {
-          zj: [{
+          region: [{
             required: true,
-            message: '请输入证件',
-            trigger: 'blur'
-          }, ],
-          phone: [{
-            required: true,
-            message: '请输入电话',
-            trigger: 'blur'
-          }, ],
-          code: [{
-            required: true,
-            message: '请输入验证码',
-            trigger: 'blur'
-          }, ],
+            message: '请选择活动区域',
+            trigger: 'change'
+          }],
           type: [{
             type: 'array',
             required: true,
@@ -75,6 +143,9 @@
 
     },
     methods: {
+      back() {
+        this.$router.push("/Finance/BankLoanApplyfirst/id=" + window.location.href.split("id=")[1]);
+      },
       submitForm(formName) {
         // this.$refs[formName].validate((valid) => {
         //   if (valid) {
@@ -84,7 +155,7 @@
         //     return false;
         //   }
         // });
-        this.$router.push("/Finance/BankLoanApplysecond/id=" + window.location.href.split("id=")[1]);
+        this.$router.push("/Finance/BankLoanApplythird/id=" + window.location.href.split("id=")[1]);
       },
     }
   }
@@ -108,7 +179,12 @@
     width: 80%;
     margin-left: 10%;
   }
-  .step{
+
+  .two {
+    padding-top: 20px;
+  }
+
+  .step {
     padding: 100px 0 0 0;
     width: 50%;
     margin-left: 25%;
@@ -117,6 +193,9 @@
   #getcode {
     position: absolute;
     margin-left: 20px;
+  }
+  .text-center{
+    padding:20px 0;
   }
 
 </style>

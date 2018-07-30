@@ -1,9 +1,14 @@
+<style>
+  body {
+      background-color: #F5F5F5;
+  }
+</style>
 <template>
   <div id="app">
     <div class="container">
       <div class="main">
         <div class="step">
-          <el-steps :active="0">
+          <el-steps :active="1">
             <el-step></el-step>
             <el-step></el-step>
             <el-step></el-step>
@@ -93,9 +98,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  body {
-    background-color: #F5F5F5
-  }
 
   .main {
     margin-top: 60px;
