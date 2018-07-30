@@ -14,25 +14,22 @@
             </el-col>
           </el-row>
           <div class="dark">
-        <p style="font-weight: 600">告知说明</p>
-        <p>本人向交通银行申请信用卡，承诺填写的各项信息均真实、完整、业务申请是否获批及信用卡额度以交通银行信用卡最终审核为准</p>
-      </div>
+            <p style="font-weight: 600">告知说明</p>
+            <p>本人向交通银行申请信用卡，承诺填写的各项信息均真实、完整、业务申请是否获批及信用卡额度以交通银行信用卡最终审核为准</p>
+          </div>
         </div>
       </div>
     </div>
     <el-dialog title="交通银行申请提醒" :visible.sync="dialogFormVisible" center>
-  <el-form :model="form">
-    
-    <p>如果您目前持有交通银行信用卡，或在其他平台机构同时申请信用卡，
-将会影响你的征
-信记录影响下卡率以及卡片额度</p>
-    
-  </el-form>
-  <div slot="footer" class="dialog-footer">
-    <el-button @click="dialogFormVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-  </div>
-</el-dialog>
+      <el-form :model="form">
+        <p>如果您目前持有交通银行信用卡，或在其他平台机构同时申请信用卡， 将会影响你的征 信记录影响下卡率以及卡片额度
+        </p>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -55,11 +52,11 @@
         },
       }
     },
-     mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
+    mounted: function () {
+      document.getElementsByTagName("body")[0].className = "add_bg";
     },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
     },
     computed: {
 
@@ -85,38 +82,45 @@
     margin-bottom: 60px;
   }
 
-  .form-input{
+  .form-input {
     width: 50%;
   }
-  #getcode{
+
+  #getcode {
     margin-left: 10px;
   }
-  .card-img{
-    width:100%
+
+  .card-img {
+    width: 100%
   }
-  .big-text{
+
+  .big-text {
     font-size: 20px;
     color: #333333;
   }
-  .small-text{
+
+  .small-text {
     color: #BBBBBB;
     font-size: 15px;
   }
+
   @media (min-width:768px) {
-    .applybtn{
+    .applybtn {
       position: absolute;
       bottom: 70px;
     }
   }
-  .el-row{
+
+  .el-row {
     padding: 50px 20px;
   }
-  .dark{
+
+  .dark {
     padding: 20px 20px 80px 20px;
     color: #666666;
-    font-family:MicrosoftYaHei; 
+    font-family: MicrosoftYaHei;
     border-top: 1px solid #EEEEEE;
-    
+
   }
 
 </style>

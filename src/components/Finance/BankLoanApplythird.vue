@@ -160,4 +160,12 @@
     width: 100%;
   }
 
+  @media (max-width:768px) {
+    .step{
+      padding: 100px 0 0 0;
+      width: 90%;
+      margin-left: 5%;
+    }
+  }
+
 </style>

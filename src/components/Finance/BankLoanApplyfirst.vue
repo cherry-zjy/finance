@@ -19,12 +19,12 @@
           <el-form-item label="验证码" prop="code">
             <el-input v-model="ruleForm.code"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
           </el-form-item>
-          <el-form-item prop="type">
+          <el-form-item prop="type" class="type">
             <el-checkbox-group v-model="ruleForm.type">
               <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-          <el-form-item style="text-align: center;padding-bottom: 80px;">
+          <el-form-item style="text-align: center;padding-bottom: 80px;" class="type">
             <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
           </el-form-item>
         </el-form>
@@ -104,21 +104,39 @@
     background-color: #fff;
     margin-bottom: 60px;
   }
+  
 
   form {
     padding: 100px 0 0 0;
-    width: 40%;
-    margin-left: 30%;
-  }
-  .step{
-    padding: 100px 0 0 0;
-        width: 50%;
-    margin-left: 30%;
+    width: 90%;
+    margin-left: 5%;
   }
 
-  #getcode {
-    position: absolute;
-    margin-left: 20px;
+  @media (min-width:768px) {
+    #getcode {
+      position: absolute;
+      margin-left: 20px;
+    }
+    form {
+      padding: 100px 0 0 0;
+      width: 40%;
+      margin-left: 30%;
+    }
+    .step{
+      padding: 100px 0 0 0;
+      width: 50%;
+      margin-left: 30%;
+    }
+  }
+  @media (max-width:768px) {
+    .type{
+      margin-left: -100px;
+    }
+    .step{
+      padding: 100px 0 0 0;
+      width: 90%;
+      margin-left: 5%;
+    }
   }
 
 </style>
