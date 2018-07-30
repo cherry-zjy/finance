@@ -2,40 +2,31 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <h3>填写信息详情</h3>
         <div class="dark">
-          <el-row>
-            <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" v-for="(o,index) in 4" :key="index">
-              <el-card class="box-card">
-                <div class="text item">
-                  姓名：张先生
-                  <img src="../../../static/img/tick.png" class="tick-icon" v-if="choose==index">
-                  <img src="../../../static/img/tick_no.png" class="tick-icon" v-if="choose!==index" @click="choosethis(index)">
-                </div>
-                <div class="text item">
-                  证件：332316199204075024
-                </div>
-                <div class="text item">
-                  电话：275471255
-                </div>
-              </el-card>
+          <el-row :gutter="20" style="position: relative;">
+            <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
+              <img src="../../../static/img/larger_map.png" class="card-img">
+            </el-col>
+            <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
+              <p class="big-text">招商信用卡</p>
+              <p class="small-text">单位名称：招商银行中心</p>
+              <el-button type="primary" class="applybtn" size="small" @click="dialogFormVisible = true">免费申请</el-button>
             </el-col>
           </el-row>
-          <el-checkbox v-model="checked">阅读并同意《金融联盟服务协议》</el-checkbox>
-        </div>
-        <div class="btnbox">
-          <el-button>添加申请人信息</el-button>
-          <el-button type="primary" @click="dialogFormVisible=true">下一步</el-button>
+          <div class="dark">
+        <p style="font-weight: 600">告知说明</p>
+        <p>本人向交通银行申请信用卡，承诺填写的各项信息均真实、完整、业务申请是否获批及信用卡额度以交通银行信用卡最终审核为准</p>
+      </div>
         </div>
       </div>
     </div>
-    <el-dialog title="交通银行" :visible.sync="dialogFormVisible" center>
+    <el-dialog title="交通银行申请提醒" :visible.sync="dialogFormVisible" center>
   <el-form :model="form">
-    <p>正在给张三手机号178***000办理信用卡,请认真核对信息</p>
-    <p>内容内容内容内容内容内容内容内容内容内内容内容内容内容内容内容 内容内容内容内内容内容内容内容内容内</p>
-    <el-form-item>
-      <el-input v-model="form.name" placeholder="请输入验证码" class="form-input"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
-    </el-form-item>
+    
+    <p>如果您目前持有交通银行信用卡，或在其他平台机构同时申请信用卡，
+将会影响你的征
+信记录影响下卡率以及卡片额度</p>
+    
   </el-form>
   <div slot="footer" class="dialog-footer">
     <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -64,6 +55,12 @@
         },
       }
     },
+     mounted: function() {
+      document.getElementsByTagName("body")[0].className="add_bg"; 
+    },
+    beforeDestroy: function() {
+        document.body.removeAttribute("class","add_bg");
+    },
     computed: {
 
     },
@@ -88,65 +85,38 @@
     margin-bottom: 60px;
   }
 
-  h3 {
-    padding: 20px 30px;
-  }
-
-  .dark {
-    padding: 30px 0 80px 0;
-    margin: 0 30px;
-    color: #666666;
-    font-family: MicrosoftYaHei;
-    border-top: 1px solid #EEEEEE;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
-
-  .el-card {
-    width: 92%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #F5F5F5;
-    color: #666666;
-    position: relative;
-    margin-top: 20px;
-  }
-
-  .tick-icon {
-    position: absolute;
-    right: 10px;
-    top: 15px;
-  }
-  .el-checkbox{
-    padding: 30px 10px;
-  }
-  .btnbox{
-    text-align: center;
-    margin-top: 30px;
-    padding-bottom: 50px;
-  }
   .form-input{
     width: 50%;
   }
   #getcode{
     margin-left: 10px;
   }
-  
+  .card-img{
+    width:100%
+  }
+  .big-text{
+    font-size: 20px;
+    color: #333333;
+  }
+  .small-text{
+    color: #BBBBBB;
+    font-size: 15px;
+  }
+  @media (min-width:768px) {
+    .applybtn{
+      position: absolute;
+      bottom: 70px;
+    }
+  }
+  .el-row{
+    padding: 50px 20px;
+  }
+  .dark{
+    padding: 20px 20px 80px 20px;
+    color: #666666;
+    font-family:MicrosoftYaHei; 
+    border-top: 1px solid #EEEEEE;
+    
+  }
 
 </style>
