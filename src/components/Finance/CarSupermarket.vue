@@ -4,14 +4,20 @@
       <div class="main">
         <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="活动区域" prop="region">
-            <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
-            <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-              <el-option label="区域一" value="shanghai"></el-option>
-              <el-option label="区域二" value="beijing"></el-option>
-            </el-select>
+            
+            <el-col :span="11">
+              <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-col>
+            <el-col :span="2">-</el-col>
+            <el-col :span="11">
+              <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+                <el-option label="区域一" value="shanghai"></el-option>
+                <el-option label="区域二" value="beijing"></el-option>
+              </el-select>
+            </el-col>
           </el-form-item>
           <el-form-item label="车牌" prop="cp">
             <el-input v-model="ruleForm.cp"></el-input>
@@ -24,7 +30,7 @@
             <el-input v-model="ruleForm.Name"></el-input>
           </el-form-item>
           <el-form-item style="text-align: center;padding-bottom: 300px;" class="type">
-            <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -79,7 +85,7 @@
         //     return false;
         //   }
         // });
-        this.$router.push("/Finance/BankLoanApplysecond/id=" + window.location.href.split("id=")[1]);
+        this.$router.push("/Finance/CarSupermarketDeatil/id=" + formName);
       },
     }
   }

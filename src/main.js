@@ -8,7 +8,12 @@ import router from './router'
 
 Vue.use(ElementUI);
 
+import axios from 'axios'
+import qs from 'qs'
+Vue.prototype.$http = axios;
+
 Vue.config.productionTip = false
+axios.defaults.baseURL = 'http://zst.nbxuanma.com/';
 
 /* eslint-disable no-new */
 new Vue({

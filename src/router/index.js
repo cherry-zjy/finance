@@ -20,8 +20,9 @@ import CardSupermarket from '@/components/Finance/CardSupermarket'
 import CardSupermarketProduct from '@/components/Finance/CardSupermarketProduct'
 import CardSupermarketDetail from '@/components/Finance/CardSupermarketDetail'
 
-
 import CarSupermarket from '@/components/Finance/CarSupermarket'
+import CarSupermarketDeatil from '@/components/Finance/CarSupermarketDeatil'
+
 import POSSupermarket from '@/components/Finance/POSSupermarket'
 // import Help from '@/components/Help'
 import Flow from '@/components/Help/Flow'
@@ -56,8 +57,9 @@ export default new Router({
     { path: '/Finance/CardSupermarketProduct/:id', component: CardSupermarketProduct, name: '信用卡超市商品' },
     { path: '/Finance/CardSupermarketDetail/:id', component: CardSupermarketDetail, name: '信用卡商品详情' },
     
-    
     { path: '/Finance/CarSupermarket', component: CarSupermarket, name: '车险超市' },       
+    { path: '/Finance/CarSupermarketDeatil/:id', component: CarSupermarketDeatil, name: '车险超市详情' },       
+    
     { path: '/Finance/POSSupermarket', component: POSSupermarket, name: 'POS超市' },       
 
     { path: '/Help/Flow', component: Flow, name: '流程说明' },       
