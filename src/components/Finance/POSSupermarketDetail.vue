@@ -5,31 +5,27 @@
         <div class="dark">
           <el-row :gutter="20" style="position: relative;">
             <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-              <img src="../../../static/img/larger_map.png" class="card-img">
+              <img src="../../../static/img/product_small.png" class="card-img">
             </el-col>
             <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
-              <p class="big-text">招商信用卡</p>
-              <p class="small-text">单位名称：招商银行中心</p>
-              <el-button type="primary" class="applybtn" size="small" @click="dialogFormVisible = true">免费申请</el-button>
+              <p class="big-text">pos机pos机pos机pos机pos机pos机pos机pos机pos机pos机pos 机pos机pos机</p>
+              <p class="small-text">库存：30</p>
+              <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+              <p class="small-price">￥68</p>
+              <el-button type="primary" class="applybtn" size="small" @click="apply()">立刻购买</el-button>
             </el-col>
           </el-row>
           <div class="dark">
-            <p style="font-weight: 600">告知说明</p>
-            <p>本人向交通银行申请信用卡，承诺填写的各项信息均真实、完整、业务申请是否获批及信用卡额度以交通银行信用卡最终审核为准</p>
+            <p class="title">
+              <img src="../../../static/img/left.png" class="detail-img">
+              商品详情
+              <img src="../../../static/img/right.png" class="detail-img">
+            </p>
+            <img src="../../../static/img/product_figure.png">
           </div>
         </div>
       </div>
     </div>
-    <el-dialog title="交通银行申请提醒" :visible.sync="dialogFormVisible" center>
-      <el-form :model="form">
-        <p>如果您目前持有交通银行信用卡，或在其他平台机构同时申请信用卡， 将会影响你的征 信记录影响下卡率以及卡片额度
-        </p>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -39,17 +35,7 @@
       return {
         choose: 0,
         checked: true,
-        dialogFormVisible: false,
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
+        num1: 1,
       }
     },
     mounted: function () {
@@ -62,9 +48,11 @@
 
     },
     methods: {
-      choosethis(index) {
-        this.choose = index
-      }
+      handleChange(index) {
+      },
+      apply(id){
+        this.$router.push("/Finance/POSSupermarketOrder/id=" + window.location.href.split("id=")[1]);
+      },
     }
   }
 
@@ -114,13 +102,29 @@
   .el-row {
     padding: 50px 20px;
   }
+  .small-price{
+    font-size: 25px;
+    color: #FF2736
+  }
 
   .dark {
     padding: 20px 20px 80px 20px;
-    color: #666666;
+    color: #333333;
     font-family: MicrosoftYaHei;
     border-top: 1px solid #EEEEEE;
 
+  }
+  .dark img{
+    max-width: 100%;
+  }
+  .dark .detail-img{
+    vertical-align: middle;
+  }
+  .dark .title{
+    font-size: 20px;
+    text-align: center;
+    font-weight: 400;
+    vertical-align: middle;
   }
 
 </style>
