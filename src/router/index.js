@@ -24,6 +24,7 @@ import CarSupermarket from '@/components/Finance/CarSupermarket'
 import CarSupermarketDeatil from '@/components/Finance/CarSupermarketDeatil'
 
 import POSSupermarket from '@/components/Finance/POSSupermarket'
+import POSSupermarketDetail from '@/components/Finance/POSSupermarketDetail'
 // import Help from '@/components/Help'
 import Flow from '@/components/Help/Flow'
 import Formmanual from '@/components/Help/Formmanual'
@@ -61,6 +62,7 @@ export default new Router({
     { path: '/Finance/CarSupermarketDeatil/:id', component: CarSupermarketDeatil, name: '车险超市详情' },       
     
     { path: '/Finance/POSSupermarket', component: POSSupermarket, name: 'POS超市' },       
+    { path: '/Finance/POSSupermarketDetail/:id', component: POSSupermarketDetail, name: 'POS超市详情' },       
 
     { path: '/Help/Flow', component: Flow, name: '流程说明' },       
     { path: '/Help/Formmanual', component: Formmanual, name: '平台手册' },       
