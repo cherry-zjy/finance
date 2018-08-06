@@ -10,7 +10,7 @@
             <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
               <p class="big-text">pos机pos机pos机pos机pos机pos机pos机pos机pos机pos机pos 机pos机pos机</p>
               <p class="small-text">库存：30</p>
-              <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+              <el-input-number v-model="num1" @change="handleChange" :min="1" label="描述文字"></el-input-number>
               <p class="small-price">￥68</p>
               <el-button type="primary" class="applybtn" size="small" @click="apply()">立刻购买</el-button>
             </el-col>
