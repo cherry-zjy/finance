@@ -61,5 +61,8 @@
   h3 {
     text-align: center;
   }
+  .el-collapse-item{
+    margin-top: 20px;
+  }
 
 </style>

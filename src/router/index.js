@@ -37,6 +37,8 @@ import HelpCenter from '@/components/Help/HelpCenter'
 import CardInquiry from '@/components/Select/CardInquiry'
 import Loaninquiry from '@/components/Select/Loaninquiry'
 import Find from '@/components/Find'
+import FindDteail from '@/components/FindDteail'
+
 
 
 Vue.use(Router)
@@ -72,12 +74,14 @@ export default new Router({
     
     { path: '/Help/Flow', component: Flow, name: '流程说明' },       
     { path: '/Help/Flowone', component: Flowone, name: '信用卡申请流程' }, 
-          
+
     { path: '/Help/Formmanual', component: Formmanual, name: '平台手册' },       
     { path: '/Help/HelpCenter', component: HelpCenter, name: '帮助中心' },       
 
     { path: '/Select/CardInquiry', component: CardInquiry, name: '信用卡查询' },       
-    { path: '/Select/Loaninquiry', component: Loaninquiry, name: '贷款查询' },       
-    { path: '/Find',name: '发现',component: Find}
+    { path: '/Select/Loaninquiry', component: Loaninquiry, name: '贷款查询' },  
+
+    { path: '/Find',name: '发现',component: Find},
+    { path: '/FindDteail/:id',name: '发现详情',component: FindDteail}
   ]
 })

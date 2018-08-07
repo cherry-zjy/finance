@@ -1,15 +1,154 @@
 <template>
+  <div id="app">
+    <div class="container">
+      <div class="main">
+        <h3>发现</h3>
+        <div class="dark">
+          <div class="managerlist" v-for="(item,index) in 10" :key="index">
+            <a class="news-item" @click="apply(1)">
+              <img class="news-item-avatar" src="../../static/img/dl.png">
+              <div class="news-item-right">
+                <p class="news-item-caption">蚂蚁金服拼京东金融,究竟哪家强?</p>
+                <p class="news-item-brief">发布时间：2018-7-19</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <div class="block">
+          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          </el-pagination>
+        </div>
+      </div>
 
+    </div>
+  </div>
 </template>
 
 <script>
   export default {
-
+    data() {
+      return {
+        pageIndex: 1,
+        pageCount: 10,
+      }
+    },
+    mounted: function () {
+      document.getElementsByTagName("body")[0].className = "add_bg";
+    },
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
+    },
+    computed: {
+      currentPage: function () {
+        return this.pageIndex
+      }
+    },
+    methods: {
+      // 分页
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+        // this.getInfo();
+      },
+      apply(id) {
+        this.$router.push("/FindDteail/id=" + id);
+      }
+    }
   }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
+  .main {
+    margin-top: 60px;
+    background-color: #fff;
+    margin-bottom: 60px;
+    float: left;
+  }
+
+  h3 {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .dark {
+    margin: 0 30px;
+    color: #666666;
+    font-family: MicrosoftYaHei;
+    border-top: 1px solid #EEEEEE;
+  }
+
+  .managerlist {
+    float: left;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #EEEEEE;
+    cursor: pointer;
+  }
+
+  .news-item {
+    display: flex;
+    color: #2f353f;
+  }
+
+  .news-item-avatar {
+    height: 180px;
+    width: 270px;
+    overflow: hidden;
+    background-color: black;
+    flex-shrink: 0;
+  }
+
+  .news-item-time {
+    text-align: left;
+    margin-left: 20px;
+    width: 62px;
+    font-size: 10px;
+    font-weight: 300;
+    padding-top: 0;
+    flex-shrink: 0;
+    margin-top: 0;
+  }
+
+  .news-item-right {
+    text-align: left;
+    margin-left: 20px;
+  }
+
+  .news-item-caption {
+    font-size: 18px;
+    font-weight: 600;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    margin-top: 0;
+  }
+
+  @media (max-width: 768px) {
+    .news-item-avatar {
+      width: 150px;
+      height: 100px;
+    }
+  }
+
+  .news-item-brief {
+    font-size: 14px;
+    font-weight: 300;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    color: #999999;
+  }
+
+  .block {
+    float: left;
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 80px;
+    width: 100%;
+  }
+
 </style>
