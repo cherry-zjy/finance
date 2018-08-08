@@ -44,6 +44,7 @@ import Info from '@/components/User/Info'
 import Certification from '@/components/User/Certification'
 import Order from '@/components/User/Order'
 import POSOrder from '@/components/User/POSOrder'
+import Address from '@/components/User/Address'
 
 Vue.use(Router)
 
@@ -95,6 +96,7 @@ export default new Router({
         {path: '/User/Certification', component: Certification,name: '个人信息-实名认证'},
         {path: '/User/Order', component: Order,name: '我的订单'},
         {path: '/User/POSOrder', component: POSOrder,name: 'POS订单'},
+        {path: '/User/Address', component: Address,name: '收货地址'},
       ]
     },
     

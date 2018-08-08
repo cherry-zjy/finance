@@ -37,7 +37,7 @@
           path:"/User/POSOrder"
         },{
           name:"收货地址",
-          path:"/User/Info"
+          path:"/User/Address"
         },{
           name:"推广管理",
           path:"/User/Info"
