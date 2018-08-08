@@ -9,7 +9,12 @@
           <p>{{item.Name}}</p>
         </div>
       </el-col>
+      
     </el-row>
+    <div class="block" v-if="!detail">
+      <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+      </el-pagination>
+    </div>
     <div v-if="detail" class="detail">
       <img src="../../../static/img/insets.png" class="detail-img">
       <p>海报</p>
@@ -48,7 +53,9 @@
         }, {
           img: '../../../static/img/insets.png',
           Name: '海报'
-        }]
+        }],
+        pageIndex: 1,
+        pageCount: 10,
       }
     },
     mounted: function () {
@@ -58,9 +65,14 @@
       document.body.removeAttribute("class", "add_bg");
     },
     computed: {
-
+      currentPage: function () {
+        return this.pageIndex
+      }
     },
     methods: {
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+      },
       gotodetail() {
         this.detail = true
       }
@@ -128,6 +140,12 @@
   .btnbox{
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+  .block {
+    text-align: center;
+    margin-top: 20px;
+    padding-bottom: 80px;
+    width: 100%;
   }
 
 </style>

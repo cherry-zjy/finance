@@ -43,11 +43,25 @@
           path:"/User/Spread"
         },{
           name:"专属推荐人",
-          path:"/User/Info"
+          path:"/User/Recommend"
         }]
       }
     },
     mounted() {
+      var path = window.location.href;
+       if(path.indexOf('User/Info')>0){
+          this.current = 0
+        }else if(path.indexOf('User/Order')>0){
+          this.current = 1
+        }else if(path.indexOf('User/POSOrder')>0){
+          this.current = 2
+        }else if(path.indexOf('User/Address')>0){
+          this.current = 3
+        }else if(path.indexOf('User/Spread')>0){
+          this.current = 4
+        }else{
+          this.current = 5
+        }
       document.getElementsByTagName("body")[0].className = "add_bg";
       var tt = this;
       if (getCookie("token")) {

@@ -123,6 +123,7 @@
     height: 50px;
     border-radius: 50%;
     margin-right: 20px;
+    cursor: pointer;
   }
 
   .menu-btn button{
@@ -130,10 +131,16 @@
     margin: 13px 0;
     padding: 5px 20px;
   }
+  .nav li a{
+    cursor: pointer;
+  }
   
   @media (max-width: 768px) {
     .menu-btn button{
       position: absolute;
+    }
+    .foot{
+      font-size: 14px;
     }
   }
   

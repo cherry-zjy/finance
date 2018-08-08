@@ -46,6 +46,7 @@ import Order from '@/components/User/Order'
 import POSOrder from '@/components/User/POSOrder'
 import Address from '@/components/User/Address'
 import Spread from '@/components/User/Spread'
+import Recommend from '@/components/User/Recommend'
 
 Vue.use(Router)
 
@@ -99,6 +100,7 @@ export default new Router({
         {path: '/User/POSOrder', component: POSOrder,name: 'POS订单'},
         {path: '/User/Address', component: Address,name: '收货地址'},
         {path: '/User/Spread', component: Spread,name: '推广管理'},
+        {path: '/User/Recommend', component: Recommend,name: '专属推荐人'},
       ]
     },
     
