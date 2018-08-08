@@ -40,7 +40,7 @@
           path:"/User/Address"
         },{
           name:"推广管理",
-          path:"/User/Info"
+          path:"/User/Spread"
         },{
           name:"专属推荐人",
           path:"/User/Info"
