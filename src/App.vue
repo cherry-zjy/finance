@@ -42,7 +42,7 @@
         </li>
         <li :class="{active:linum=='Find'}"><a @click="navto('/Find')">发现</a></li>
         <li class="menu-btn">
-        <img src="../static/img/apxq_head_portrait@2x.png" class="menu-icon">
+        <img src="../static/img/apxq_head_portrait@2x.png" class="menu-icon" @click="navto('/User')">
         <el-button size="small">退出</el-button>
         </li>
       </ul>
