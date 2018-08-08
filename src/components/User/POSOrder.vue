@@ -1,0 +1,232 @@
+<template>
+  <div id="app">
+    <h3>个人信息</h3>
+    <div class="box">
+    <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+          <div class="header">
+            <span>订单号：{{item.No}}</span>
+            <span class="list-status">{{item.status}}</span>
+          </div>
+          <div class="body">
+            <img src="../../../static/img/manager.png" class="body-img">
+            <div class="body-text">
+              <span>{{item.Name}}</span>
+              <br/>
+              <span class="grey">{{item.text}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="block" v-if="!detail">
+          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          </el-pagination>
+        </div>
+        <div v-if="detail">
+          <el-row>
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+              <p class="detail-title">订单信息</p>
+              <div class="Infobox">
+                <label class="info-title">订单编号：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">用户昵称：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">手机号：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">商品名：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">购买数量：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">实付款:</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">创建时间:</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">支付时间: </label>
+                <span>{{Info.Name}}</span>
+              </div>
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+              <p class="detail-title">收货信息</p>
+              <div class="Infobox">
+                <label class="info-title">订单状态：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">收货人：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">收货联系电话：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">收货地址：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+              <div class="Infobox">
+                <label class="info-title">物流订单：</label>
+                <span>{{Info.Name}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          <div class="btnbox">
+            <el-button type="primary" @click="detail=false">上一步</el-button>
+          </div>
+        </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    data() {
+      return {
+        list: [{
+            No: '123456789',
+            status: '未审核',
+            Name: '王经理',
+            text: '宜人贷'
+          },
+          {
+            No: '123456789',
+            status: '未审核',
+            Name: '王经理',
+            text: '宜人贷'
+          },
+          {
+            No: '123456789',
+            status: '未审核',
+            Name: '王经理',
+            text: '宜人贷'
+          }
+        ],
+        Info: {
+          Name: '1111'
+        },
+        detail:false,
+        pageIndex: 1,
+        pageCount: 10,
+      }
+    },
+    mounted: function () {
+      document.getElementsByTagName("body")[0].className = "add_bg";
+    },
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
+    },
+    computed: {
+      currentPage: function () {
+        return this.pageIndex
+      }
+    },
+    methods: {
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+      },
+    }
+  }
+
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .main {
+    margin-top: 60px;
+    background-color: #fff;
+    margin-bottom: 60px;
+    padding: 30px 10%;
+    width: 80%;
+    position: relative;
+  }
+
+  h3 {
+    padding: 20px 30px;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .box{
+    padding: 0 30px;
+  }
+
+  .list {
+    margin-bottom: 20px;
+    border: 1px solid #EEEEEE;
+  }
+
+  .header {
+    background-color: #F5F5F5;
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .list-status {
+    float: right;
+    margin-right: 20px;
+  }
+
+  .body {
+    padding: 10px;
+  }
+
+  .body-img {
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+  }
+
+  .body span {
+    vertical-align: middle;
+  }
+
+  .body-text {
+    display: inline-block;
+    margin-left: 20px;
+  }
+
+  .grey {
+    color: #999999;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+
+  .block {
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 80px;
+    width: 100%;
+  }
+
+  /* 详情 */
+
+  .Infobox {
+    padding: 10px 0;
+  }
+
+  .Infobox label.info-title {
+    width: 120px;
+    display: inline-block;
+  }
+
+  .btnbox {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+
+  .detail-title {
+    color: #CEAA70;
+  }
+
+</style>

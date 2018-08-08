@@ -34,7 +34,7 @@
           path:"/User/Order"
         },{
           name:"POS超市订单",
-          path:"/User/Info"
+          path:"/User/POSOrder"
         },{
           name:"收货地址",
           path:"/User/Info"
