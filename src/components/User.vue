@@ -44,6 +44,9 @@
         },{
           name:"专属推荐人",
           path:"/User/Recommend"
+        },{
+          name:"我的钱包",
+          path:"/User/Money"
         }]
       }
     },
@@ -59,8 +62,10 @@
           this.current = 3
         }else if(path.indexOf('User/Spread')>0){
           this.current = 4
-        }else{
+        }else if(path.indexOf('User/Recommend')>0){
           this.current = 5
+        }else{
+          this.current = 6
         }
       document.getElementsByTagName("body")[0].className = "add_bg";
       var tt = this;

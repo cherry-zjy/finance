@@ -73,6 +73,7 @@
       };
     },
     mounted:function(){
+      
       var path = window.location.href;
        if(path.indexOf('Find')>0){
           this.linum = 'Find'
@@ -82,12 +83,15 @@
           this.linum = 'Select'
         }else if(path.indexOf('Help')>0){
           this.linum = 'Help'
+        }else if(path.indexOf('/User')>0){
+          this.linum = ''
         }else{
           this.linum = 'Home'
         }
     },
     methods: {
       navto(path){
+        $(".collapse.in").removeClass("in")
         this.$router.push(path);
         if (path=='/Home'||path=='/') {
           this.linum = 'Home'
