@@ -42,6 +42,7 @@ import FindDteail from '@/components/FindDteail'
 import User from '@/components/User'
 import Info from '@/components/User/Info'
 import Certification from '@/components/User/Certification'
+import Order from '@/components/User/Order'
 
 
 Vue.use(Router)
@@ -90,8 +91,9 @@ export default new Router({
     {
       path: '/User', component: User,
       children: [
-        {path: '/User/Info', component: Info,},
-        {path: '/User/Certification', component: Certification,},
+        {path: '/User/Info', component: Info,name: '个人信息'},
+        {path: '/User/Certification', component: Certification,name: '个人信息-实名认证'},
+        {path: '/User/Order', component: Order,name: '我的订单'},
       ]
     },
     

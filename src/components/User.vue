@@ -31,7 +31,7 @@
           path:"/User/Info"
         },{
           name:"我的订单",
-          path:"/User/Info"
+          path:"/User/Order"
         },{
           name:"POS超市订单",
           path:"/User/Info"
@@ -179,6 +179,7 @@
   }
   .user-nav div a{
     color: #333333;
+    cursor: pointer;
   }
   .user-nav div a.active{
     color: #CEAA70;
