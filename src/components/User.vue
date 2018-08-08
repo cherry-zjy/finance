@@ -11,9 +11,9 @@
           </div>
         </div>
         <!-- 右侧路由信息 -->
-        <el-container class="right">
+        <div class="right">
           <router-view></router-view>
-        </el-container>
+        </div>
         <!-- </el-container> -->
       </div>
     </div>
@@ -100,13 +100,8 @@
 <style scoped>
   .main {
     margin-top: 60px;
-    /* background-color: #fff; */
     margin-bottom: 60px;
     position: relative;
-  }
-
-  h3 {
-    text-align: center;
   }
 
   .main p {
@@ -115,10 +110,8 @@
 
   .right {
     margin-left: 270px;
-    padding-bottom: 100px;
     box-sizing: border-box;
     background-color: #fff;
-    max-width: 100%;
   }
 
   .user-nav {
