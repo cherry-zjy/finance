@@ -1,8 +1,4 @@
-<style>
-  body {
-    background-color: unset;
-  }
-</style>
+
 <template>
   <div>
     <el-carousel indicator-position="none" arrow="always" height="500px">

@@ -2,7 +2,6 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <!-- <el-container> -->
         <div class="user-nav">
           <img src="../../static/img/apxq_head_portrait@2x.png" class="user-icon">
           <P class="user-name">zjy</P>
@@ -14,7 +13,6 @@
         <div class="right">
           <router-view></router-view>
         </div>
-        <!-- </el-container> -->
       </div>
     </div>
   </div>
@@ -28,7 +26,7 @@
         current:0,
         menulist:[{
           name:"个人信息",
-          path:"/User/Info"
+          path:"/User"
         },{
           name:"我的订单",
           path:"/User/Order"
@@ -52,9 +50,7 @@
     },
     mounted() {
       var path = window.location.href;
-       if(path.indexOf('User/Info')>0){
-          this.current = 0
-        }else if(path.indexOf('User/Order')>0){
+       if(path.indexOf('User/Order')>0){
           this.current = 1
         }else if(path.indexOf('User/POSOrder')>0){
           this.current = 2
@@ -64,8 +60,11 @@
           this.current = 4
         }else if(path.indexOf('User/Recommend')>0){
           this.current = 5
-        }else{
+        }else if(path.indexOf('User/Money')>0){
           this.current = 6
+        }else{
+          this.current = 0
+          // this.$router.push("/User/Info");
         }
       document.getElementsByTagName("body")[0].className = "add_bg";
       var tt = this;
@@ -92,20 +91,6 @@
     },
     methods: {
       // 个人中心  修改密码
-      // 退出
-      logout() {
-        let that = this;
-        this.$confirm("确认退出吗?", "提示", {
-            confirmButtonClass: "el-button--warning"
-          })
-          .then(() => {
-            //确认
-            that.loading = true;
-            delCookie("token");
-            this.$router.push("/login");
-          })
-          .catch(() => {});
-      },
       navtourl(index,path){
         this.current=index;
         this.$router.push(path);
