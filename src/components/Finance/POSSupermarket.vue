@@ -1,23 +1,22 @@
-
 <template>
   <div id="app">
-    
+
     <div class="container">
       <h3>POS超市</h3>
       <el-row :gutter="20">
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="item in 6" :key="item">
-            <div class="card" @click="apply(1)">
-            <img src="../../../static/img/product_map.png" class="row-img">
-            <div class="row-name">POS机POS机POS机POS机POS机POS机POS机POS机</div>
-            <div class="row-price">￥68</div>
-            </div>
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item,index) in list" :key="index">
+          <div class="card" @click="apply(item.ID)">
+            <img class="row-img" :src="item.Image">
+            <div class="row-name">{{item.Name}}</div>
+            <div class="row-price">￥{{item.Price}}</div>
+          </div>
         </el-col>
       </el-row>
       <!-- 分页 -->
-    <div class="block">
-      <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
-          </el-pagination>
-    </div>
+      <div class="block">
+        <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -26,8 +25,9 @@
   export default {
     data() {
       return {
-        pageIndex:1,
+        pageIndex: 1,
         pageCount: 10,
+        list: []
       }
     },
     computed: {
@@ -35,14 +35,61 @@
         return this.pageIndex
       }
     },
-    methods:{
-      apply(id){
+    mounted() {
+      this.mainurl = mainurl;
+      this.getInfo();
+    },
+    updated(){
+      this.Imgresize()
+    },
+    methods: {
+      getInfo() {
+        this.$http
+          .get("api/Web_POSMarket/POSList", {
+            params: {
+              pageIndex: this.pageIndex,
+              pageSize: 6,
+            }
+          })
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page;
+                
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      Imgresize() {
+        window.onresize = function () {
+          $(".row-img").css("height",$(".row-img").width())
+        }
+        $(".row-img").css("height",$(".row-img").width())
+      },
+      apply(id) {
         this.$router.push("/Finance/POSSupermarketDetail/id=" + id);
       },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
-        // this.getInfo();
+        this.getInfo();
       },
     }
   }
@@ -54,8 +101,8 @@
   h3 {
     text-align: center;
     margin-top: 90px;
-    font-family:MicrosoftYaHei;
-    color:rgba(43,43,43,1);
+    font-family: MicrosoftYaHei;
+    color: rgba(43, 43, 43, 1);
   }
 
   .product-title {
@@ -66,26 +113,32 @@
   .el-row {
     margin-top: 60px;
   }
-  .card{
+
+  .card {
     background-color: #EEEEEE;
     margin-top: 20px;
+    cursor: pointer;
   }
-  .row-img{
-      width: 100%;
+
+  .row-img {
+    width: 100%;
   }
-  .row-name{
-      color: #2B2B2B;
-      padding: 10px 40px;
+
+  .row-name {
+    color: #2B2B2B;
+    padding: 10px 40px;
   }
-  .row-price{
+
+  .row-price {
     color: #FF2736;
     padding: 0 40px 20px 40px;
     font-size: 25px;
   }
+
   .el-pagination {
     margin-top: 50px;
     text-align: center;
     margin-bottom: 100px;
-}
+  }
 
 </style>

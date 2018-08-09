@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Index from '@/components/Index'
-
-
 import Login from '@/components/Login'
 
 import SmallSupermarket from '@/components/Finance/SmallSupermarket'
@@ -32,14 +30,11 @@ import POSSupermarketDetail from '@/components/Finance/POSSupermarketDetail'
 import POSSupermarketOrder from '@/components/Finance/POSSupermarketOrder'
 import POSSupermarketSubmitOrder from '@/components/Finance/POSSupermarketSubmitOrder'
 
-// import Help from '@/components/Help'
 import Flow from '@/components/Help/Flow'
 import Flowone from '@/components/Help/Flowone'
 import Formmanual from '@/components/Help/Formmanual'
 import HelpCenter from '@/components/Help/HelpCenter'
-// import Select from '@/components/Select'
-import CardInquiry from '@/components/Select/CardInquiry'
-import Loaninquiry from '@/components/Select/Loaninquiry'
+
 import Find from '@/components/Find'
 import FindDteail from '@/components/FindDteail'
 

@@ -1,4 +1,4 @@
-var mainurl = "http://zst.nbxuanma.com/"
+var mainurl = "http://192.168.1.106/ZYJF/"
 
 function setCookie(name, value) {
   var Days = 30;

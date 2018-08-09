@@ -97,6 +97,7 @@
 </template>
 
 <script>
+import qs from "qs";
   export default {
     data() {
       var checkselecte = (rule, value, callback) => {
@@ -174,7 +175,49 @@
     methods: {
       handleChange(index) {},
       submit() {
-        this.$router.push("/Finance/POSSupermarketSubmitOrder/id=" + window.location.href.split("id=")[1]);
+        this.$http
+          .post("api/Web_POSMarket/POSDD?Token="+getCookie("token")+"&prodID="+window.location.href.split("id=")[1].split("&")[0]+"&count="+window.location.href.split("num=")[1],
+            // qs.stringify({
+            //   Token: getCookie("token"),
+            //   count:window.location.href.split("num=")[1],
+            //   prodID:window.location.href.split("id=")[1].split("&")[0],
+            // })
+          )
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+                this.$notify.error({
+                  title: "错误",
+                  message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+        // this.$router.push("/Finance/POSSupermarketSubmitOrder/id=" + window.location.href.split("id=")[1]);
       },
       handleChange(value) {
         this.form.city = this.form.selectedOptions[0];

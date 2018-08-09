@@ -9,7 +9,7 @@
           </el-form-item>
           <el-form-item prop="password">
             <el-input type="password" placeholder="请输入验证码" v-model="loginForm.password" class="psw"></el-input>
-            <span class="sendcode">发送验证码</span>
+            <span class="sendcode" @click="code()" :disabled="disabled">{{time}}</span>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="submitForm('loginForm')" class="submit_btn">登陆</el-button>
@@ -21,6 +21,7 @@
 </template>
 
 <script>
+  import qs from "qs";
   export default {
     data() {
       return {
@@ -31,15 +32,18 @@
         rules: {
           username: [{
             required: true,
-            message: "请输入用户名",
+            message: "请输入手机号",
             trigger: "blur"
           }],
           password: [{
             required: true,
-            message: "请输入密码",
+            message: "请输入验证码",
             trigger: "blur"
           }]
-        }
+        },
+        currentTime: 61,
+        time: '获取验证码', //倒计时 
+        disabled: false
       }
     },
     mounted: function () {
@@ -50,59 +54,119 @@
     },
     methods: {
       submitForm(formName) {
-        // var tt = this;
-        // this.$refs[formName].validate(async valid => {
-        //   if (valid) {
-        //     this.$http
-        //       .post(
-        //         "api/Admin/Login",
-        //         qs.stringify({
-        //           Name: this.loginForm.username,
-        //           Password: md5(this.loginForm.password)
-        //         })
-        //       )
-        //       .then(
-        //         function (response) {
-        //           var status = response.data.Status;
-        //           if (status === 1) {
-        //             setCookie("token", response.data.Result);
-        //             setCookie("username", this.loginForm.username);
-        //             this.$message({
-        //               showClose: true,
-        //               type: "success",
-        //               message: "登陆成功"
-        //             });
-        //             setTimeout(() => {
-        //               this.$router.push({
-        //                 path: "/"
-        //               });
-        //             }, 1000);
-        //           } else {
-        //             this.$message({
-        //               showClose: true,
-        //               type: "warning",
-        //               message: response.data.Result
-        //             });
-        //           }
-        //         }.bind(this)
-        //       )
-        //       .catch(
-        //         function (error) {
-        //           this.$notify.error({
-        //             title: "错误",
-        //             message: "错误：请检查网络"
-        //           });
-        //         }.bind(this)
-        //       );
-        //   } else {
-        //     this.$notify.error({
-        //       title: "错误",
-        //       message: "请输入用户名和密码",
-        //       offset: 100
-        //     });
-        //     return false;
-        //   }
-        // });
+        var tt = this;
+        this.$refs[formName].validate(async valid => {
+          if (valid) {
+            this.$http
+              .post(
+                "api/User/Register",
+                qs.stringify({
+                  Phone: this.loginForm.username,
+                  Code: this.loginForm.password,
+                  RegType: 1
+                })
+              )
+              .then(
+                function (response) {
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    setCookie("token", response.data.Result.WebToken);
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: "登陆成功"
+                    });
+                    setTimeout(() => {
+                      this.$router.back(-1)
+                    }, 1000);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            this.$notify.error({
+              title: "错误",
+              message: "请输入手机号和验证码",
+              offset: 100
+            });
+            return false;
+          }
+        });
+      },
+      code() {
+        if (this.time == "获取验证码" || this.time == "重新发送") {
+          if (this.loginForm.username == '') {
+            this.$notify.error({
+              title: "错误",
+              message: "手机号不能为空！",
+              offset: 100
+            });
+            this.Phone = ''
+            this.code = ''
+            return false;
+          } else {
+            this.$http
+              .get("api/VerifyCode/Send", {
+                params: {
+                  phone: this.loginForm.username,
+                }
+              })
+              .then(
+                function (response) {
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.getCode();
+                    this.disabled = true
+                    wx.showToast({
+                      title: "发送验证码成功"
+                    })
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              // 请求error
+              .catch(
+                function (error) {
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          }
+        }
+      },
+      getCode() {
+        var that = this
+        var currentTime = that.currentTime
+        var interval = setInterval(function () {
+          currentTime--;
+          that.time = currentTime + '秒'
+          if (currentTime <= 0) {
+            clearInterval(interval)
+              that.time = '重新发送',
+              that.currentTime = 61,
+              that.disabled = false
+          }
+        }, 1000)
       }
     },
   }
@@ -167,8 +231,8 @@
       padding: 10%;
     }
     .el-form {
-    margin-top: 10%;
-  }
+      margin-top: 10%;
+    }
   }
 
   @media (max-width:768px) {
@@ -183,8 +247,8 @@
       padding: 5%;
     }
     .el-form {
-    margin-top: 5%;
-  }
+      margin-top: 5%;
+    }
   }
 
 </style>

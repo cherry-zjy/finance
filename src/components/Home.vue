@@ -3,7 +3,7 @@
   <div>
     <el-carousel indicator-position="none" arrow="always" height="500px">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
-        <img :src="item.url" class="banner-img">
+        <img :src="mainurl+item.Image" class="banner-img">
       </el-carousel-item>
     </el-carousel>
     <h3>
@@ -149,11 +149,7 @@
   export default {
     data() {
       return {
-        bannerlist: [{
-          url: "../../static/img/banner.png"
-        }, {
-          url: "../../static/img/1920x896.jpg"
-        }],
+        bannerlist: [],
         tags: [{
             name: '标签一'
           },
@@ -169,8 +165,47 @@
           {
             name: '标签五'
           }
-        ]
+        ],
+        mainurl:''
       }
+    },
+    mounted() {
+      this.mainurl = mainurl;
+      this.getInfo();
+    },
+    methods:{
+      getInfo() {
+        this.$http
+          .get("api/Web_Home/HomeBanner", {
+            params: {
+              pageIndex: 1,
+              pageSize: 999,
+            }
+          })
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if(status === 1){
+                this.bannerlist = response.data.Result.list;
+              }else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
     }
   }
 
