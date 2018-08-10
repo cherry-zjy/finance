@@ -3,17 +3,18 @@
     <div class="container">
       <div class="main">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" label-position="left">
-          <el-form-item label="姓名" prop="name">
-            <el-input v-model="ruleForm.name"></el-input>
+          <el-form-item label="姓名" prop="Name">
+            <el-input v-model="ruleForm.Name"></el-input>
           </el-form-item>
-          <el-form-item label="证件" prop="zj">
-            <el-input v-model="ruleForm.zj"></el-input>
+          <el-form-item label="证件" prop="IDCard">
+            <el-input v-model="ruleForm.IDCard"></el-input>
           </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
+          <el-form-item label="电话" prop="Phone">
+            <el-input v-model="ruleForm.Phone"></el-input>
           </el-form-item>
-          <el-form-item label="验证码" prop="code">
-            <el-input v-model="ruleForm.code"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
+          <el-form-item label="验证码" prop="Code">
+            <el-input v-model="ruleForm.Code"></el-input>
+            <el-button type="primary" id="getcode">获取验证码</el-button>
           </el-form-item>
           <el-form-item prop="type" class="type">
             <el-checkbox-group v-model="ruleForm.type">
@@ -25,45 +26,43 @@
           </el-form-item>
         </el-form>
         <div class="dark">
-        <p>选择添加申请人信息: </p>
-        <p>请确保选择或添加的申请人信息与贷款申请表所填信息保持真实一致，以免影响信用贷款进度；本平台对此信息保密。</p>
-      </div>
+          <p>选择添加申请人信息: </p>
+          <p>请确保选择或添加的申请人信息与贷款申请表所填信息保持真实一致，以免影响信用贷款进度；本平台对此信息保密。</p>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+  import qs from "qs";
   export default {
     data() {
       return {
         ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+          Name: '',
+          IDCard: '',
+          Code: '',
+          Phone: '',
+          type:[]
         },
         rules: {
-          name: [{
+          Name: [{
             required: true,
             message: '请输入姓名',
             trigger: 'blur'
           }, ],
-          zj: [{
+          IDCard: [{
             required: true,
             message: '请输入证件',
             trigger: 'blur'
           }, ],
-          phone: [{
+          Phone: [{
             required: true,
             message: '请输入电话',
             trigger: 'blur'
           }, ],
-          code: [{
+          Code: [{
             required: true,
             message: '请输入验证码',
             trigger: 'blur'
@@ -77,26 +76,84 @@
         }
       }
     },
-    mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
+    mounted: function () {
+      document.getElementsByTagName("body")[0].className = "add_bg";
     },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
     },
     computed: {
 
     },
     methods: {
       submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-        this.$router.push("/Finance/CreditManagerApplyDetail/id=" + window.location.href.split("id=")[1]);
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_CreditManager/BankManageLoan",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  Name: this.ruleForm.Name,
+                  Phone: this.ruleForm.Phone,
+                  IDcard: this.ruleForm.IDCard,
+                  Code: this.ruleForm.Code,
+                  ManagerID: window.location.href.split("id=")[1]
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push("/Finance/CreditManagerApplyDetail/id=" + window.location.href.split("id=")[1]);
+                    }, 1000);
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       },
     }
   }
@@ -121,6 +178,8 @@
     #getcode {
       position: absolute;
       margin-left: 20px;
+      top: 0;
+      right: -120px;
     }
     form {
       padding: 100px 0 0 0;
@@ -128,17 +187,18 @@
       margin-left: 30%;
     }
   }
+
   @media (max-width:768px) {
-    .type{
+    .type {
       margin-left: -100px;
     }
   }
 
-  .dark{
+  .dark {
     padding: 50px 20px 80px 20px;
     margin: 0 30px;
     color: #666666;
-    font-family:MicrosoftYaHei; 
+    font-family: MicrosoftYaHei;
     border-top: 1px solid #EEEEEE;
   }
 

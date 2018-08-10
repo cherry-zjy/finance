@@ -4,19 +4,19 @@
       <div class="main">
         <h3>信贷经理</h3>
         <div class="dark">
-          <div class="managerlist" v-for="(item,index) in 10" :key="index">
-            <img src="../../../static/img/apxq_head_portrait@2x.png" class="manager-icon">
+          <div class="managerlist" v-for="(item,index) in list" :key="index">
+            <img :src="mainurl+item.Logo" class="manager-icon">
             <div class="manager-msg">
-              <p class="manager-name">张三</p>
+              <p class="manager-name">{{item.Name}}</p>
               <p class="manager-money">利率：
-                <span class="yellow">5%</span>
+                <span class="yellow">{{item.Rate}}</span>
                 <span class="tall">最高：
-                  <span class="yellow">80万</span>
+                  <span class="yellow">{{item.MaxPrice}}</span>
                 </span>
               </p>
-              <p class="manager-text">微粒贷</p>
+              <p class="manager-text">{{item.LoanName}}</p>
             </div>
-            <el-button type="primary" class="manager-btn" size="small" @click="apply('1')">免费申请</el-button>
+            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.ID)">免费申请</el-button>
           </div>
         </div>
         <!-- 分页 -->
@@ -36,9 +36,12 @@
       return {
         pageIndex: 1,
         pageCount: 10,
+        list:[]
       }
     },
     mounted: function() {
+      this.mainurl = mainurl;
+      this.getInfo();
       document.getElementsByTagName("body")[0].className="add_bg"; 
     },
     beforeDestroy: function() {
@@ -50,13 +53,121 @@
       }
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditManager/BankManagerList", {
+            params: {
+              pageIndex: this.pageIndex,
+              pageSize: 8,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
         // this.getInfo();
       },
       apply(id){
-        this.$router.push("/Finance/CreditManagerApply/id=" + id);
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: "请先登录"
+          });
+          setTimeout(() => {
+            this.$router.push({
+              path: "/Login"
+            });
+          }, 1500);
+          return;
+        }
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditManager/BankManageLoanXq", {
+            params: {
+              pageIndex: 1,
+              pageSize: 99,
+              Token: getCookie("token")
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                if (response.data.Result.list.length < 1) {
+                  this.$router.push("/Finance/CreditManagerApply/id=" + id);
+                } else {
+                  this.$router.push("/Finance/CreditManagerApplyDetail/id=" + id);
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              console.log(error)
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       }
     }
   }

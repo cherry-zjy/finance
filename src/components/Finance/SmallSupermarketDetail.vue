@@ -3,7 +3,8 @@
     <div class="container">
       <div class="main">
         <div class="dark">
-          <h4>{{list.Name}}</h4>
+          <h4>
+            <img :src="list.Logo" class="logo">{{list.Name}}</h4>
           <p>申请人数：{{list.NumOfPeople}}人</p>
           <p>可借贷款：{{list.Quota}}</p>
           <p>借款期限：{{list.LoanTime}}天</p>
@@ -37,7 +38,7 @@
   export default {
     data() {
       return {
-        list:[]
+        list: []
       }
     },
     mounted: function () {
@@ -101,7 +102,74 @@
         // this.getInfo();
       },
       apply() {
-        this.$router.push("/Finance/SmallSupermarketApply/id=" + window.location.href.split("id=")[1]);
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: "请先登录"
+          });
+          setTimeout(() => {
+            this.$router.push({
+              path: "/Login"
+            });
+          }, 1500);
+          return;
+        }
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_SmailMarket/AmountSqXq", {
+            params: {
+              pageIndex: 1,
+              pageSize: 99,
+              Token: getCookie("token")
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                if (response.data.Result.list.length < 1) {
+                  this.$router.push("/Finance/SmallSupermarketApply/id=" + window.location.href.split("id=")[1]);
+                } else {
+                  this.$router.push("/Finance/SmallSupermarketApplyDetail/id=" + window.location.href.split("id=")[1]);
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              console.log(error)
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       }
     }
   }
@@ -137,6 +205,13 @@
 
   h3 {
     font-weight: 400;
+  }
+
+  .logo {
+    width: 50px;
+    height: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
   }
 
 </style>

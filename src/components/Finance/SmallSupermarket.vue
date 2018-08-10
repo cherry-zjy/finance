@@ -91,49 +91,7 @@
           );
       },
       apply(id) {
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
-        });
-        this.$http
-          .get("api/Web_SmailMarket/AmountSqXq", {
-            params: {
-              pageIndex: 1,
-              pageSize: 99,
-              Token:getCookie("token")
-            }
-          })
-          .then(
-            function (response) {
-              loading.close();
-              var status = response.data.Status;
-              if (status === 1) {
-                if(response.data.Result.list.length<1){
-                  this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
-                }else{
-                  this.$router.push("/Finance/SmallSupermarketApplyDetail/id=" + id);
-                }
-              } else {
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
-              }
-            }.bind(this)
-          )
-          // 请求error
-          .catch(
-            function (error) {
-              loading.close();
-              this.$notify.error({
-                title: "错误",
-                message: "错误：请检查网络"
-              });
-            }.bind(this)
-          );
+        this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
       },
       // 分页
       handleCurrentChange(val) {

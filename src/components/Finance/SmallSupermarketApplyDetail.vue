@@ -174,9 +174,7 @@
                   type: "success",
                   message: response.data.Result
                 });
-                setTimeout(() => {
-                  this.$router.back(-1)
-                }, 1000);
+                this.dialogFormVisible = false
               } else {
                 this.$message({
                   showClose: true,
