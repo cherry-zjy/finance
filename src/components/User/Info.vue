@@ -3,12 +3,12 @@
     <h3>个人信息</h3>
     <div class="Infobox">
       <label class="info-title">头像：</label>
-      <img src="../../../static/img/apxq_head_portrait@2x.png" class="info-icon">
+      <img :src="Info.Image" class="info-icon">
     </div>
     <div class="Infobox">
       <label class="info-title">昵称：</label>
-      <span v-if="!edit">{{Info.Name}}</span>
-      <el-input v-model="Info.Name" v-if="edit"></el-input>
+      <span v-if="!edit">{{Info.NickName}}</span>
+      <el-input v-model="Info.NickName" v-if="edit"></el-input>
     </div>
     <div class="Infobox">
       <label class="info-title">性别：</label>
@@ -69,21 +69,12 @@
   export default {
     data() {
       return {
-        Info: {
-          Name: 'zjy',
-          Sex: '女',
-          Address: '浙江嘉兴',
-          Type: '学生',
-          Card: '有',
-          Car: '有',
-          Wechat: '296579033',
-          Qrcode: '编辑',
-          Iden: '未认证'
-        },
+        Info: {},
         edit: false
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -93,6 +84,59 @@
 
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GetUserMessage", {
+            params: {
+              Token: getCookie("token"),
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if(status === -1){
+                this.Info = response.data.Result;
+              }
+              else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              }
+              else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       iden() {
         this.$router.push("/User/Certification");
       },

@@ -1,39 +1,34 @@
 <template>
   <div id="app">
     <div class="container">
-        <div class="main">
-      <div class="dark">
-        <h4>宜人贷</h4>
-        <p>申请人数：19356566人&nbsp;&nbsp;&nbsp;&nbsp;可借贷款：1万-2万&nbsp;&nbsp;&nbsp;借款期限：24个月以上&nbsp;&nbsp;&nbsp;平均办理时间：1-3天</p>
+      <div class="main">
+        <div class="dark">
+          <h4>{{list.Name}}</h4>
+          <p>申请人数：{{list.NumOfPeople}}人</p>
+          <p>可借贷款：{{list.Quota}}</p>
+          <p>借款期限：{{list.LoanTime}}天</p>
+          <p>平均办理时间：{{list.AverageTime}}</p>
+        </div>
+        <div class="dark">
+          <h4>申请条件</h4>
+          <p>年龄要求：{{list.AgeRequirt}}</p>
+          <p>资质要求：{{list.ZZRequirt}}</p>
+          <p>身份要求：{{list.IDRequirt}}</p>
+          <p>所需材料：{{list.CLRequirt}}</p>
+          <h4>费用说明</h4>
+          <p>贷款金额：{{list.LoanPrice}}元</p>
+          <p>贷款期限：{{list.Day}}天</p>
+          <p>总还款：{{list.SumPrice}}元</p>
+          <p>利率：{{list.Rate}}</p>
+        </div>
+        <div class="dark bottom">
+          <h4>如何快速申请</h4>
+          <div class="detail"></div>
+          <el-button type="primary" size="small" @click="apply()">立即申请</el-button>
+        </div>
+
       </div>
-      <div class="dark">
-        <h4>申请条件</h4>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <h4>费用说明</h4>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-        <p>年龄要求：18周岁以上</p>
-      </div>
-      <div class="dark bottom">
-        <h4>如何快速申请</h4>
-        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
-        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
-        <p>1、内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
-        <el-button type="primary" size="small" @click="apply()">立即申请</el-button>
-      </div>
-      
-      </div>
-      
+
     </div>
   </div>
 </template>
@@ -42,14 +37,16 @@
   export default {
     data() {
       return {
-        
+        list:[]
       }
     },
-    mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
+    mounted: function () {
+      this.mainurl = mainurl;
+      this.getInfo();
+      document.getElementsByTagName("body")[0].className = "add_bg";
     },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
     },
     computed: {
       currentPage: function () {
@@ -57,14 +54,54 @@
       }
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_SmailMarket/AmountListXq", {
+            params: {
+              ID: window.location.href.split("id=")[1],
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result;
+                this.pageCount = response.data.Result.page;
+                $("#detail").html(decodeURIComponent(response.data.Result.ApplyIntroduce))
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
         // this.getInfo();
       },
-      apply(){
+      apply() {
         this.$router.push("/Finance/SmallSupermarketApply/id=" + window.location.href.split("id=")[1]);
-       
       }
     }
   }
@@ -73,27 +110,32 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .main{
+  .main {
     margin-top: 60px;
     background-color: #fff
   }
-  .dark{
+
+  .dark {
     padding: 50px 20px 10px 20px;
     margin: 0 30px;
     color: #666666;
-    font-family:MicrosoftYaHei; 
+    font-family: MicrosoftYaHei;
   }
-  .dark+.dark{
+
+  .dark+.dark {
     padding-top: 10px;
     border-top: 1px solid #EEEEEE;
   }
-  .dark.bottom{
+
+  .dark.bottom {
     padding-bottom: 80px;
   }
-  .dark.bottom button{
+
+  .dark.bottom button {
     margin-top: 20px;
   }
-  h3{
+
+  h3 {
     font-weight: 400;
   }
 

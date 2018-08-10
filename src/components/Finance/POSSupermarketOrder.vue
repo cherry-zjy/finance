@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import qs from "qs";
+  import qs from "qs";
   export default {
     data() {
       var checkselecte = (rule, value, callback) => {
@@ -118,14 +118,14 @@ import qs from "qs";
         choose: 0,
         checked: true,
         num1: 1,
-        tick:0,
+        tick: 0,
         tableData: [{
           price: '￥68',
           number: 1,
           pay: '￥68',
         }],
         dialogFormVisible: false,
-        dialogFormVisible1:false,
+        dialogFormVisible1: false,
         /*数据源*/
         CityInfo: [], //地区数据
         form: {
@@ -175,19 +175,21 @@ import qs from "qs";
     methods: {
       handleChange(index) {},
       submit() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
         this.$http
-          .post("api/Web_POSMarket/POSDD?Token="+getCookie("token")+"&prodID="+window.location.href.split("id=")[1].split("&")[0]+"&count="+window.location.href.split("num=")[1],
-            // qs.stringify({
-            //   Token: getCookie("token"),
-            //   count:window.location.href.split("num=")[1],
-            //   prodID:window.location.href.split("id=")[1].split("&")[0],
-            // })
-          )
+          .post("api/Web_POSMarket/POSDD?Token=" + getCookie("token") + "&prodID=" + window.location.href.split("id=")[
+            1].split("&")[0] + "&count=" + window.location.href.split("num=")[1], )
           .then(
             function (response) {
+              loading.close();
               var status = response.data.Status;
               if (status === 1) {
-                
+
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -211,9 +213,10 @@ import qs from "qs";
           // 请求error
           .catch(
             function (error) {
-                this.$notify.error({
-                  title: "错误",
-                  message: "错误：请检查网络"
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
               });
             }.bind(this)
           );
@@ -342,12 +345,14 @@ import qs from "qs";
     font-size: 17px;
     font-weight: 600;
   }
-  .card{
+
+  .card {
     border-bottom: 1px solid #EEEEEE;
     margin-top: 10px;
     position: relative;
   }
-  .tick-img{
+
+  .tick-img {
     position: absolute;
     right: 20px;
     top: 30px;

@@ -57,6 +57,12 @@
         var tt = this;
         this.$refs[formName].validate(async valid => {
           if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
             this.$http
               .post(
                 "api/User/Register",
@@ -68,6 +74,7 @@
               )
               .then(
                 function (response) {
+                  loading.close();
                   var status = response.data.Status;
                   if (status === 1) {
                     setCookie("token", response.data.Result.WebToken);
@@ -90,6 +97,7 @@
               )
               .catch(
                 function (error) {
+                  loading.close();
                   this.$notify.error({
                     title: "错误",
                     message: "错误：请检查网络"
@@ -118,6 +126,12 @@
             this.code = ''
             return false;
           } else {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
             this.$http
               .get("api/VerifyCode/Send", {
                 params: {
@@ -126,6 +140,7 @@
               })
               .then(
                 function (response) {
+                  loading.close();
                   var status = response.data.Status;
                   if (status === 1) {
                     this.getCode();
@@ -145,6 +160,7 @@
               // 请求error
               .catch(
                 function (error) {
+                  loading.close();
                   this.$notify.error({
                     title: "错误",
                     message: "错误：请检查网络"
@@ -162,7 +178,7 @@
           that.time = currentTime + '秒'
           if (currentTime <= 0) {
             clearInterval(interval)
-              that.time = '重新发送',
+            that.time = '重新发送',
               that.currentTime = 61,
               that.disabled = false
           }

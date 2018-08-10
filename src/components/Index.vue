@@ -42,8 +42,9 @@
         </li>
         <li :class="{active:linum=='Find'}"><a @click="navto('/Find')">发现</a></li>
         <li class="menu-btn">
-        <img src="../../static/img/apxq_head_portrait@2x.png" class="menu-icon" @click="navto('/User')">
-        <el-button size="small" @click="logout()">退出</el-button>
+        <img src="../../static/img/apxq_head_portrait@2x.png" class="menu-icon" @click="navto('/User')" v-if="login">
+        <el-button size="small" @click="logout()" v-if="login">退出</el-button>
+        <el-button type="primary" size="small" @click="gotologin()" v-if="!login">登录</el-button>
         </li>
       </ul>
     </div>
@@ -70,10 +71,10 @@
     data() {
       return {
         linum:'Home',
+        login:false
       };
     },
     mounted:function(){
-      
       var path = window.location.href;
        if(path.indexOf('Find')>0){
           this.linum = 'Find'
@@ -85,6 +86,11 @@
           this.linum = ''
         }else{
           this.linum = 'Home'
+        }
+        if (getCookie("token")) {
+          this.login = true
+        } else {
+          this.login = false
         }
     },
     methods: {
