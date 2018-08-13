@@ -1,9 +1,4 @@
-<style>
-  body {
-    background-color: #F5F5F5;
-  }
 
-</style>
 <template>
   <div id="app">
     <div class="container">

@@ -96,7 +96,7 @@
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
-        // this.getInfo();
+        this.getInfo();
       },
     }
   }

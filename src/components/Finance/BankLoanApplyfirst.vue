@@ -10,14 +10,15 @@
           </el-steps>
         </div>
         <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="证件" prop="zj">
-            <el-input v-model="ruleForm.zj"></el-input>
+          <el-form-item label="姓名" prop="Name">
+            <el-input v-model="ruleForm.Name"></el-input>
           </el-form-item>
-          <el-form-item label="电话" prop="phone">
-            <el-input v-model="ruleForm.phone"></el-input>
+          <el-form-item label="电话" prop="Phone">
+            <el-input v-model="ruleForm.Phone"></el-input>
           </el-form-item>
-          <el-form-item label="验证码" prop="code">
-            <el-input v-model="ruleForm.code"></el-input><el-button type="primary" id="getcode">获取验证码</el-button>
+          <el-form-item label="验证码" prop="Code">
+            <el-input v-model="ruleForm.Code"></el-input>
+            <el-button type="primary" id="getcode">获取验证码</el-button>
           </el-form-item>
           <el-form-item prop="type" class="type">
             <el-checkbox-group v-model="ruleForm.type">
@@ -38,26 +39,23 @@
     data() {
       return {
         ruleForm: {
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
+          Name: '',
+          Phone: '',
+          Code: '',
           type: [],
-          resource: '',
-          desc: ''
         },
         rules: {
-          zj: [{
+          Name: [{
             required: true,
-            message: '请输入证件',
+            message: '请输入姓名',
             trigger: 'blur'
           }, ],
-          phone: [{
+          Phone: [{
             required: true,
             message: '请输入电话',
             trigger: 'blur'
           }, ],
-          code: [{
+          Code: [{
             required: true,
             message: '请输入验证码',
             trigger: 'blur'
@@ -71,26 +69,72 @@
         }
       }
     },
-    mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
+    mounted: function () {
+      document.getElementsByTagName("body")[0].className = "add_bg";
     },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
     },
     computed: {
 
     },
     methods: {
       submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-        this.$router.push("/Finance/BankLoanApplysecond/id=" + window.location.href.split("id=")[1]);
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .get("api/Web_BankLoan/Verification", {
+                params: {
+                  Token: getCookie("token"),
+                  Name: this.ruleForm.Name,
+                  Phone: this.ruleForm.Phone,
+                  Code: this.ruleForm.Code,
+                  IsChecked: true
+                }
+              })
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: "提交成功"
+                    });
+                    setTimeout(() => {
+                      this.$router.push("/Finance/BankLoanApplysecond/id=" + response.data.Result);
+                    }, 1000);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              // 请求error
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       },
     }
   }
@@ -104,7 +148,7 @@
     background-color: #fff;
     margin-bottom: 60px;
   }
-  
+
 
   form {
     padding: 100px 0 0 0;
@@ -116,23 +160,26 @@
     #getcode {
       position: absolute;
       margin-left: 20px;
+      top:0;
+      right: -120px;
     }
     form {
       padding: 100px 0 0 0;
       width: 40%;
       margin-left: 30%;
     }
-    .step{
+    .step {
       padding: 100px 0 0 0;
       width: 50%;
       margin-left: 30%;
     }
   }
+
   @media (max-width:768px) {
-    .type{
+    .type {
       margin-left: -100px;
     }
-    .step{
+    .step {
       padding: 100px 0 0 0;
       width: 90%;
       margin-left: 5%;

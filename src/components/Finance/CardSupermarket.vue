@@ -48,11 +48,13 @@
         pageCount: 10,
       }
     },
-    mounted: function() {
-      document.getElementsByTagName("body")[0].className="add_bg"; 
+    mounted: function () {
+      this.mainurl = mainurl;
+      this.getInfo();
+      document.getElementsByTagName("body")[0].className = "add_bg";
     },
-    beforeDestroy: function() {
-        document.body.removeAttribute("class","add_bg");
+    beforeDestroy: function () {
+      document.body.removeAttribute("class", "add_bg");
     },
     computed: {
       currentPage: function () {
@@ -60,10 +62,51 @@
       }
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditCardMarket/BankCardList", {
+            params: {
+              pageIndex: this.pageIndex,
+              pageSize: 6,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
-        // this.getInfo();
+        this.getInfo();
       },
       apply(id) {
         this.$router.push("/Finance/CardSupermarketProduct/id=" + id);

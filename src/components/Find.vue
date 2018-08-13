@@ -4,12 +4,12 @@
       <div class="main">
         <h3>发现</h3>
         <div class="dark">
-          <div class="managerlist" v-for="(item,index) in 10" :key="index">
-            <a class="news-item" @click="apply(1)">
-              <img class="news-item-avatar" src="../../static/img/dl.png">
+          <div class="managerlist" v-for="(item,index) in list" :key="index">
+            <a class="news-item" @click="apply(item.url)">
+              <img class="news-item-avatar" :src="item.Image">
               <div class="news-item-right">
-                <p class="news-item-caption">蚂蚁金服拼京东金融,究竟哪家强?</p>
-                <p class="news-item-brief">发布时间：2018-7-19</p>
+                <p class="news-item-caption">{{item.Tital}}</p>
+                <p class="news-item-brief">发布时间：{{item.CreateTime}}</p>
               </div>
             </a>
           </div>
@@ -31,9 +31,12 @@
       return {
         pageIndex: 1,
         pageCount: 10,
+        list:[]
       }
     },
     mounted: function () {
+      this.mainurl = mainurl;
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -47,11 +50,44 @@
     methods: {
       // 分页
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
-        // this.getInfo();
+        this.pageIndex = val;
+        this.getInfo();
       },
       apply(id) {
         this.$router.push("/FindDteail/id=" + id);
+      },
+      getInfo(){
+        this.$http
+              .get("api/Web_NewsList/findList", {
+                params: {
+                  pageIndex: this.pageIndex,
+                  pageSize:12
+                }
+              })
+              .then(
+                function (response) {
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.list = response.data.Result.data
+                    this.pageCount = response.data.Result.page
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              // 请求error
+              .catch(
+                function (error) {
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
       }
     }
   }
