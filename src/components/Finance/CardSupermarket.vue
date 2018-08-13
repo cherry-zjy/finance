@@ -51,6 +51,7 @@
     mounted: function () {
       this.mainurl = mainurl;
       this.getInfo();
+      this.getBanner();
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -103,6 +104,38 @@
             }.bind(this)
           );
       },
+      getBanner(){
+        this.$http
+          .get("api/Web_CreditCardMarket/GetCardCenterBanner", {
+            params: {
+              pageIndex: 1,
+              pageSize: 999,
+            }
+          })
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                this.bannerlist = response.data.Result.list;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       // 分页
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
@@ -137,7 +170,6 @@
   }
 
   .main {
-    margin-top: 60px;
     background-color: #fff;
     margin-bottom: 60px;
     float: left;

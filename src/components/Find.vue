@@ -5,7 +5,7 @@
         <h3>发现</h3>
         <div class="dark">
           <div class="managerlist" v-for="(item,index) in list" :key="index">
-            <a class="news-item" @click="apply(item.url)">
+            <a class="news-item" @click="apply(item.Url)">
               <img class="news-item-avatar" :src="item.Image">
               <div class="news-item-right">
                 <p class="news-item-caption">{{item.Tital}}</p>
@@ -31,7 +31,7 @@
       return {
         pageIndex: 1,
         pageCount: 10,
-        list:[]
+        list: []
       }
     },
     mounted: function () {
@@ -53,41 +53,51 @@
         this.pageIndex = val;
         this.getInfo();
       },
-      apply(id) {
-        this.$router.push("/FindDteail/id=" + id);
+      apply(url) {
+        console.log(url)
+        window.location.href = url
+        // window.open(url); 
       },
-      getInfo(){
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
         this.$http
-              .get("api/Web_NewsList/findList", {
-                params: {
-                  pageIndex: this.pageIndex,
-                  pageSize:12
-                }
-              })
-              .then(
-                function (response) {
-                  var status = response.data.Status;
-                  if (status === 1) {
-                    this.list = response.data.Result.data
-                    this.pageCount = response.data.Result.page
-                  } else {
-                    this.$message({
-                      showClose: true,
-                      type: "warning",
-                      message: response.data.Result
-                    });
-                  }
-                }.bind(this)
-              )
-              // 请求error
-              .catch(
-                function (error) {
-                  this.$notify.error({
-                    title: "错误",
-                    message: "错误：请检查网络"
-                  });
-                }.bind(this)
-              );
+          .get("api/Web_NewsList/findList", {
+            params: {
+              pageIndex: this.pageIndex,
+              pageSize: 12
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.data
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       }
     }
   }

@@ -3,8 +3,8 @@
     <div class="container">
       <div class="main">
         <div class="user-nav">
-          <img src="../../static/img/apxq_head_portrait@2x.png" class="user-icon">
-          <P class="user-name">zjy</P>
+          <img :src="Info.Image" class="user-icon">
+          <P class="user-name">{{Info.NickName}}</P>
           <div v-for="(item,index) in menulist" :key="index">
             <a @click.stop='navtourl(index,item.path)' :class="{active:current==index}">{{item.name}}</a>
           </div>
@@ -22,6 +22,7 @@
   export default {
     data() {
       return {
+        Info:[],
         iscloseNav: false,
         current:0,
         menulist:[{
@@ -49,6 +50,7 @@
       }
     },
     mounted() {
+      this.getInfo()
       var path = window.location.href;
        if(path.indexOf('User/Order')>0){
           this.current = 1
@@ -90,6 +92,48 @@
 
     },
     methods: {
+      getInfo() {
+        this.$http
+          .get("api/Web_UserInfo/Center", {
+            params: {
+              Token: getCookie("token"),
+            }
+          })
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       // 个人中心  修改密码
       navtourl(index,path){
         this.current=index;

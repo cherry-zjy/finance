@@ -44,7 +44,7 @@
           IDCard: '',
           Code: '',
           Phone: '',
-          type:[]
+          type: []
         },
         rules: {
           Name: [{
@@ -102,6 +102,12 @@
             this.code = ''
             return false;
           } else {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
             this.$http
               .get("api/VerifyCode/Send", {
                 params: {
@@ -110,13 +116,16 @@
               })
               .then(
                 function (response) {
+                  loading.close();
                   var status = response.data.Status;
                   if (status === 1) {
                     this.getCode();
                     this.disabled = true
-                    wx.showToast({
-                      title: "发送验证码成功"
-                    })
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: "发送验证码成功"
+                    });
                   } else {
                     this.$message({
                       showClose: true,
@@ -129,6 +138,7 @@
               // 请求error
               .catch(
                 function (error) {
+                  loading.close();
                   this.$notify.error({
                     title: "错误",
                     message: "错误：请检查网络"
@@ -146,7 +156,7 @@
           that.time = currentTime + '秒'
           if (currentTime <= 0) {
             clearInterval(interval)
-              that.time = '重新发送',
+            that.time = '重新发送',
               that.currentTime = 61,
               that.disabled = false
           }
@@ -184,7 +194,8 @@
                       message: response.data.Result
                     });
                     setTimeout(() => {
-                      this.$router.push("/Finance/SmallSupermarketApplyDetail/id=" + window.location.href.split("id=")[1]);
+                      this.$router.push("/Finance/SmallSupermarketApplyDetail/id=" + window.location.href.split(
+                        "id=")[1]);
                     }, 1000);
                   } else if (status === 40001) {
                     this.$message({

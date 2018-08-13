@@ -39,11 +39,17 @@
       this.mainurl = mainurl;
       this.getInfo();
     },
-    updated(){
+    updated() {
       this.Imgresize()
     },
     methods: {
       getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
         this.$http
           .get("api/Web_POSMarket/POSList", {
             params: {
@@ -53,11 +59,12 @@
           })
           .then(
             function (response) {
+              loading.close();
               var status = response.data.Status;
               if (status === 1) {
                 this.list = response.data.Result.list;
                 this.pageCount = response.data.Result.page;
-                
+
               } else {
                 this.$message({
                   showClose: true,
@@ -70,6 +77,7 @@
           // 请求error
           .catch(
             function (error) {
+              loading.close();
               this.$notify.error({
                 title: "错误",
                 message: "错误：请检查网络"
@@ -79,9 +87,9 @@
       },
       Imgresize() {
         window.onresize = function () {
-          $(".row-img").css("height",$(".row-img").width())
+          $(".row-img").css("height", $(".row-img").width())
         }
-        $(".row-img").css("height",$(".row-img").width())
+        $(".row-img").css("height", $(".row-img").width())
       },
       apply(id) {
         this.$router.push("/Finance/POSSupermarketDetail/id=" + id);

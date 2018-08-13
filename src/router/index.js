@@ -68,8 +68,8 @@ export default new Router({
         
         { path: '/Finance/BankLoan', component: BankLoan, name: '银行借贷' },       
         { path: '/Finance/BankLoanApplyfirst/:id', component: BankLoanApplyfirst, name: '银行借贷申请' },       
-        { path: '/Finance/BankLoanApplysecond/:id', component: BankLoanApplysecond, name: '银行借贷' },       
-        { path: '/Finance/BankLoanApplythird/:id', component: BankLoanApplythird, name: '银行借贷' },       
+        { path: '/Finance/BankLoanApplysecond/:id', component: BankLoanApplysecond, name: '银行借贷第二步' },       
+        { path: '/Finance/BankLoanApplythird/:id', component: BankLoanApplythird, name: '银行借贷第三步' },       
         
         { path: '/Finance/CardSupermarket', component: CardSupermarket, name: '信用卡超市' },
         { path: '/Finance/CardSupermarketProduct/:id', component: CardSupermarketProduct, name: '信用卡超市商品' },

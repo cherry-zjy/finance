@@ -24,7 +24,7 @@ function delCookie(name) {
   if (cval != null)
     document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
 }
-
+var Address = []
 var CityInfo = [{
     value: 1,
     label: '北京',
