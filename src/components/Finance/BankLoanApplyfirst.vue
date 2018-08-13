@@ -95,7 +95,8 @@
                   Name: this.ruleForm.Name,
                   Phone: this.ruleForm.Phone,
                   Code: this.ruleForm.Code,
-                  IsChecked: true
+                  IsChecked: true,
+                  status:window.location.href.split("id=")[1]
                 }
               })
               .then(

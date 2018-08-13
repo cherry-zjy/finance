@@ -5,48 +5,60 @@
         <el-row :gutter="20">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
             <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-              <el-form-item label="证件类型" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择证件类型">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
+              <el-form-item label="证件类型">
+                <el-select v-model="ruleForm.LicenseType" placeholder="请选择证件类型">
+                  <el-option label="身份证" value="1"></el-option>
+                  <el-option label="户口本驾驶证" value="2"></el-option>
+                  <el-option label="军官证/士兵证" value="3"></el-option>
+                  <el-option label="护照" value="4"></el-option>
+                  <el-option label="港澳回乡证/台胞证" value="5"></el-option>
+                  <el-option label="组织代码证" value="6"></el-option>
+                  <el-option label="其他证件" value="7"></el-option>
+                  <el-option label="社会信用代码" value="8"></el-option>
+                  <el-option label="税务登记证" value="9"></el-option>
+                  <el-option label="营业执照" value="10"></el-option>
+                  <el-option label="香港身份证" value="11"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="证件号码" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="证件号码">
+                <el-input v-model="ruleForm.CertificatesNumber"></el-input>
               </el-form-item>
-              <el-form-item label="车辆初登日期" prop="date1">
-                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1"></el-date-picker>
+              <el-form-item label="车辆初登日期">
+                <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.CarTime"></el-date-picker>
                 <div class="circle">1</div>
               </el-form-item>
-              <el-form-item label="车辆识别代号" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="车辆识别代号">
+                <el-input v-model="ruleForm.TrueLicense"></el-input>
                 <div class="circle">2</div>
               </el-form-item>
-              <el-form-item label="品牌类型" prop="region">
-                <el-select v-model="ruleForm.region" placeholder="请选择品牌类型">
-                  <el-option label="区域一" value="shanghai"></el-option>
-                  <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
+              <el-form-item label="品牌类型">
+                <el-input v-model="ruleForm.Carbrand"></el-input>
                 <div class="circle">3</div>
               </el-form-item>
-              <el-form-item label="核定载人数" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="核定载人数" prop="PeopleNumber">
+                <el-input v-model="ruleForm.PeopleNumber"></el-input>
                 <div class="circle">4</div>
               </el-form-item>
-              <el-form-item label="新车发票价" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="新车发票价" prop="Price">
+                <el-input v-model="ruleForm.Price"></el-input>
               </el-form-item>
-              <el-form-item label="车辆所属性质" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="车辆所属性质">
+                <el-select v-model="ruleForm.CarType" placeholder="请选择车辆所属性质">
+                  <el-option label="个人用车" value="1"></el-option>
+                  <el-option label="企业用车" value="2"></el-option>
+                  <el-option label="企业团队用车" value="3"></el-option>
+                </el-select>
               </el-form-item>
-              <el-form-item label="车辆使用性质" prop="Phone">
-                <el-input v-model="ruleForm.Phone"></el-input>
+              <el-form-item label="车辆使用性质">
+                <el-select v-model="ruleForm.UserCarType" placeholder="请选择车辆使用性质">
+                  <el-option label="出租租凭营业客车" value="1"></el-option>
+                  <el-option label="城市公交营业客车" value="2"></el-option>
+                  <el-option label="公路客运营业客车" value="3"></el-option>
+                  <el-option label="旅游营业客车" value="4"></el-option>
+                </el-select>
               </el-form-item>
-              <el-form-item label="是否过户车" prop="resource">
-                <el-radio-group v-model="ruleForm.resource">
-                  <el-radio label="是"></el-radio>
-                  <el-radio label="否"></el-radio>
-                </el-radio-group>
+              <el-form-item label="是否过户车">
+                  <el-switch v-model="ruleForm.IsPass"></el-switch>
               </el-form-item>
               <el-form-item prop="type" style="margin-left: -150px">
                 <el-checkbox-group v-model="ruleForm.type">
@@ -73,7 +85,7 @@
         </el-row>
         <div class="text-center">
           <el-button @click="back()">返回</el-button>
-          <el-button type="primary" @click="submitForm()">确认</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
         </div>
       </div>
     </div>
@@ -92,17 +104,23 @@
 </template>
 
 <script>
+import qs from "qs";
   export default {
     data() {
       return {
         ruleForm: {
-          region: '',
-          type: true,
-          Phone: '',
-          resource: '',
-          date1: '',
-          region: '',
-          Image: ''
+          LicenseType: '',
+          type: [],
+          CertificatesNumber: '',
+          CarTime: '',
+          TrueLicense: '',
+          Carbrand: '',
+          PeopleNumber: '',
+          Price: '',
+          CarType: '',
+          UserCarType: '',
+          IsPass: false,
+          Image: '',
         },
         imageUrl: "",
         dialogVisible: false,
@@ -110,39 +128,26 @@
         action: "",
         success: false,
         rules: {
-          region: [{
-            required: true,
-            message: '请选择活动区域',
-            trigger: 'change'
-          }],
           type: [{
             type: 'array',
             required: true,
             message: '请先阅读并同意《金融联盟服务协议》',
             trigger: 'change'
           }],
-          date1: [{
-            type: 'date',
-            required: true,
-            message: '请选择日期',
-            trigger: 'change'
+          Price:[{
+            type: 'number',
+             message: '请输入数字',
           }],
-          Phone: [{
-            required: true,
-            message: '请输入活动名称',
-            trigger: 'blur'
-          }, ],
-          resource: [{
-            required: true,
-            message: '请选择是否过户车',
-            trigger: 'change'
-          }],
+          PeopleNumber:[{
+            type: 'number',
+             message: '请输入数字',
+          }]
         }
       }
     },
     mounted: function () {
       this.mainurl = mainurl;
-      this.action = this.mainurl + "/api/Photo/UpdateForImage?type=0",
+      this.action = this.mainurl + "api/UploadPhoto/UpdateForImage?type=0",
         document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -157,7 +162,7 @@
       },
       handleAvatarSuccess(res, file) {
         this.imageUrl = URL.createObjectURL(file.raw);
-        this.getList.Image = res.Result[0];
+        this.ruleForm.Image = res.Result[0];
       },
       beforeAvatarUpload(file) {
         const isLt2M = file.size / 1024 / 1024 < 2;
@@ -172,15 +177,84 @@
         this.dialogVisible = true;
       },
       submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-        this.success = true;
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_SmailMarket/AmountSq",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  carID: window.location.href.split("id=")[1],
+                  CarImage1: this.ruleForm.Image,
+                  LicenseType: this.ruleForm.LicenseType,
+                  CertificatesNumber: this.ruleForm.CertificatesNumber,
+                  CarTime: this.ruleForm.CarTime,
+                  TrueLicense: this.ruleForm.TrueLicense,
+                  Carbrand: this.ruleForm.Carbrand,
+                  PeopleNumber: this.ruleForm.PeopleNumber,
+                  Price: this.ruleForm.Price,
+                  CarType: this.ruleForm.CarType,
+                  UserCarType: this.ruleForm.UserCarType,
+                  IsPass: this.ruleForm.IsPass,
+                  EngineNumber: -1,
+                  OrderNo: -1,
+                  Province: -1,
+                  CarLicense: -1,
+                  IsHaveLicense: true,
+                  CarMaster: -1,
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+        // this.success = true;
       },
       home() {
         this.$router.push("/");

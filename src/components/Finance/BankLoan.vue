@@ -5,7 +5,7 @@
       <h3>银行信贷</h3>
       <el-row :gutter="10">
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <img src="../../../static/img/housing_loan.png" class="background-img" @click="apply(1)">
+          <img src="../../../static/img/housing_loan.png" class="background-img" @click="apply(0)">
           <h2 class="card-name">房屋贷款</h2>
           <div class="imgbox">
             <el-row>
@@ -16,7 +16,7 @@
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <img src="../../../static/img/car_loans.png" class="background-img">
+          <img src="../../../static/img/car_loans.png" class="background-img" @click="apply(1)">
           <h2 class="card-name">车辆贷款</h2>
           <div class="imgbox">
             <el-row>
@@ -27,7 +27,7 @@
           </div>
         </el-col>
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <img src="../../../static/img/credit.png" class="background-img">
+          <img src="../../../static/img/credit.png" class="background-img" @click="apply(2)">
           <h2 class="card-name">信用贷款</h2>
           <div class="imgbox">
             <el-row>

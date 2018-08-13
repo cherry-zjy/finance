@@ -4,17 +4,20 @@
     <h3 v-if="detail">银行审贷订单</h3>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="小额超市订单" name="first">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="firstdetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.No}}</span>
-            <span class="list-status">{{item.status}}</span>
+            <span>订单号：{{item.OrderNo}}</span>
+            <span class="list-status yellow" v-if="item.Type=='-1'">未提交</span>
+            <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+            <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+            <span class="list-status red" v-if="item.Type=='-2'">未通过</span>
           </div>
           <div class="body">
-            <img src="../../../static/img/manager.png" class="body-img">
+            <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
-              <br/>
-              <span class="grey">{{item.text}}</span>
+              <!-- <br/> -->
+              <!-- <span class="grey">{{item.text}}</span> -->
             </div>
           </div>
         </div>
@@ -26,11 +29,11 @@
           <p class="detail-title">订单信息</p>
           <div class="Infobox">
             <label class="info-title">订单号：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.OrderNo}}</span>
           </div>
           <div class="Infobox">
             <label class="info-title">贷款名：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.LoanName}}</span>
           </div>
           <div class="Infobox">
             <label class="info-title">姓名：</label>
@@ -38,19 +41,19 @@
           </div>
           <div class="Infobox">
             <label class="info-title">电话：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.Phone}}</span>
           </div>
           <div class="Infobox">
             <label class="info-title">证件号码：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.IDcard}}</span>
           </div>
           <div class="Infobox">
             <label class="info-title">创建时间：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.CreateTime}}</span>
           </div>
           <div class="Infobox">
             <label class="info-title">订单状态：</label>
-            <span>{{Info.Name}}</span>
+            <span>{{Info.Type |status}}</span>
           </div>
           <div class="btnbox">
             <el-button type="primary" @click="detail=false">上一步</el-button>
@@ -59,13 +62,13 @@
       </el-tab-pane>
 
       <el-tab-pane label="信贷经理超市订单" name="second">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="seconddetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.No}}</span>
+            <span>订单号：{{item.OrderNO}}</span>
             <span class="list-status">{{item.status}}</span>
           </div>
           <div class="body">
-            <img src="../../../static/img/manager.png" class="body-img">
+            <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
             </div>
@@ -124,13 +127,13 @@
       </el-tab-pane>
 
       <el-tab-pane label="银行审贷订单" name="third">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="thirddetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.No}}</span>
-            <span class="list-status">{{item.status}}</span>
+            <span>订单号：{{item.OrderNO}}</span>
+            <span class="list-status">{{item.status | type}}</span>
           </div>
           <div class="body">
-            <img src="../../../static/img/manager.png" class="body-img">
+            <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
               <br/>
@@ -265,11 +268,11 @@
       <el-tab-pane label="信用卡超市订单" name="fourth">
         <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
           <div class="header">
-            <span>订单号：{{item.No}}</span>
+            <span>订单号：{{item.OrderNO}}</span>
             <span class="list-status">{{item.status}}</span>
           </div>
           <div class="body">
-            <img src="../../../static/img/manager.png" class="body-img">
+            <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
             </div>
@@ -328,13 +331,13 @@
       </el-tab-pane>
 
       <el-tab-pane label="车险超市订单" name="fiveth">
-         <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
           <div class="header">
-            <span>订单号：{{item.No}}</span>
+            <span>订单号：{{item.OrderNO}}</span>
             <span class="list-status">{{item.status}}</span>
           </div>
           <div class="body">
-            <img src="../../../static/img/manager.png" class="body-img">
+            <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
               <br/>
@@ -422,7 +425,7 @@
                 <span>{{Info.Name}}</span>
               </div>
               <p class="detail-title">驾驶证</p>
-                <img src="../../../static/img/vehicle_license.png" class="drivecard">
+              <img src="../../../static/img/vehicle_license.png" class="drivecard">
             </el-col>
           </el-row>
           <div class="btnbox">
@@ -441,33 +444,14 @@
       return {
         activeName: 'first',
         detail: false,
-        list: [{
-            No: '123456789',
-            status: '未审核',
-            Name: '王经理',
-            text: '宜人贷'
-          },
-          {
-            No: '123456789',
-            status: '未审核',
-            Name: '王经理',
-            text: '宜人贷'
-          },
-          {
-            No: '123456789',
-            status: '未审核',
-            Name: '王经理',
-            text: '宜人贷'
-          }
-        ],
-        Info: {
-          Name: '1111'
-        },
+        list: [],
+        Info: [],
         pageIndex: 1,
         pageCount: 10,
       }
     },
     mounted: function () {
+      this.first()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     computed: {
@@ -482,8 +466,453 @@
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
       },
-      handleClick(){
+      first() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/AmountSup", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex,
+              pageSize: 3
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      firstdetail(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/AmountXq", {
+            params: {
+              OrderID: id,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                this.detail = true
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      second() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRManagerDDList", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex,
+              pageSize: 3
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      seconddetail(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRManagerDDXq", {
+            params: {
+              Order: id,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                this.detail = true
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      third() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRBankLoanDDList", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex,
+              pageSize: 3
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      thirddetail(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRManagerDDXq", {
+            params: {
+              Order: id,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                this.detail = true
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      fourth() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/CreditList", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex,
+              pageSize: 3
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      fourthdetail(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRManagerDDXq", {
+            params: {
+              Order: id,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                this.detail = true
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      fiveth() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRCreditList", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex,
+              pageSize: 3
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      fivethdetail(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GRCreditXq", {
+            params: {
+              Order: id,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                this.detail = true
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      handleClick(tab) {
+        console.log(tab.name);
         this.detail = false;
+        this.pageIndex = 1;
+        if (tab.name == 'first') {
+          this.first()
+        } else if (tab.name == 'second') {
+          this.second()
+        } else if (tab.name == 'third') {
+          this.third()
+        } else if (tab.name == 'fourth') {
+          this.fourth()
+        } else if (tab.name == 'fiveth') {
+          this.fiveth()
+        }
+      }
+    },
+    filters:{
+      status(value){
+        if(value == -1){
+          return value = "未提交"
+        }else if(value == 0){
+          return value = "申请中"
+        }else if(value == 1){
+          return value = "已通过"
+        }else if(value == 2){
+          return value = "未通过"
+        }
+      },
+      type(value){
+        if(value == 0){
+          return value = "房屋贷款"
+        }else if(value == 1){
+          return value = "车辆贷款"
+        }else if(value == 2){
+          return value = "信用贷款"
+        }
       }
     }
   }
@@ -508,7 +937,7 @@
 
   .el-tabs {
     padding: 0 30px;
-
+    cursor: pointer;
   }
 
   .list {
@@ -520,7 +949,7 @@
     width: 100%;
     background-color: #F5F5F5;
     padding: 10px;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   .list-status {
@@ -581,10 +1010,23 @@
   .detail-title {
     color: #CEAA70;
   }
-  .drivecard{
+
+  .drivecard {
     width: 300px;
     height: 200px;
     max-width: 100%;
+  }
+
+  .yellow {
+    color: #CEAA70
+  }
+
+  .green {
+    color: #4EC424
+  }
+
+  .red {
+    color: #FF2736
   }
 
 </style>

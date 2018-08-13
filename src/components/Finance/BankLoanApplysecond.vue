@@ -227,7 +227,7 @@
           } else {
             this.$notify.error({
               title: "错误",
-              message: "请输入手机号和验证码",
+              message: "请先阅读并同意《金融联盟服务协议》",
               offset: 100
             });
             return false;
