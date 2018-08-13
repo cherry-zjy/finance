@@ -2,12 +2,12 @@
   <div id="app">
     <h3 >专属推荐人</h3>
     <div class="info">
-      <img src="../../../static/img/apxq_head_portrait@2x.png">
-      <p>姓名：张三</p>
-      <p>姓名：张三</p>
-      <p>姓名：张三</p>
-      <p>姓名：张三</p>
-      <p>姓名：张三</p>
+      <img :src="list.Image" class="icon">
+      <p>姓名：{{list.Name}}</p>
+      <p>推荐码：{{list.InviteCode}}</p>
+      <p>级别：{{list.Level}}</p>
+      <p>电话：{{list.Phone}}</p>
+      <p>微信号：{{list.Wxin}}</p>
     </div>
     <div class="tip">
       <p class="tip-tltle">温馨提示</p>
@@ -20,48 +20,56 @@
   export default {
     data() {
       return {
-        detail: false,
-        list: [{
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }],
-        pageIndex: 1,
-        pageCount: 10,
+        list:[]
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
       document.body.removeAttribute("class", "add_bg");
     },
-    computed: {
-      currentPage: function () {
-        return this.pageIndex
-      }
-    },
     methods: {
-      handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/Referee", {
+            params: {
+              Token:getCookie("token")
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       },
-      gotodetail() {
-        this.detail = true
-      }
     }
   }
 
@@ -85,6 +93,11 @@
 
   .info{
     text-align: center;
+  }
+  .icon{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%
   }
   .tip{
     padding: 0 30px;
