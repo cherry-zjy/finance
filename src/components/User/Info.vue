@@ -22,7 +22,10 @@
     <div class="Infobox">
       <label class="info-title">所在地：</label>
       <span v-if="!edit">{{InfoAddress}}</span>
-      <el-input v-model="Info.Address" v-if="edit"></el-input>
+      <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+        @change="handleChange" v-if="edit">
+      </el-cascader>
+      <!-- <el-input v-model="Info.Address"></el-input> -->
     </div>
     <div class="Infobox">
       <label class="info-title">身份情况：</label>
@@ -73,7 +76,17 @@
         Info: {},
         edit: false,
         Address: [],
-        InfoAddress:''
+        InfoAddress: '',
+        Citylist: [],
+        form: {
+          city: '',
+          erae: '',
+          minerae: '',
+          selectedOptions: [], //地区筛选数组
+          address: '',
+          name: '',
+          phone: ''
+        },
       }
     },
     mounted: function () {
@@ -148,9 +161,33 @@
             function (response) {
               var status = response.data.Status;
               if (status === 1) {
-                this.Address = response.data.Result;
+                var result = []
+                for (var i = 0; i < response.data.Result.length; i++) {
+                  this.Address[i] = {
+                    label: response.data.Result[i].ProvinceName,
+                    value: response.data.Result[i].ProvinceID,
+                    children: []
+                  }
+                  for (var y = 0; y < response.data.Result[i].City.length; y++) {
+                    var arr = {
+                      label: response.data.Result[i].City[y].CityName,
+                      value: response.data.Result[i].City[y].CityID,
+                      children: []
+                    }
+                    this.Address[i].children.push(arr)
+                    for (var z = 0; z < response.data.Result[i].City[y].Region.length; z++) {
+                      var arr2 = {
+                        label: response.data.Result[i].City[y].Region[z].RegionName,
+                        value: response.data.Result[i].City[y].Region[z].RegionID,
+                      }
+                      this.Address[i].children[y].children.push(arr2)
+                    }
+                  }
+                }
+                this.form.selectedOptions = [this.Info.ProvinceID, this.Info.CityID,
+                this.Info.RegionID]
                 this.addfilters(this.Info.ProvinceID, this.Info.CityID,
-                  this.Info.RegionID)
+                this.Info.RegionID)
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -182,19 +219,37 @@
             }.bind(this)
           );
       },
+      distinct(arr) {
+        result = [],
+          i,
+          j,
+          len = arr.length;
+        for (i = 0; i < len; i++) {
+          for (j = i + 1; j < len; j++) {
+            if (arr[i] === arr[j]) {
+              j = ++i;
+            }
+          }
+          result.push(arr[i]);
+        }
+        return result;
+      },
       iden() {
         this.$router.push("/User/Certification");
       },
+      handleChange(value) {
+        this.form.city = this.form.selectedOptions[0];
+        this.form.erae = this.form.selectedOptions[1]
+        this.form.minerae = this.form.selectedOptions[2]
+      },
       addfilters(Province, City, Region) {
-        // console.log(this.Address.length)
-        for (var y = 0; y < this.Address.length; y++) {
-          // console.log(this.Address[y])
-          for (var z = 0; z < this.Address[y].length; z++) {
-            // console.log(this.Address[y][z].RegionID)
-            if (this.Address[y][z].RegionID == Region && Region != undefined) {
-              
-              this.InfoAddress = this.Address[y][z].ProvinceName + this.Address[y][z].CityName + this.Address[y][z].RegionName
-            console.log(this.InfoAddress)
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            for (var i in this.Address[y].children[z].children) {
+              if (this.Address[y].children[z].children[i].value == Region && Region != undefined) {
+                // console.log(this.Address[y].children[z].children[i].label) 
+                this.InfoAddress = this.Address[y].label+this.Address[y].children[z].label+this.Address[y].children[z].children[i].label
+              }
             }
           }
         }

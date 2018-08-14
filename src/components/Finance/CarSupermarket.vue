@@ -188,6 +188,7 @@ import qs from "qs";
     margin-top: 60px;
     background-color: #fff;
     margin-bottom: 60px;
+    min-width: 100%;
   }
 
   form {

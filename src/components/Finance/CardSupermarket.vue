@@ -173,6 +173,7 @@
     background-color: #fff;
     margin-bottom: 60px;
     float: left;
+    min-width: 100%;
   }
 
   h3 {

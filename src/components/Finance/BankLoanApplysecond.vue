@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container">
-      <div class="main">
+      <div class="main" v-if="seconed">
         <div class="step">
           <el-steps :active="2">
             <el-step></el-step>
@@ -15,35 +15,35 @@
             <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
               <el-form-item label="名下房产类型">
                 <el-select v-model="ruleForm.HouseType" placeholder="请选择名下房产类型">
-                  <el-option label="商品房" value="商品房"></el-option>
-                  <el-option label="拆迁房" value="拆迁房"></el-option>
-                  <el-option label="自建房" value="自建房"></el-option>
+                  <el-option label="商品房" value="1"></el-option>
+                  <el-option label="拆迁房" value="2"></el-option>
+                  <el-option label="自建房" value="3"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="房产所在位置">
                 <el-select v-model="ruleForm.HousePlace" placeholder="请选择房产所在位置">
-                  <el-option label="户口当地" value="户口当地"></el-option>
-                  <el-option label="现工作地" value="现工作地"></el-option>
+                  <el-option label="户口当地" value="1"></el-option>
+                  <el-option label="现工作地" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="是否主贷人">
                 <el-select v-model="ruleForm.IsSelf" placeholder="请选择是否主贷人">
-                  <el-option label="是" value="true"></el-option>
-                  <el-option label="否" value="false"></el-option>
+                  <el-option label="是" value="1"></el-option>
+                  <el-option label="否" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="房产月供时间">
                 <el-select v-model="ruleForm.MonthHouse" placeholder="请选择房产月供时间">
-                  <el-option label="10年" value="10年"></el-option>
-                  <el-option label="15年" value="15年"></el-option>
-                  <el-option label="20年" value="20年"></el-option>
-                  <el-option label="30年" value="30年"></el-option>
+                  <el-option label="10年" value="1"></el-option>
+                  <el-option label="15年" value="2"></el-option>
+                  <el-option label="20年" value="3"></el-option>
+                  <el-option label="30年" value="4"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="房产月供金额">
                 <el-select v-model="ruleForm.MonthHousePrice" placeholder="请选择房产月供金额">
-                  <el-option label="3千到6千" value="3千到6千"></el-option>
-                  <el-option label="8千以上" value="8千以上"></el-option>
+                  <el-option label="3千到6千" value="1"></el-option>
+                  <el-option label="8千以上" value="2"></el-option>
                 </el-select>
               </el-form-item>
             </el-form>
@@ -58,11 +58,11 @@
               </el-form-item>
               <el-form-item label="车辆所在地">
                 <el-select v-model="ruleForm.CarPlace" placeholder="请选择活动区域">
-                  <el-option label="本地" value="本地"></el-option>
-                  <el-option label="外地" value="外地"></el-option>
+                  <el-option label="本地" value="1"></el-option>
+                  <el-option label="外地" value="2"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="车辆使用年限">
+              <el-form-item label="车辆使用年限（年）">
                 <el-input v-model="ruleForm.CarAge"></el-input>
               </el-form-item>
             </el-form>
@@ -73,24 +73,27 @@
             <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm two">
               <el-form-item label="有无本地社保">
                 <el-select v-model="ruleForm.socialsecurity" placeholder="请选择有无本地社保">
-                  <el-option label="有" value="true"></el-option>
-                  <el-option label="无" value="false"></el-option>
+                  <el-option label="有" value="1"></el-option>
+                  <el-option label="无" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="有无公积金">
                 <el-select v-model="ruleForm.Accumulationfund" placeholder="请选择有无公积金">
-                  <el-option label="有" value="true"></el-option>
-                  <el-option label="无" value="false"></el-option>
+                  <el-option label="有" value="1"></el-option>
+                  <el-option label="无" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="芝麻信用分">
                 <el-select v-model="ruleForm.ZhiM" placeholder="请选择芝麻信用分">
-                  <el-option label="600以下" value="600以下"></el-option>
-                  <el-option label="600以上" value="600以上"></el-option>
+                  <el-option label="600以下" value="1"></el-option>
+                  <el-option label="600以上" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="微粒贷款度">
-                <el-input v-model="ruleForm.WeiL"></el-input>
+                <el-select v-model="ruleForm.WeiL" placeholder="请选择芝麻信用分">
+                  <el-option label="3-5W" value="1"></el-option>
+                  <el-option label="5W以上" value="2"></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="是否有商业险">
                 <el-select v-model="ruleForm.Businessinsurance" placeholder="请选择是否有商业险">
@@ -99,17 +102,48 @@
                 </el-select>
               </el-form-item>
               <el-form-item prop="type" class="type" style="margin-left:-100px">
-            <el-checkbox-group v-model="ruleForm.type">
-              <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
+                <el-checkbox-group v-model="ruleForm.type">
+                  <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
             </el-form>
           </el-col>
         </el-row>
         <div class="text-center">
           <el-button @click="back()">上一步</el-button>
-          <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
         </div>
+      </div>
+      <div class="main" v-if="!seconed">
+        <div class="step">
+          <el-steps :active="3">
+            <el-step></el-step>
+            <el-step></el-step>
+            <el-step></el-step>
+          </el-steps>
+        </div>
+        <div class="dark two">
+          <div class="managerlist" v-for="(item,index) in list" :key="index">
+            <img :src="item.Image" class="manager-icon">
+            <div class="manager-msg">
+              <p class="manager-name">{{item.BankName}}</p>
+              <p class="manager-money">利率：
+                <span class="yellow">{{item.Rate}}</span>
+                <span class="tall">成功率：
+                  <span class="yellow">{{item.SuccRate}}</span>
+                </span>
+              </p>
+              <p class="manager-text">放贷时间：{{item.Days}}</p>
+            </div>
+            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.ID)">申请</el-button>
+          </div>
+        </div>
+        <!-- 分页 -->
+        <div class="block">
+          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          </el-pagination>
+        </div>
+
       </div>
     </div>
   </div>
@@ -120,6 +154,7 @@
   export default {
     data() {
       return {
+        seconed: true,
         ruleForm: {
           HouseType: '',
           HousePlace: '',
@@ -143,7 +178,10 @@
             message: '请先阅读并同意《金融联盟服务协议》',
             trigger: 'change'
           }],
-        }
+        },
+        pageIndex: 1,
+        pageCount: 10,
+        list: {}
       }
     },
     mounted: function () {
@@ -153,11 +191,17 @@
       document.body.removeAttribute("class", "add_bg");
     },
     computed: {
-
+      currentPage: function () {
+        return this.pageIndex
+      }
     },
     methods: {
       back() {
         this.$router.push("/Finance/BankLoanApplyfirst/id=" + window.location.href.split("id=")[1]);
+      },
+      handleCurrentChange(val) {
+        this.filters.pageIndex = val;
+        this.getInfo();
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -170,28 +214,28 @@
             });
             this.$http
               .post(
-                "api/Web_SmailMarket/EditAmountSq",
+                "api/Web_BankLoan/BankApply",
                 qs.stringify({
                   Token: getCookie("token"),
-                  Price: -1,
-                  IDCard: "-1",
-                  Professional: "-1",
-                  SalaryType: "-1",
-                  HouseType: this.ruleForm.HouseType,
-                  HousePlace: this.ruleForm.HousePlace,
-                  IsSelf: this.ruleForm.IsSelf,
-                  MonthHouse: this.ruleForm.MonthHouse,
-                  MonthHousePrice: this.ruleForm.MonthHousePrice,
-                  IshaveCar: this.ruleForm.IshaveCar,
-                  CarPlace: this.ruleForm.CarPlace,
-                  CarAge: this.ruleForm.CarAge,
-                  socialsecurity: this.ruleForm.socialsecurity,
-                  Accumulationfund: this.ruleForm.Accumulationfund,
-                  ZhiM: this.ruleForm.ZhiM,
-                  WeiL: this.ruleForm.WeiL,
-                  Businessinsurance: this.ruleForm.Businessinsurance,
-                  BankLoanID: this.ruleForm.BankLoanID,
-                  BankID: window.location.href.split("id=")[1],
+                  Price: 0,
+                  IDCard: 0,
+                  Professional: 0,
+                  SalaryType: 0,
+                  HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
+                  HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
+                  IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
+                  MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
+                  MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
+                  IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
+                  CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
+                  CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
+                  socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
+                  Accumulationfund: this.ruleForm.Accumulationfund == "" ? 0 : this.ruleForm.Accumulationfund,
+                  ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
+                  WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
+                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? false : this.ruleForm.Businessinsurance,
+                  BankLoanID: window.location.href.split("id=")[1],
+                  BankID: ""
                 })
               )
               .then(
@@ -204,7 +248,8 @@
                       type: "success",
                       message: response.data.Result
                     });
-                    // this.dialogFormVisible = false
+                    this.getInfo()
+                    this.seconed = false
                   } else {
                     this.$message({
                       showClose: true,
@@ -223,18 +268,130 @@
                   });
                 }.bind(this)
               );
-          
+
           } else {
-            this.$notify.error({
-              title: "错误",
-              message: "请先阅读并同意《金融联盟服务协议》",
-              offset: 100
-            });
             return false;
           }
         });
         // this.$router.push("/Finance/BankLoanApplythird/id=" + window.location.href.split("id=")[1]);
       },
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_BankLoan/GetBankList", {
+            params: {
+              bankApplyID: window.location.href.split("id=")[1],
+              pageIndex: this.pageIndex,
+              pageSize: 8
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.bank;
+                this.pageCount = response.data.Result.page
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      apply(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .post(
+            "api/Web_BankLoan/BankApply",
+            qs.stringify({
+              Token: getCookie("token"),
+                  Price: 0,
+                  IDCard: 0,
+                  Professional: 0,
+                  SalaryType: 0,
+                  HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
+                  HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
+                  IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
+                  MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
+                  MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
+                  IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
+                  CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
+                  CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
+                  socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
+                  Accumulationfund: this.ruleForm.Accumulationfund == "" ? 0 : this.ruleForm.Accumulationfund,
+                  ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
+                  WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
+                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? false : this.ruleForm.Businessinsurance,
+              BankLoanID: window.location.href.split("id=")[1],
+              BankID: id
+            })
+          )
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.$message({
+                  showClose: true,
+                  type: "success",
+                  message: response.data.Result
+                });
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      }
     }
   }
 
@@ -281,6 +438,79 @@
     text-align: center;
     color: #F9183D;
     margin: 20px 0;
+  }
+
+  /* 第三步 */
+
+  .dark.two {
+    margin: 0 30px;
+  }
+
+  .managerlist {
+    display: inline-block;
+    width: 100%;
+    padding: 20px 0;
+    border-bottom: 1px solid #EEEEEE;
+  }
+
+  .manager-icon {
+    width: 100px;
+    height: 100px;
+    float: left;
+    border-radius: 50%;
+  }
+
+  .manager-msg {
+    float: left;
+    margin-left: 30px;
+  }
+
+  @media (max-width:768px) {
+    .manager-icon {
+      width: 3rem;
+      height: 3rem;
+    }
+    .manager-msg {
+      margin-left: 1rem;
+    }
+  }
+
+  .manager-name {
+    margin: 10px 0;
+    font-weight: bolder;
+    color: #333333;
+  }
+
+  .manager-money {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  span.yellow {
+    color: #CEAA70;
+  }
+
+  .tall {
+    margin-left: 20px;
+  }
+
+  .manager-text {
+    margin: 10px 0;
+    font-size: 15px;
+    color: #BBBBBB;
+  }
+
+  .manager-btn {
+    float: right;
+    margin-top: 33px;
+  }
+
+  .block {
+    text-align: center;
+    margin-top: 50px;
+    padding-bottom: 80px;
+    width: 100%;
   }
 
 </style>

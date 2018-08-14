@@ -92,6 +92,7 @@
   }
 
   .el-col {
+    cursor: pointer;
     position: relative;
   }
 
