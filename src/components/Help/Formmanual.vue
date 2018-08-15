@@ -3,16 +3,7 @@
     <div class="container">
       <div class="main">
         <h3>平台手册</h3>
-        <p>1、办理信用卡的条件：年满18周岁的成年人。如果没有信用卡，则要求提供本公司的财务证明你的收入状况等相关证明，要是已经拥有一张信用卡，则可以以卡办卡方便了 不少的步骤。必须提供本人的身份证。
-        </p>
-        <p>1、办理信用卡的条件：年满18周岁的成年人。如果没有信用卡，则要求提供本公司的财务证明你的收入状况等相关证明，要是已经拥有一张信用卡，则可以以卡办卡方便了 不少的步骤。必须提供本人的身份证。
-        </p>
-        <p>1、办理信用卡的条件：年满18周岁的成年人。如果没有信用卡，则要求提供本公司的财务证明你的收入状况等相关证明，要是已经拥有一张信用卡，则可以以卡办卡方便了 不少的步骤。必须提供本人的身份证。
-        </p>
-        <p>1、办理信用卡的条件：年满18周岁的成年人。如果没有信用卡，则要求提供本公司的财务证明你的收入状况等相关证明，要是已经拥有一张信用卡，则可以以卡办卡方便了 不少的步骤。必须提供本人的身份证。
-        </p>
-        <p>1、办理信用卡的条件：年满18周岁的成年人。如果没有信用卡，则要求提供本公司的财务证明你的收入状况等相关证明，要是已经拥有一张信用卡，则可以以卡办卡方便了 不少的步骤。必须提供本人的身份证。
-        </p>
+        <p v-html="detail"></p>
       </div>
     </div>
   </div>
@@ -22,10 +13,11 @@
   export default {
     data() {
       return {
-
+        detail:''
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -35,16 +27,47 @@
 
     },
     methods: {
-      submitForm(formName) {
-        // this.$refs[formName].validate((valid) => {
-        //   if (valid) {
-        //     alert('submit!');
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
-        this.$router.push("/Finance/BankLoanApplysecond/id=" + window.location.href.split("id=")[1]);
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GetProcess", {
+            params: {
+              type:1,
+              pageIndex: 1,
+              pageSize: 6,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.detail = decodeURIComponent(response.data.Result.data[0].Content)
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       },
     }
   }

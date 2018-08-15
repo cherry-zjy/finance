@@ -88,7 +88,7 @@ export default new Router({
         { path: '/Finance/POSSupermarketSubmitOrder/:id', component: POSSupermarketSubmitOrder, name: 'POS超市提交订单' },       
         
         { path: '/Help/Flow', component: Flow, name: '流程说明' },       
-        { path: '/Help/Flowone', component: Flowone, name: '信用卡申请流程' }, 
+        { path: '/Help/Flowone/:id', component: Flowone, name: '信用卡申请流程' }, 
     
         { path: '/Help/Formmanual', component: Formmanual, name: '平台手册' },       
         { path: '/Help/HelpCenter', component: HelpCenter, name: '帮助中心' },         

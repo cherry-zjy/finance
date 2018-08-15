@@ -2,26 +2,23 @@
   <div id="app">
     <div class="container">
       <div class="main">
-
-        <div class="step flex" @click="one()">
+        <div class="step flex" @click="one(0)">
           <div class="step-main">
             <img src="../../../static/img/credit_card.png">
             <i class="el-icon-arrow-right"></i>
           </div>
-          <div class="step-text">信用卡申请流程</div>
+          <div class="step-text">{{list[0].Title}}</div>
         </div>
-
-        <div class="step flex">
+        <div class="step flex" @click="one(1)">
           <div class="step-main">
             <img src="../../../static/img/illegal.png">
             <i class="el-icon-arrow-right"></i>
           </div>
-          <div class="step-text">违章操作步骤说明</div>
+          <div class="step-text">{{list[1].Title}}</div>
         </div>
-
-        <div class="step">
+        <div class="step" @click="one(2)">
           <img src="../../../static/img/merchants_gathering.png">
-          <div class="step-text">商户收款说明</div>
+          <div class="step-text">{{list[2].Title}}</div>
         </div>
       </div>
     </div>
@@ -32,10 +29,17 @@
   export default {
     data() {
       return {
-
+        list:[{
+          Title:''
+        },{
+          Title:''
+        },{
+          Title:''
+        }]
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -45,8 +49,50 @@
 
     },
     methods: {
-      one() {
-        this.$router.push("/Help/Flowone");
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GetProcess", {
+            params: {
+              type:0,
+              pageIndex: 1,
+              pageSize: 6,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.data;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      one(index) {
+        this.$router.push("/Help/Flowone/id="+index);
       },
     }
   }
@@ -107,7 +153,8 @@
     top: 65px;
     right: 20%;
   }
-  .step .step-text{
+
+  .step .step-text {
     text-align: center;
     margin-top: 20px;
   }
@@ -118,6 +165,5 @@
     font-family: MicrosoftYaHei;
     color: rgba(43, 43, 43, 1);
   }
-  
 
 </style>

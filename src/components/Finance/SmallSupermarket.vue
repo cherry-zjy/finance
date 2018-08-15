@@ -13,8 +13,8 @@
             <div class="body">
               <p class="card-money">{{item.Price}}</p>
               <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in item.Condition" :key="tag">
-                {{tag}}
+              <el-tag v-for="item in item.tag" :key="item">
+                {{item}}
               </el-tag>
               <el-button type="primary" class="card-btn" @click="apply(item.ID)">免费申请</el-button>
             </div>
@@ -69,6 +69,10 @@
               var status = response.data.Status;
               if (status === 1) {
                 this.list = response.data.Result.list;
+                for (var i = 0; i < this.list.length; i++) {
+                  this.list[i].tag = new Array()
+                  this.list[i].tag = this.list[i].Condition.split(",");
+                }
                 this.pageCount = response.data.Result.page;
               } else {
                 this.$message({
@@ -82,6 +86,7 @@
           // 请求error
           .catch(
             function (error) {
+              console.log(error)
               loading.close();
               this.$notify.error({
                 title: "错误",
