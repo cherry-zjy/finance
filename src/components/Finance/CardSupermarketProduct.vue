@@ -1,28 +1,31 @@
-
 <template>
   <div id="app">
     <div class="container">
       <div class="main">
         <h3>信用卡列表</h3>
-        <div class="dark">
-          <div class="managerlist" v-for="(item,index) in 10" :key="index">
-            <img src="../../../static/img/icbc.png" class="manager-icon">
+        <div class="dark" v-if="list.length>0">
+          <div class="managerlist" v-for="(item,index) in list" :key="index">
+            <img :src="item.Logo" class="manager-icon">
             <div class="manager-msg">
-              <p class="manager-name">张三</p>
-              <p class="manager-money">利率：
-                <span class="yellow">5%</span>
-                <span class="tall">不差进度7-12工作日自动结算
-                </span>
+              <p class="manager-name">{{item.Name}}</p>
+              <p class="manager-money">信用卡额度范围：
+                <span class="yellow">{{item.Money}}</span>
+              </p>
+              <p class="manager-money">
+                {{item.BeiZhu}}
               </p>
             </div>
-            <el-button type="primary" class="manager-btn" size="small" @click="apply('1')">申请</el-button>
+            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.ID)">申请</el-button>
           </div>
         </div>
+        <div v-if="list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
+        </div>
         <!-- 分页 -->
-        <div class="block">
+        <!-- <div class="block" v-if="list.length>0">
           <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
-        </div>
+        </div> -->
 
       </div>
     </div>
@@ -33,23 +36,68 @@
   export default {
     data() {
       return {
-        pageIndex: 1,
-        pageCount: 10,
+        // pageIndex: 1,
+        // pageCount: 10,
+        list: []
       }
     },
+    mounted: function () {
+      this.mainurl = mainurl;
+      this.getInfo();
+    },
     computed: {
-      currentPage: function () {
-        return this.pageIndex
-      }
+      // currentPage: function () {
+      //   return this.pageIndex
+      // }
     },
     methods: {
       // 分页
-      handleCurrentChange(val) {
-        this.filters.pageIndex = val;
-        // this.getInfo();
+      // handleCurrentChange(val) {
+      //   this.filters.pageIndex = val;
+      //   this.getInfo();
+      // },
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditCardMarket/CreditCardXq", {
+            params: {
+              ID: window.location.href.split("id=")[1],
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                // this.pageCount = response.data.Result.page;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
       },
       apply(id) {
-        this.$router.push("/Finance/CardSupermarketDetail/id=" + window.location.href.split("id=")[1]);
+        this.$router.push("/Finance/CardSupermarketDetail/id=" + id);
       }
     }
   }
@@ -96,8 +144,8 @@
   }
 
   .manager-icon {
-    width: 100px;
-    height: 100px;
+    width: 300px;
+    height: 200px;
     float: left;
     border-radius: 50%;
   }
@@ -105,6 +153,7 @@
   .manager-msg {
     float: left;
     margin-left: 30px;
+    width: 60%
   }
 
   @media (max-width:768px) {

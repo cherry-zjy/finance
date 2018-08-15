@@ -2,23 +2,25 @@
   <div id="app">
     <el-carousel indicator-position="none" arrow="always" height="500px">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
-        <img :src="item.url" class="banner-img">
+        <img :src="item.Url" class="banner-img">
       </el-carousel-item>
     </el-carousel>
     <div class="container">
       <div class="main">
         <h3>信用卡超市</h3>
         <div class="dark">
-          <div class="managerlist" v-for="(item,index) in 10" :key="index" @click="apply(1)">
-            <img src="../../../static/img/apxq_head_portrait@2x.png" class="manager-icon">
+          <div class="managerlist" v-for="(item,index) in list" :key="index" @click="apply(item.ID)">
+            <img :src="item.Logo" class="manager-icon">
             <div class="manager-msg">
-              <p class="manager-name">张三</p>
-              <p class="manager-money">利率：
-                <span class="yellow">5%</span>
-                <span class="tall">最高：
+              <p class="manager-name">{{item.Name}}</p>
+              <p class="manager-money">批卡率：
+                <span class="yellow">{{item.Rate}}</span>
+                <!-- <span class="tall">最高：
                   <span class="yellow">80万</span>
-                </span>
+                </span> -->
               </p>
+              <p class="manager-money">{{item.Brif}}</p>
+              
             </div>
           </div>
         </div>
@@ -44,6 +46,7 @@
         }, {
           url: "../../static/img/1920x896.jpg"
         }],
+        list:[],
         pageIndex: 1,
         pageCount: 10,
       }
@@ -106,7 +109,7 @@
       },
       getBanner(){
         this.$http
-          .get("api/Web_CreditCardMarket/GetCardCenterBanner", {
+          .get("api/Web_CreditCardMarket/GetWebCardCenterBanner", {
             params: {
               pageIndex: 1,
               pageSize: 999,
@@ -193,6 +196,7 @@
     width: 100%;
     padding: 20px 0;
     border-bottom: 1px solid #EEEEEE;
+    cursor: pointer;
   }
 
   .manager-icon {

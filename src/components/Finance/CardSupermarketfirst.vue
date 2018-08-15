@@ -2,27 +2,39 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" label-position="left">
+          <el-form-item label="姓名" prop="Name">
+            <el-input v-model="ruleForm.Name"></el-input>
+          </el-form-item>
+          <el-form-item label="证件" prop="IDCard">
+            <el-input v-model="ruleForm.IDCard"></el-input>
+          </el-form-item>
+          <el-form-item label="电话" prop="Phone">
+            <el-input v-model="ruleForm.Phone"></el-input>
+          </el-form-item>
+          <el-form-item label="验证码" prop="Code">
+            <el-input v-model="ruleForm.Code"></el-input>
+            <el-button type="primary" id="getcode">获取验证码</el-button>
+          </el-form-item>
           <el-form-item label="所在地：" prop="selectedOptions">
             <el-cascader :options="Address" v-model="ruleForm.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
               @change="handleChange">
             </el-cascader>
             <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
           </el-form-item>
-          <el-form-item label="车牌" prop="cp">
-            <el-input v-model="ruleForm.cp"></el-input>
-            <el-checkbox-group v-model="ruleForm.type" class="switch">
-              <el-checkbox label="未上线" name="type"></el-checkbox>
+          <el-form-item prop="type" class="type">
+            <el-checkbox-group v-model="ruleForm.type">
+              <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-
-          <el-form-item label="车主" prop="Name">
-            <el-input v-model="ruleForm.Name"></el-input>
-          </el-form-item>
-          <el-form-item style="text-align: center;padding-bottom: 300px;" class="type">
-            <el-button type="primary" @click="submitForm('ruleForm')">下一步</el-button>
+          <el-form-item style="text-align: center;" class="type">
+            <el-button type="primary" @click="submitForm('ruleForm')">确认提交</el-button>
           </el-form-item>
         </el-form>
+        <div class="dark">
+          <p>选择添加申请人信息: </p>
+          <p>请确保选择或添加的申请人信息与贷款申请表所填信息保持真实一致，以免影响信用贷款进度；本平台对此信息保密。</p>
+        </div>
       </div>
     </div>
   </div>
@@ -42,27 +54,45 @@
         }
       };
       return {
-        Address:[],
         ruleForm: {
+          Name: '',
+          IDCard: '',
+          Code: '',
+          Phone: '',
+          type:[],
+          selectedOptions:[],
           city: '',
           erae: '',
           minerae: '',
-          selectedOptions: [],
-          Name: '',
-          cp: '',
-          type: true
         },
+        Address:[],
         rules: {
-          cp: [{
-            required: true,
-            message: '请输入车牌',
-            trigger: 'blur'
-          }, ],
           Name: [{
             required: true,
-            message: '请输入车主',
+            message: '请输入姓名',
             trigger: 'blur'
           }, ],
+          IDCard: [{
+            required: true,
+            message: '请输入证件',
+            trigger: 'blur'
+          }, ],
+          Phone: [{
+            required: true,
+            message: '请输入电话',
+            trigger: 'blur'
+          }, ],
+          Code: [{
+            required: true,
+            message: '请输入验证码',
+            trigger: 'blur'
+          }, ],
+          type: [{
+            type: 'array',
+            required: true,
+            message: '请先阅读并同意《金融联盟服务协议》',
+            trigger: 'change'
+          }],
           selectedOptions: [{
             type: 'array',
             required: true,
@@ -140,6 +170,20 @@
             }.bind(this)
           );
       },
+      handleChange(value) {
+        this.ruleForm.city = this.ruleForm.selectedOptions[0];
+        this.ruleForm.erae = this.ruleForm.selectedOptions[1]
+        this.ruleForm.minerae = this.ruleForm.selectedOptions[2]
+      },
+      myAddressErae(value) {
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            if (this.Address[y].children[z].value == value && value != undefined) {
+              return value = this.Address[y].children[z].label;
+            }
+          }
+        }
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -151,13 +195,15 @@
             });
             this.$http
               .post(
-                "api/Web_AutoInsuranceMarket/AddCarOrder",
+                "api/Web_CreditCardMarket/CreditCardSq",
                 qs.stringify({
                   Token: getCookie("token"),
-                  Province: this.myAddressErae(this.ruleForm.erae),
-                  CarLicense: this.ruleForm.cp,
-                  IsHaveLicense: this.ruleForm.type,
-                  CarMaster: this.ruleForm.Name
+                  Name: this.ruleForm.Name,
+                  Phone: this.ruleForm.Phone,
+                  IDcard: this.ruleForm.IDCard,
+                  Code: this.ruleForm.Code,
+                  Adress:this.myAddressErae(this.ruleForm.erae),
+                  IDD: window.location.href.split("id=")[1]
                 })
               )
               .then(
@@ -168,10 +214,10 @@
                     this.$message({
                       showClose: true,
                       type: "success",
-                      message: "成功"
+                      message: response.data.Result
                     });
                     setTimeout(() => {
-                      this.$router.push("/Finance/CarSupermarketDeatil/id=" + response.data.Result);
+                      this.$router.push("/Finance/CardSupermarketsecond/id=" + window.location.href.split("id=")[1]);
                     }, 1000);
                   } else if (status === 40001) {
                     this.$message({
@@ -207,23 +253,8 @@
             return false;
           }
         });
-        // this.$router.push("/Finance/CarSupermarketDeatil/id=" + formName);
       },
-      handleChange(value) {
-        this.ruleForm.city = this.ruleForm.selectedOptions[0];
-        this.ruleForm.erae = this.ruleForm.selectedOptions[1]
-        this.ruleForm.minerae = this.ruleForm.selectedOptions[2]
-      },
-      myAddressErae(value) {
-        for (var y in this.Address) {
-          for (var z in this.Address[y].children) {
-            if (this.Address[y].children[z].value == value && value != undefined) {
-              return value = this.Address[y].children[z].label;
-            }
-          }
-        }
-      },
-    },
+    }
   }
 
 </script>
@@ -234,7 +265,6 @@
     margin-top: 60px;
     background-color: #fff;
     margin-bottom: 60px;
-    min-width: 100%;
   }
 
   form {
@@ -247,16 +277,13 @@
     #getcode {
       position: absolute;
       margin-left: 20px;
+      top: 0;
+      right: -120px;
     }
     form {
       padding: 100px 0 0 0;
-      width: 60%;
-      margin-left: 20%;
-    }
-    .switch {
-      position: absolute;
-      top: 0;
-      right: -80px;
+      width: 40%;
+      margin-left: 30%;
     }
   }
 
@@ -266,6 +293,13 @@
     }
   }
 
+  .dark {
+    padding: 50px 20px 80px 20px;
+    margin: 0 30px;
+    color: #666666;
+    font-family: MicrosoftYaHei;
+    border-top: 1px solid #EEEEEE;
+  }
   .el-cascader {
     width: 100%;
   }

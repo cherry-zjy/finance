@@ -5,11 +5,12 @@
         <div class="dark">
           <el-row :gutter="20" style="position: relative;">
             <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-              <img src="../../../static/img/larger_map.png" class="card-img">
+              <img :src="Info.Logo" class="card-img">
             </el-col>
             <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
-              <p class="big-text">招商信用卡</p>
-              <p class="small-text">单位名称：招商银行中心</p>
+              <p class="big-text">{{Info.BankName}}-{{Info.Name}}</p>
+              <p class="small-text">单位名称：{{Info.Center}}</p>
+              <p class="small-text">{{Info.BeiZhu}}</p>
               <el-button type="primary" class="applybtn" size="small" @click="dialogFormVisible = true">免费申请</el-button>
             </el-col>
           </el-row>
@@ -21,13 +22,13 @@
       </div>
     </div>
     <el-dialog title="交通银行申请提醒" :visible.sync="dialogFormVisible" center>
-      <el-form :model="form">
+      <el-form>
         <p>如果您目前持有交通银行信用卡，或在其他平台机构同时申请信用卡， 将会影响你的征 信记录影响下卡率以及卡片额度
         </p>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">取消申请</el-button>
+        <el-button type="primary" @click="apply()">继续申请</el-button>
       </div>
     </el-dialog>
   </div>
@@ -37,22 +38,12 @@
   export default {
     data() {
       return {
-        choose: 0,
-        checked: true,
         dialogFormVisible: false,
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
+        Info:[]
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -62,8 +53,91 @@
 
     },
     methods: {
-      choosethis(index) {
-        this.choose = index
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditCardMarket/CreditIntroduce", {
+            params: {
+              ID: window.location.href.split("id=")[1],
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Info = response.data.Result;
+                // this.pageCount = response.data.Result.page;
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      apply(){
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_CreditCardMarket/CreditCardSqXq", {
+            params: {
+              Token:getCookie("token"),
+              pageIndex:1,
+              pageSize:999
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                if(response.data.Result.list.length>0){
+                  this.$router.push("/Finance/CardSupermarketsecond/id=" + window.location.href.split("id=")[1]);
+                }else{
+                  this.$router.push("/Finance/CardSupermarketfirst/id=" + window.location.href.split("id=")[1]);
+                }
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+        
       }
     }
   }
@@ -91,7 +165,9 @@
   }
 
   .card-img {
-    width: 100%
+    max-width: 100%;
+    width: 300px;
+    height: 200px;
   }
 
   .big-text {

@@ -42,8 +42,8 @@
               </el-form-item>
               <el-form-item label="房产月供金额">
                 <el-select v-model="ruleForm.MonthHousePrice" placeholder="请选择房产月供金额">
-                  <el-option label="3千到6千" value="1"></el-option>
-                  <el-option label="8千以上" value="2"></el-option>
+                  <el-option label="3千到7千" value="1"></el-option>
+                  <el-option label="7千以上" value="2"></el-option>
                 </el-select>
               </el-form-item>
             </el-form>
