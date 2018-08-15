@@ -4,7 +4,7 @@
       <div class="main">
         <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="所在地：" prop="selectedOptions">
-            <el-cascader :options="CityInfo" v-model="ruleForm.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+            <el-cascader :options="Address" v-model="ruleForm.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
               @change="handleChange">
             </el-cascader>
             <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import qs from "qs";
+  import qs from "qs";
   export default {
     data() {
       var checkselecte = (rule, value, callback) => {
@@ -37,13 +37,12 @@ import qs from "qs";
           callback(new Error("请选择省"));
         } else if (this.ruleForm.erae == '' || this.ruleForm.erae == undefined) {
           callback(new Error("请选择市"));
-        } else if (this.ruleForm.minerae == '' || this.ruleForm.minerae == undefined) {
-          callback(new Error("请选择区"));
         } else {
           callback();
         }
       };
       return {
+        Address:[],
         ruleForm: {
           city: '',
           erae: '',
@@ -51,7 +50,7 @@ import qs from "qs";
           selectedOptions: [],
           Name: '',
           cp: '',
-          type:true
+          type: true
         },
         /*数据源*/
         CityInfo: [], //地区数据
@@ -77,6 +76,7 @@ import qs from "qs";
     },
     mounted: function () {
       this.CityInfo = CityInfo;
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -86,6 +86,63 @@ import qs from "qs";
 
     },
     methods: {
+      getInfo() {
+        this.$http
+          .get("api/Web_UserInfo/GetProvinceCityRegion", {
+            params: {
+              pageIndex: 1,
+              pageSize: 999
+            }
+          })
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                for (var i = 0; i < response.data.Result.length; i++) {
+                  this.Address[i] = {
+                    label: response.data.Result[i].ProvinceName,
+                    value: response.data.Result[i].ProvinceID,
+                    children: []
+                  }
+                  for (var y = 0; y < response.data.Result[i].City.length; y++) {
+                    var arr = {
+                      label: response.data.Result[i].City[y].CityName,
+                      value: response.data.Result[i].City[y].CityID,
+                    }
+                    this.Address[i].children.push(arr)
+                  }
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -97,7 +154,6 @@ import qs from "qs";
             });
             this.$http
               .post(
-                // "api/Web_AutoInsuranceMarket/AddCarOrder?Token="+getCookie("token")+"&Province="+this.myAddressErae(this.ruleForm.erae)+"&CarLicense="+this.ruleForm.cp+"&IsHaveLicense="+this.ruleForm.type+"&CarMaster="+this.ruleForm.Name,
                 "api/Web_AutoInsuranceMarket/AddCarOrder",
                 qs.stringify({
                   Token: getCookie("token"),
@@ -161,18 +217,11 @@ import qs from "qs";
         this.ruleForm.erae = this.ruleForm.selectedOptions[1]
         this.ruleForm.minerae = this.ruleForm.selectedOptions[2]
       },
-      myAddressCity(value) {
-        for (var y in CityInfo) {
-          if (CityInfo[y].value == value) {
-            return value = CityInfo[y].label
-          }
-        }
-      },
       myAddressErae(value) {
-        for (var y in CityInfo) {
-          for (var z in CityInfo[y].children) {
-            if (CityInfo[y].children[z].value == value && value != undefined) {
-              return value = CityInfo[y].children[z].label;
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            if (this.Address[y].children[z].value == value && value != undefined) {
+              return value = this.Address[y].children[z].label;
             }
           }
         }

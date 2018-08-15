@@ -161,7 +161,6 @@
             function (response) {
               var status = response.data.Status;
               if (status === 1) {
-                var result = []
                 for (var i = 0; i < response.data.Result.length; i++) {
                   this.Address[i] = {
                     label: response.data.Result[i].ProvinceName,
@@ -218,21 +217,6 @@
               });
             }.bind(this)
           );
-      },
-      distinct(arr) {
-        result = [],
-          i,
-          j,
-          len = arr.length;
-        for (i = 0; i < len; i++) {
-          for (j = i + 1; j < len; j++) {
-            if (arr[i] === arr[j]) {
-              j = ++i;
-            }
-          }
-          result.push(arr[i]);
-        }
-        return result;
       },
       iden() {
         this.$router.push("/User/Certification");

@@ -2,10 +2,10 @@
   <div id="app">
     <div class="container" v-if="!success">
       <div class="main">
-        <el-row :gutter="20">
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-              <el-form-item label="证件类型">
+        <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+          <el-row :gutter="80">
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
+              <el-form-item label="证件类型" prop="LicenseType">
                 <el-select v-model="ruleForm.LicenseType" placeholder="请选择证件类型">
                   <el-option label="身份证" value="1"></el-option>
                   <el-option label="户口本驾驶证" value="2"></el-option>
@@ -20,18 +20,18 @@
                   <el-option label="香港身份证" value="11"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="证件号码">
+              <el-form-item label="证件号码" prop="CertificatesNumber">
                 <el-input v-model="ruleForm.CertificatesNumber"></el-input>
               </el-form-item>
-              <el-form-item label="车辆初登日期">
+              <el-form-item label="车辆初登日期" prop="CarTime">
                 <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.CarTime"></el-date-picker>
                 <div class="circle">1</div>
               </el-form-item>
-              <el-form-item label="车辆识别代号">
+              <el-form-item label="车辆识别代号" prop="TrueLicense">
                 <el-input v-model="ruleForm.TrueLicense"></el-input>
                 <div class="circle">2</div>
               </el-form-item>
-              <el-form-item label="品牌类型">
+              <el-form-item label="品牌类型" prop="Carbrand">
                 <el-input v-model="ruleForm.Carbrand"></el-input>
                 <div class="circle">3</div>
               </el-form-item>
@@ -42,14 +42,17 @@
               <el-form-item label="新车发票价" prop="Price">
                 <el-input v-model="ruleForm.Price"></el-input>
               </el-form-item>
-              <el-form-item label="车辆所属性质">
+              <el-form-item label="发动机号码" prop="EngineNumber">
+                <el-input v-model="ruleForm.EngineNumber"></el-input>
+              </el-form-item>
+              <el-form-item label="车辆所属性质" prop="CarType">
                 <el-select v-model="ruleForm.CarType" placeholder="请选择车辆所属性质">
                   <el-option label="个人用车" value="1"></el-option>
                   <el-option label="企业用车" value="2"></el-option>
                   <el-option label="企业团队用车" value="3"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="车辆使用性质">
+              <el-form-item label="车辆使用性质" prop="UserCarType">
                 <el-select v-model="ruleForm.UserCarType" placeholder="请选择车辆使用性质">
                   <el-option label="出租租凭营业客车" value="1"></el-option>
                   <el-option label="城市公交营业客车" value="2"></el-option>
@@ -58,18 +61,15 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="是否过户车">
-                  <el-switch v-model="ruleForm.IsPass"></el-switch>
+                <el-switch v-model="ruleForm.IsPass"></el-switch>
               </el-form-item>
               <el-form-item prop="type" style="margin-left: -150px">
                 <el-checkbox-group v-model="ruleForm.type">
                   <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
                 </el-checkbox-group>
               </el-form-item>
-            </el-form>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <!-- <img src="../../../static/img/yoload.png"> -->
-            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
+            </el-col>
+            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <el-form-item prop="Image" style="margin-left:-150px;">
                 <el-upload v-model="ruleForm.Image" class="avatar-uploader" :action="action" :show-file-list="false" :on-success="handleAvatarSuccess"
                   :before-upload="beforeAvatarUpload">
@@ -80,9 +80,9 @@
               <div class="el-upload el-upload--text">
                 <img src="../../../static/img/vehicle_license.png" class="avatar">
               </div>
-            </el-form>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </el-form>
         <div class="text-center">
           <el-button @click="back()">返回</el-button>
           <el-button type="primary" @click="submitForm('ruleForm')">确认</el-button>
@@ -104,9 +104,16 @@
 </template>
 
 <script>
-import qs from "qs";
+  import qs from "qs";
   export default {
     data() {
+      var checkLogo = (rule, value, callback) => {
+        if (this.imageUrl == '') {
+          callback(new Error("请上传驾驶证"));
+        } else {
+          callback();
+        }
+      };
       return {
         ruleForm: {
           LicenseType: '',
@@ -121,6 +128,7 @@ import qs from "qs";
           UserCarType: '',
           IsPass: false,
           Image: '',
+          name: ''
         },
         imageUrl: "",
         dialogVisible: false,
@@ -128,20 +136,93 @@ import qs from "qs";
         action: "",
         success: false,
         rules: {
+          name: [{
+            required: true,
+            message: '请填写活动形式',
+            trigger: 'blur'
+          }],
           type: [{
             type: 'array',
             required: true,
             message: '请先阅读并同意《金融联盟服务协议》',
             trigger: 'change'
           }],
-          Price:[{
-            type: 'number',
-             message: '请输入数字',
+          LicenseType: [{
+            required: true,
+            message: '请选择证件类型',
+            trigger: 'change'
           }],
-          PeopleNumber:[{
-            type: 'number',
-             message: '请输入数字',
-          }]
+          UserCarType: [{
+            required: true,
+            message: '请选择车辆使用性质',
+            trigger: 'change'
+          }],
+          CarType: [{
+            required: true,
+            message: '请选择车辆所属类型',
+            trigger: 'change'
+          }],
+          CertificatesNumber: [{
+            required: true,
+            message: '请输入证件号码',
+            trigger: 'blur'
+          }, ],
+          TrueLicense: [{
+            required: true,
+            message: '请输入车辆识别代号',
+            trigger: 'blur'
+          }, ],
+          Carbrand: [{
+            required: true,
+            message: '请输入品牌类型',
+            trigger: 'blur'
+          }, ],
+          PeopleNumber: [{
+            required: true,
+            message: '请输入核定在人数',
+            trigger: 'blur'
+          }, {
+            validator: (rule, value, callback) => {
+              if (/^\d+$/.test(value) == false) {
+                callback(new Error("只能输入数字"));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }],
+          EngineNumber: [{
+            required: true,
+            message: '请输入发动机号码',
+            trigger: 'blur'
+          }, ],
+          Price: [{
+            required: true,
+            message: '请输入新车发票价',
+            trigger: 'blur'
+          }, {
+            validator: (rule, value, callback) => {
+              if (/^\d+$/.test(value) == false) {
+                callback(new Error("只能输入数字"));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }],
+          CarTime: [{
+            type: 'date',
+            required: true,
+            message: '请选择日期',
+            trigger: 'change'
+          }],
+          Image: [{
+            required: true,
+            validator: checkLogo
+          }],
+          IsPass: [{
+            required: true,
+          }],
         }
       }
     },
@@ -187,7 +268,7 @@ import qs from "qs";
             });
             this.$http
               .post(
-                "api/Web_SmailMarket/AmountSq",
+                "api/Web_AutoInsuranceMarket/CarInformation",
                 qs.stringify({
                   Token: getCookie("token"),
                   carID: window.location.href.split("id=")[1],
@@ -202,7 +283,7 @@ import qs from "qs";
                   CarType: this.ruleForm.CarType,
                   UserCarType: this.ruleForm.UserCarType,
                   IsPass: this.ruleForm.IsPass,
-                  EngineNumber: -1,
+                  EngineNumber: this.ruleForm.EngineNumber,
                   OrderNo: -1,
                   Province: -1,
                   CarLicense: -1,
@@ -220,6 +301,9 @@ import qs from "qs";
                       type: "success",
                       message: response.data.Result
                     });
+                    setTimeout(() => {
+                      this.success = true
+                    }, 1000);
                   } else if (status === 40001) {
                     this.$message({
                       showClose: true,
@@ -260,7 +344,7 @@ import qs from "qs";
         this.$router.push("/");
       },
       look() {
-        // this.$router.push("/Home");
+        this.$router.push("/User/Order");
       },
     }
   }

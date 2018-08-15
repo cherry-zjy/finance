@@ -97,8 +97,8 @@
               </el-form-item>
               <el-form-item label="是否有商业险">
                 <el-select v-model="ruleForm.Businessinsurance" placeholder="请选择是否有商业险">
-                  <el-option label="有" value="true"></el-option>
-                  <el-option label="无" value="false"></el-option>
+                  <el-option label="有" value="1"></el-option>
+                  <el-option label="无" value="2"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item prop="type" class="type" style="margin-left:-100px">
@@ -233,7 +233,7 @@
                   Accumulationfund: this.ruleForm.Accumulationfund == "" ? 0 : this.ruleForm.Accumulationfund,
                   ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
                   WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
-                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? false : this.ruleForm.Businessinsurance,
+                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? 0 : this.ruleForm.Businessinsurance,
                   BankLoanID: window.location.href.split("id=")[1],
                   BankID: ""
                 })
@@ -342,23 +342,23 @@
             "api/Web_BankLoan/BankApply",
             qs.stringify({
               Token: getCookie("token"),
-                  Price: 0,
-                  IDCard: 0,
-                  Professional: 0,
-                  SalaryType: 0,
-                  HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
-                  HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
-                  IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
-                  MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
-                  MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
-                  IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
-                  CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
-                  CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
-                  socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
-                  Accumulationfund: this.ruleForm.Accumulationfund == "" ? 0 : this.ruleForm.Accumulationfund,
-                  ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
-                  WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
-                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? false : this.ruleForm.Businessinsurance,
+              Price: 0,
+              IDCard: 0,
+              Professional: 0,
+              SalaryType: 0,
+              HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
+              HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
+              IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
+              MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
+              MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
+              IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
+              CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
+              CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
+              socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
+              Accumulationfund: this.ruleForm.Accumulationfund == "" ? 0 : this.ruleForm.Accumulationfund,
+              ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
+              WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
+              Businessinsurance: this.ruleForm.Businessinsurance == "" ? 0 : this.ruleForm.Businessinsurance,
               BankLoanID: window.location.href.split("id=")[1],
               BankID: id
             })
