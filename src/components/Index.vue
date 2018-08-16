@@ -77,7 +77,7 @@
                 <a @click="navto('/Find')">发现</a>
               </li>
               <li class="menu-btn">
-                <img :src="Info.Image" class="menu-icon" @click="navto('/User')" v-if="login">
+                <img :src="mainurl+Info.Image" class="menu-icon" @click="navto('/User')" v-if="login">
                 <el-button size="small" @click="logout()" v-if="login">退出</el-button>
                 <el-button type="primary" size="small" @click="gotologin()" v-if="!login">登录</el-button>
               </li>
@@ -87,7 +87,7 @@
       </nav>
     </header>
     <div class="shelter"></div>
-    <router-view/>
+    <router-view @changehomeicon="icon"></router-view>
     <div class="foot ">
       <div class="container">
         <el-row :gutter="10">
@@ -110,10 +110,12 @@
       return {
         linum: 'Home',
         login: false,
+        mainurl:'',
         Info:[]
       };
     },
     mounted: function () {
+      this.mainurl = mainurl
       this.getInfo()
       var path = window.location.href;
       if (path.indexOf('Find') > 0) {
@@ -178,6 +180,10 @@
               });
             }.bind(this)
           );
+      },
+      icon(data){
+        this.Info.Image = data;
+        this.login = true
       },
       navto(path) {
         $(".collapse.in").removeClass("in")

@@ -10,7 +10,7 @@
             <span class="list-status yellow" v-if="item.Type=='-1'">未提交</span>
             <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
             <span class="list-status green" v-if="item.Type=='1'">已通过</span>
-            <span class="list-status red" v-if="item.Type=='-2'">未通过</span>
+            <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
             <img :src="item.Logo" class="body-img">
@@ -22,7 +22,7 @@
           </div>
         </div>
         <div class="block" v-if="!detail">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
         <div v-if="detail">
@@ -64,8 +64,10 @@
       <el-tab-pane label="信贷经理超市订单" name="second">
         <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="seconddetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.OrderNO}}</span>
-            <span class="list-status">{{item.status}}</span>
+            <span>订单号：{{item.OrderNo}}</span>
+            <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+            <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+            <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
             <img :src="item.Logo" class="body-img">
@@ -75,7 +77,7 @@
           </div>
         </div>
         <div class="block" v-if="!detail">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
         <div v-if="detail">
@@ -84,7 +86,7 @@
               <p class="detail-title">订单信息</p>
               <div class="Infobox">
                 <label class="info-title">订单号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.OrderNo}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">信贷经理：</label>
@@ -92,30 +94,32 @@
               </div>
               <div class="Infobox">
                 <label class="info-title">银行名：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.LoanName}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">创建时间：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CreateTime}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">订单状态：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Type=='0'">申请中</span>
+                <span v-if="Info.Type=='1'">已通过</span>
+                <span v-if="Info.Type=='2'">未通过</span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <p class="detail-title">用户信息</p>
               <div class="Infobox">
                 <label class="info-title">姓名：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.name}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">证件：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.IDcard}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">电话：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Phone}}</span>
               </div>
             </el-col>
           </el-row>
@@ -130,19 +134,23 @@
         <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="thirddetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNO}}</span>
-            <span class="list-status">{{item.status | type}}</span>
+            <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+            <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+            <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
             <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
               <br/>
-              <span class="grey">{{item.text}}</span>
+              <span class="grey" v-if="item.Status == 0">房屋贷款</span>
+              <span class="grey" v-if="item.Status == 1">车辆贷款</span>
+              <span class="grey" v-if="item.Status ==2">信用贷款</span>
             </div>
           </div>
         </div>
         <div class="block" v-if="!detail">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
         <div v-if="detail">
@@ -155,70 +163,79 @@
               </div>
               <div class="Infobox">
                 <label class="info-title">手机号：</label>
-                <span>{{Info.Name}}</span>
-              </div>
-              <div class="Infobox">
-                <label class="info-title">申请金额：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Phone}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">订单号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.OrderNO}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">审贷银行：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Bnak}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">审贷类型：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Status == 0">房屋贷款</span>
+                <span v-if="Info.Status == 1">车辆贷款</span>
+                <span v-if="Info.Status ==2">信用贷款</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">创建时间：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CreateTime}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">审核状态：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Type=='0'">申请中</span>
+                <span v-if="Info.Type=='1'">已通过</span>
+                <span v-if="Info.Type=='2'">未通过</span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <p class="detail-title">审贷信息</p>
               <div class="Infobox">
                 <label class="info-title">申请金额：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Price}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">身份证号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.IDCard}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">职业身份：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Professional == 1">民营</span>
+                <span v-if="Info.Professional == 2">国企</span>
+                <span v-if="Info.Professional == 3">机关</span>
+                <span v-if="Info.Professional == 4">事业</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">月收入：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Professional == 1">六千到一万</span>
+                <span v-if="Info.Professional == 2">一万以上</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">有无本地社保：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.socialsecurity == 1">有</span>
+                <span v-if="Info.socialsecurity == 2">无</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">有无公积金：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Accumulationfund == 1">有</span>
+                <span v-if="Info.Accumulationfund == 2">无</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">芝麻信用分：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.ZhiM == 1">600以下</span>
+                <span v-if="Info.ZhiM == 2">600以上</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">微粒贷款额度：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.WeiL == 1">3-5W</span>
+                <span v-if="Info.WeiL == 2">5W以上</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">是否商业保险：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Businessinsurance == 1">是</span>
+                <span v-if="Info.Businessinsurance == 2">否</span>
               </div>
             </el-col>
           </el-row>
@@ -227,35 +244,45 @@
               <p class="detail-title">房产信息</p>
               <div class="Infobox">
                 <label class="info-title">名下房产类型：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.HouseType == 1">商品房</span>
+                <span v-if="Info.HouseType == 2">拆迁房</span>
+                <span v-if="Info.HouseType == 3">自建房</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">房产所在位置：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.HousePlace == 1">户口当地</span>
+                <span v-if="Info.HousePlace == 2">现工作地</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">是否主贷人：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.IsSelf == 1">是</span>
+                <span v-if="Info.IsSelf == 2">否</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">房产月供时长：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.MonthHouse == 1">10年</span>
+                <span v-if="Info.MonthHouse == 2">15年</span>
+                <span v-if="Info.MonthHouse == 3">20年</span>
+                <span v-if="Info.MonthHouse == 4">30年</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">房产月供金额：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.MonthHousePrice == 1">3千到6千</span>
+                <span v-if="Info.MonthHousePrice == 2">8千以上</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">名下是否有车：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.IshaveCar == 1">是</span>
+                <span v-if="Info.IshaveCar == 2">否</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车牌所在地：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.CarPlace == 1">本地</span>
+                <span v-if="Info.CarPlace == 2">外地</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车辆已使用年限： </label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CarAge}}</span>
               </div>
             </el-col>
           </el-row>
@@ -266,10 +293,12 @@
       </el-tab-pane>
 
       <el-tab-pane label="信用卡超市订单" name="fourth">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="fourthdetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNO}}</span>
-            <span class="list-status">{{item.status}}</span>
+            <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+            <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+            <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
             <img :src="item.Logo" class="body-img">
@@ -279,7 +308,7 @@
           </div>
         </div>
         <div class="block" v-if="!detail">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
         <div v-if="detail">
@@ -288,15 +317,15 @@
               <p class="detail-title">订单信息</p>
               <div class="Infobox">
                 <label class="info-title">订单号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.OrderNo}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">银行名称：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.BankName}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">创建时间：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CreateTime}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">订单状态：</label>
@@ -346,7 +375,7 @@
           </div>
         </div>
         <div class="block" v-if="!detail">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
         <div v-if="detail">
@@ -464,7 +493,18 @@
     },
     methods: {
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
+        if (this.activeName == "first") {
+          this.first()
+        } else if (this.activeName == "second") {
+          this.second()
+        } else if (this.activeName == "third") {
+          this.third()
+        } else if (this.activeName == "fourth") {
+          this.fourth()
+        } else if (this.activeName == "fiveth") {
+          this.fiveth()
+        }
       },
       first() {
         const loading = this.$loading({
@@ -680,9 +720,9 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .get("api/Web_UserInfo/GRManagerDDXq", {
+          .get("api/Web_UserInfo/GRBankLoanDDDetail", {
             params: {
-              Order: id,
+              BankApplyID: id,
             }
           })
           .then(
@@ -762,9 +802,9 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .get("api/Web_UserInfo/GRManagerDDXq", {
+          .get("api/Web_UserInfo/CreditDDXQ", {
             params: {
-              Order: id,
+              OrderID: id,
             }
           })
           .then(
@@ -893,24 +933,24 @@
         }
       }
     },
-    filters:{
-      status(value){
-        if(value == -1){
+    filters: {
+      status(value) {
+        if (value == -1) {
           return value = "未提交"
-        }else if(value == 0){
+        } else if (value == 0) {
           return value = "申请中"
-        }else if(value == 1){
+        } else if (value == 1) {
           return value = "已通过"
-        }else if(value == 2){
+        } else if (value == 2) {
           return value = "未通过"
         }
       },
-      type(value){
-        if(value == 0){
+      type(value) {
+        if (value == 0) {
           return value = "房屋贷款"
-        }else if(value == 1){
+        } else if (value == 1) {
           return value = "车辆贷款"
-        }else if(value == 2){
+        } else if (value == 2) {
           return value = "信用贷款"
         }
       }

@@ -13,9 +13,11 @@
             <div class="body">
               <p class="card-money">{{item.Price}}</p>
               <p class="card-title">最高额度</p>
-              <el-tag v-for="item in item.tag" :key="item">
-                {{item}}
-              </el-tag>
+              <div>
+                <el-tag v-for="item in item.tag" :key="item">
+                  {{item}}
+                </el-tag>
+              </div>
               <el-button type="primary" class="card-btn" @click="apply(item.ID)">免费申请</el-button>
             </div>
           </el-card>

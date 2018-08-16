@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h3>实名认证</h3>
-    <el-form ref="form" :model="form" label-width="80px">
+    <!-- <el-form ref="form" :model="form" label-width="80px">
       <el-row>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
           <el-form-item label="姓名">
@@ -30,7 +30,7 @@
     <div class="btnbox">
       <el-button type="primary" @click="onSubmit">保存</el-button>
       <el-button @click="back">返回</el-button>
-    </div>
+    </div> -->
 
   </div>
 </template>

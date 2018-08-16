@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main">
         <div class="user-nav">
-          <img :src="Info.Image" class="user-icon">
+          <img :src="mainurl+Info.Image" class="user-icon">
           <P class="user-name">{{Info.NickName}}</P>
           <div v-for="(item,index) in menulist" :key="index">
             <a @click.stop='navtourl(index,item.path)' :class="{active:current==index}">{{item.name}}</a>
@@ -11,7 +11,7 @@
         </div>
         <!-- 右侧路由信息 -->
         <div class="right">
-          <router-view></router-view>
+          <router-view @changeicon="icon" @changename="name"></router-view>
         </div>
       </div>
     </div>
@@ -24,6 +24,7 @@
       return {
         Info:[],
         iscloseNav: false,
+        mainurl:'',
         current:0,
         menulist:[{
           name:"个人信息",
@@ -50,6 +51,7 @@
       }
     },
     mounted() {
+      this.mainurl = mainurl
       this.getInfo()
       var path = window.location.href;
        if(path.indexOf('User/Order')>0){
@@ -133,6 +135,13 @@
               });
             }.bind(this)
           );
+      },
+      icon(data){//触发子组件城市选择-选择城市的事件
+        this.Info.Image = data;//改变了父组件的值
+        this.$emit('changehomeicon',data);
+      },
+      name(data){
+        this.Info.NickName = data;//改变了父组件的值
       },
       // 个人中心  修改密码
       navtourl(index,path){
