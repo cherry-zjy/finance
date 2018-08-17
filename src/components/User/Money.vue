@@ -3,7 +3,7 @@
     <h3>我的钱包</h3>
     <div class="info">
       <p class="mymoney">
-        <span class="bigtext">{{Money}}</span>元</p>
+        <span class="bigtext">{{Integration}}</span>元</p>
       <el-button type="primary" @click="dialogFormVisible=true" class="withdraw" size="small">申请提现</el-button>
     </div>
     <div class="line"></div>
@@ -11,9 +11,8 @@
     <div class="list" v-for="(item,index) in list" :key="index">
       <p class="title">{{item.Brif}}</p>
       <p class="time">{{item.CreateTime}}</p>
-      <!-- <span class="detail-money red" v-if="item.Price.indexOf('+')!== -1">{{item.Price}}</span> -->
-      <!-- <span class="detail-money green" v-if="item.Price.indexOf('-')!== -1">{{item.Price}}</span> -->
-      <span class="detail-money green">{{item.Price}}</span>
+      <span class="detail-money red" v-if="item.Type == 1">-{{item.Price}}</span>
+      <span class="detail-money green" v-if="item.Type == 0">+{{item.Price}}</span>
     </div>
     <div class="block">
       <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
@@ -44,7 +43,7 @@
     data() {
       return {
         dialogFormVisible: false,
-        Money: 500,
+        Integration:0,
         pageIndex: 1,
         pageCount: 10,
         list: [],
@@ -74,6 +73,7 @@
     },
     mounted: function () {
       this.getInfo()
+      this.getMoney()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -127,6 +127,45 @@
             }.bind(this)
           );
       },
+      getMoney() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GetUserMessage", {
+            params: {
+              Token: getCookie("token"),
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.Integration = response.data.Result.Integration
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -155,6 +194,7 @@
                       type: "success",
                       message: response.data.Result
                     });
+                    this.dialogFormVisible = false
                   } else {
                     this.$message({
                       showClose: true,
