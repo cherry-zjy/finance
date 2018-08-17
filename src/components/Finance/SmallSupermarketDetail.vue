@@ -8,14 +8,13 @@
           <p>申请人数：{{list.NumOfPeople}}人</p>
           <p>可借贷款：{{list.Quota}}</p>
           <p>借款期限：{{list.LoanTime}}天</p>
-          <p>平均办理时间：{{list.AverageTime}}</p>
+          <p>平均办理时间：{{list.AverageTime}}天</p>
         </div>
         <div class="dark">
           <h4>申请条件</h4>
-          <p>年龄要求：{{list.AgeRequirt}}</p>
-          <p>资质要求：{{list.ZZRequirt}}</p>
-          <p>身份要求：{{list.IDRequirt}}</p>
-          <p>所需材料：{{list.CLRequirt}}</p>
+          <div v-for="(item,index) in rule" :key="index">
+          <p>{{item.Content}}：{{item.Title}}</p>
+          </div>
           <h4>费用说明</h4>
           <p>贷款金额：{{list.LoanPrice}}元</p>
           <p>贷款期限：{{list.Day}}天</p>
@@ -24,7 +23,7 @@
         </div>
         <div class="dark bottom">
           <h4>如何快速申请</h4>
-          <div class="detail"></div>
+          <div class="detail" v-html="decodeURIComponent(ApplyIntroduce)"></div>
           <el-button type="primary" size="small" @click="apply()">立即申请</el-button>
         </div>
 
@@ -38,7 +37,9 @@
   export default {
     data() {
       return {
-        list: []
+        list: [],
+        rule:[],
+        ApplyIntroduce:''
       }
     },
     mounted: function () {
@@ -75,7 +76,8 @@
               if (status === 1) {
                 this.list = response.data.Result;
                 this.pageCount = response.data.Result.page;
-                $("#detail").html(decodeURIComponent(response.data.Result.ApplyIntroduce))
+                this.rule = response.data.Result.Requirt;
+                this.ApplyIntroduce = response.data.Result.ApplyIntroduce
               } else {
                 this.$message({
                   showClose: true,
@@ -208,8 +210,9 @@
   }
 
   .logo {
-    width: 50px;
-    height: 50px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
   }

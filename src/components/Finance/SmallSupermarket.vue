@@ -25,7 +25,7 @@
       </el-row>
       <!-- 分页 -->
       <div class="block">
-        <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+        <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
         </el-pagination>
       </div>
     </div>
@@ -38,7 +38,7 @@
       return {
         list: [],
         pageIndex: 1,
-        pageCount: 10,
+        pageCount: 1,
       }
     },
     computed: {
@@ -102,7 +102,7 @@
       },
       // 分页
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
         this.getInfo();
       },
     }
@@ -147,9 +147,10 @@
     vertical-align: middle;
   }
 
-  .img.header-icon {
+  img.header-icon {
     width: 48px;
     height: 48px;
+    border-radius: 50%
   }
 
   .body {

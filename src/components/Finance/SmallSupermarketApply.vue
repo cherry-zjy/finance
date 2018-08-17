@@ -66,7 +66,16 @@
             required: true,
             message: '请输入验证码',
             trigger: 'blur'
-          }, ],
+          }, {
+            validator: (rule, value, callback) => {
+              if (/^\d+$/.test(value) == false) {
+                callback(new Error("请输入数字"));
+              } else {
+                callback();
+              }
+            },
+            trigger: 'blur'
+          }],
           type: [{
             type: 'array',
             required: true,
