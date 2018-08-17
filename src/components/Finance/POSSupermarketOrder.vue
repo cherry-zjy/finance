@@ -182,14 +182,28 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .post("api/Web_POSMarket/POSDD?Token=" + getCookie("token") + "&prodID=" + window.location.href.split("id=")[
-            1].split("&")[0] + "&count=" + window.location.href.split("num=")[1], )
+          .get("api/Web_POSMarket/POSDD", {
+            params: {
+              prodID: location.href.split("id=")[1].split("&")[0],
+              count: window.location.href.split("num=")[1],
+              Token: getCookie("token")
+            }
+          })
           .then(
             function (response) {
               loading.close();
               var status = response.data.Status;
               if (status === 1) {
-
+                // this.$message({
+                //   showClose: true,
+                //   type: "success",
+                //   message: response.data.Result
+                // });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Finance/POSSupermarketSubmitOrder/id="+response.data.Result
+                  });
+                }, 1500);
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -198,10 +212,11 @@
                 });
                 setTimeout(() => {
                   this.$router.push({
-                    path: "/Login"
+                    path: "/login"
                   });
                 }, 1500);
               } else {
+                loading.close();
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -213,6 +228,7 @@
           // 请求error
           .catch(
             function (error) {
+              console.log(error)
               loading.close();
               this.$notify.error({
                 title: "错误",
@@ -220,7 +236,6 @@
               });
             }.bind(this)
           );
-        // this.$router.push("/Finance/POSSupermarketSubmitOrder/id=" + window.location.href.split("id=")[1]);
       },
       handleChange(value) {
         this.form.city = this.form.selectedOptions[0];

@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="block">
-      <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+      <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
     <el-dialog title="新增地址" :visible.sync="dialogFormVisible" center>

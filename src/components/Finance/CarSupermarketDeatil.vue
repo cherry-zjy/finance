@@ -184,7 +184,7 @@
           }, {
             validator: (rule, value, callback) => {
               if (/^\d+$/.test(value) == false) {
-                callback(new Error("只能输入数字"));
+                callback(new Error("请输入数字"));
               } else {
                 callback();
               }
@@ -195,7 +195,7 @@
             required: true,
             message: '请输入发动机号码',
             trigger: 'blur'
-          }, ],
+          }],
           Price: [{
             required: true,
             message: '请输入新车发票价',
@@ -203,7 +203,7 @@
           }, {
             validator: (rule, value, callback) => {
               if (/^\d+$/.test(value) == false) {
-                callback(new Error("只能输入数字"));
+                callback(new Error("请输入数字"));
               } else {
                 callback();
               }
