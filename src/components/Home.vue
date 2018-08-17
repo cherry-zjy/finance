@@ -11,55 +11,24 @@
     </h3>
     <div class="container">
       <el-row :gutter="10">
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
+        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item,index) in list" :key="index">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <img src="../../static/img/touxiang.png" class="header-icon">
-              <span class="header-icon">宜人贷</span>
+              <img :src="mainurl+item.Logo" class="header-icon row-img">
+              <span class="header-icon">{{item.Name}}</span>
             </div>
             <div class="body">
-              <p class="card-money">10000</p>
+              <p class="card-money">{{item.Price}}</p>
               <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
+              <div>
+                <el-tag v-for="item in item.tag" :key="item">
+                  {{item}}
+                </el-tag>
+              </div>
               <el-button type="primary" class="card-btn">免费申请</el-button>
             </div>
           </el-card>
         </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <img src="../../static/img/touxiang.png" class="header-icon">
-              <span class="header-icon">宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8">
-          <el-card class="box-card" shadow="hover">
-            <div class="header">
-              <img src="../../static/img/touxiang.png" class="header-icon">
-              <span class="header-icon">宜人贷</span>
-            </div>
-            <div class="body">
-              <p class="card-money">10000</p>
-              <p class="card-title">最高额度</p>
-              <el-tag v-for="tag in tags" :key="tag.name">
-                {{tag.name}}
-              </el-tag>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
-            </div>
-          </el-card>
-        </el-col>
-        
       </el-row>
     </div>
     <div class="dark">
@@ -150,28 +119,14 @@
     data() {
       return {
         bannerlist: [],
-        tags: [{
-            name: '标签一'
-          },
-          {
-            name: '标签二'
-          },
-          {
-            name: '标签三'
-          },
-          {
-            name: '标签四'
-          },
-          {
-            name: '标签五'
-          }
-        ],
+        list:[],
         mainurl:''
       }
     },
     mounted() {
       this.mainurl = mainurl;
       this.getInfo();
+      this.getsSmall()
     },
     methods:{
       getInfo() {
@@ -205,6 +160,58 @@
               });
             }.bind(this)
           );
+      },
+      getsSmall() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_SmailMarket/AmountLis", {
+            params: {
+              pageIndex: 1,
+              pageSize: 6,
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                for (var i = 0; i < this.list.length; i++) {
+                  this.list[i].tag = new Array()
+                  this.list[i].tag = this.list[i].Condition.split(",");
+                }
+                this.Imgresize()
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      Imgresize() {
+        // window.onresize = function () {
+        //   $(".row-img").css("height", $(".row-img").width() * 1.5)
+        // }
+        // $(".row-img").css("height", $(".row-img").width() * 1.5)
       },
     }
   }
@@ -261,6 +268,11 @@
   }
   .header-icon{
     vertical-align: middle;
+  }
+  .row-img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
   }
 
   .body {
