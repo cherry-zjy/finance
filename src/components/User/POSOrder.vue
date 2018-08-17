@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="block" v-if="!detail">
-        <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+        <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
         </el-pagination>
       </div>
       <div v-if="detail">
@@ -163,7 +163,8 @@
           );
       },
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
+        this.getInfo()
       },
       listdetail(id) {
         const loading = this.$loading({

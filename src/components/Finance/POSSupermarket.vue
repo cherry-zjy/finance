@@ -14,7 +14,7 @@
       </el-row>
       <!-- 分页 -->
       <div class="block">
-        <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+        <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
         </el-pagination>
       </div>
     </div>
@@ -96,7 +96,7 @@
       },
       // 分页
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
         this.getInfo();
       },
     }

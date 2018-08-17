@@ -12,7 +12,7 @@
         <p class="tip">*温馨提示：填写的资料越多，通过申请的机率越高</p>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
               <el-form-item label="金额">
                 <el-select v-model="ruleForm.Price" placeholder="请选择金额">
                   <el-option label="5—20万" value="1"></el-option>
@@ -72,7 +72,7 @@
             </el-form>
           </el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
               <el-form-item label="名下是否有车">
                 <el-select v-model="ruleForm.IshaveCar" placeholder="请选择名下是否有车">
                   <el-option label="有" value="1"></el-option>
@@ -85,7 +85,7 @@
                   <el-option label="外地" value="2"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="车辆使用年限（年）">
+              <el-form-item label="车辆使用年限（年）" prop="CarAge">
                 <el-input v-model="ruleForm.CarAge"></el-input>
               </el-form-item>
             </el-form>
@@ -93,7 +93,7 @@
         </el-row>
         <el-row :gutter="20">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm two">
+            <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm two">
               <el-form-item label="有无本地社保">
                 <el-select v-model="ruleForm.socialsecurity" placeholder="请选择有无本地社保">
                   <el-option label="有" value="1"></el-option>
@@ -124,7 +124,7 @@
                   <el-option label="无" value="2"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item prop="type" class="type" style="margin-left:-100px">
+              <el-form-item prop="type" class="type" style="margin-left:-140px">
                 <el-checkbox-group v-model="ruleForm.type">
                   <el-checkbox label="阅读并同意《金融联盟服务协议》" name="type"></el-checkbox>
                 </el-checkbox-group>
@@ -163,7 +163,7 @@
         </div>
         <!-- 分页 -->
         <div class="block">
-          <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+          <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
 
@@ -201,6 +201,19 @@
             message: '请先阅读并同意《金融联盟服务协议》',
             trigger: 'change'
           }],
+          CarAge: [{
+            validator: (rule, value, callback) => {
+              if (value == "") {
+                callback();
+              } else if (/^\d+$/.test(value) == false) {
+                callback(new Error("请输入数字"));
+              } else {
+                callback();
+              }
+            },
+            required: false,
+            trigger: 'blur'
+          }],
         },
         pageIndex: 1,
         pageCount: 10,
@@ -223,7 +236,7 @@
         this.$router.push("/Finance/BankLoanApplyfirst/id=" + window.location.href.split("id=")[1]);
       },
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
         this.getInfo();
       },
       submitForm(formName) {
@@ -365,24 +378,24 @@
             "api/Web_BankLoan/BankApply",
             qs.stringify({
               Token: getCookie("token"),
-                  Price: this.ruleForm.Price,
-                  IDCard: this.ruleForm.IDCard,
-                  Professional: this.ruleForm.Professional,
-                  SalaryType: this.ruleForm.SalaryType,
-                  HouseType: this.ruleForm.HouseType,
-                  HousePlace: this.ruleForm.HousePlace,
-                  IsSelf: this.ruleForm.IsSelf,
-                  MonthHouse: this.ruleForm.MonthHouse,
-                  MonthHousePrice: this.ruleForm.MonthHousePrice,
-                  IshaveCar: this.ruleForm.IshaveCar,
-                  CarPlace: this.ruleForm.CarPlace,
-                  CarAge: this.ruleForm.CarAge,
-                  socialsecurity: this.ruleForm.socialsecurity,
-                  Accumulationfund: this.ruleForm.Accumulationfund,
-                  ZhiM: this.ruleForm.ZhiM,
-                  WeiL: this.ruleForm.WeiL,
-                  Businessinsurance: this.ruleForm.Businessinsurance,
-                  BankLoanID: window.location.href.split("id=")[1],
+              Price: this.ruleForm.Price,
+              IDCard: this.ruleForm.IDCard,
+              Professional: this.ruleForm.Professional,
+              SalaryType: this.ruleForm.SalaryType,
+              HouseType: this.ruleForm.HouseType,
+              HousePlace: this.ruleForm.HousePlace,
+              IsSelf: this.ruleForm.IsSelf,
+              MonthHouse: this.ruleForm.MonthHouse,
+              MonthHousePrice: this.ruleForm.MonthHousePrice,
+              IshaveCar: this.ruleForm.IshaveCar,
+              CarPlace: this.ruleForm.CarPlace,
+              CarAge: this.ruleForm.CarAge,
+              socialsecurity: this.ruleForm.socialsecurity,
+              Accumulationfund: this.ruleForm.Accumulationfund,
+              ZhiM: this.ruleForm.ZhiM,
+              WeiL: this.ruleForm.WeiL,
+              Businessinsurance: this.ruleForm.Businessinsurance,
+              BankLoanID: window.location.href.split("id=")[1],
             })
           )
           .then(

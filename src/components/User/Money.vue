@@ -15,7 +15,7 @@
       <span class="detail-money green" v-if="item.Type == 0">+{{item.Price}}</span>
     </div>
     <div class="block">
-      <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
+      <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
     <el-dialog title="申请提现" :visible.sync="dialogFormVisible" center>
@@ -221,7 +221,8 @@
         });
       },
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
+        this.getInfo()
       },
       gotodetail() {
         this.detail = true
