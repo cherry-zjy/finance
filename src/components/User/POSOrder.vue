@@ -1,14 +1,16 @@
 <template>
   <div id="app">
-    <h3>个人信息</h3>
+    <h3>POS超市订单</h3>
     <div class="box">
       <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="listdetail(item.ID)">
         <div class="header">
           <span>订单号：{{item.OrderNO}}</span>
-          <span class="list-status">{{item.Type |Type}}</span>
+          <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+          <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+          <span class="list-status red" v-if="item.Type=='2'">未通过</span>
         </div>
         <div class="body">
-          <img src="../../../static/img/manager.png" class="body-img">
+          <img :src="mainurl+item.Image" class="body-img">
           <div class="body-text">
             <span>{{item.Name}}</span>
             <br/>
@@ -30,7 +32,7 @@
             </div>
             <div class="Infobox">
               <label class="info-title">用户昵称：</label>
-              <span>{{Info.Name}}</span>
+              <span>{{Info.NicName}}</span>
             </div>
             <div class="Infobox">
               <label class="info-title">手机号：</label>
@@ -69,15 +71,15 @@
             </div>
             <div class="Infobox">
               <label class="info-title">收货联系电话：</label>
-              <span>{{Info.Name}}</span>
+              <span>{{Info.DeliveryPhone}}</span>
             </div>
             <div class="Infobox">
               <label class="info-title">收货地址：</label>
-              <span>{{Info.Name}}</span>
+              <span>{{Info.Adress}}</span>
             </div>
             <div class="Infobox">
               <label class="info-title">物流订单：</label>
-              <span>{{Info.Name}}</span>
+              <span>{{Info.LogisticsNo}}</span>
             </div>
           </el-col>
         </el-row>
@@ -97,6 +99,7 @@
         Info: {
           Name: '1111'
         },
+        mainurl:'',
         detail: false,
         pageIndex: 1,
         pageCount: 10,
@@ -104,6 +107,7 @@
     },
     mounted: function () {
       this.getInfo()
+      this.mainurl = mainurl
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -128,7 +132,7 @@
               Token: getCookie("token"),
               pageIndex: this.pageIndex,
               pageSize: 3,
-              type:0
+              type: 0
             }
           })
           .then(
@@ -161,7 +165,7 @@
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
       },
-      listdetail(id){
+      listdetail(id) {
         const loading = this.$loading({
           lock: true,
           text: "Loading",
@@ -171,7 +175,7 @@
         this.$http
           .get("api/Web_UserInfo/GRPODListXq", {
             params: {
-              ID:id
+              ID: id
             }
           })
           .then(
@@ -202,13 +206,13 @@
           );
       }
     },
-    filters:{
-      Type(value){
-        if(value == 0){
+    filters: {
+      Type(value) {
+        if (value == 0) {
           return value = "申请中"
-        }else if(value == 1){
+        } else if (value == 1) {
           return value = "待发货"
-        }else if(value == 2){
+        } else if (value == 2) {
           return value = "待收货"
         }
       }
@@ -304,6 +308,17 @@
 
   .detail-title {
     color: #CEAA70;
+  }
+  .yellow {
+    color: #CEAA70
+  }
+
+  .green {
+    color: #4EC424
+  }
+
+  .red {
+    color: #FF2736
   }
 
 </style>

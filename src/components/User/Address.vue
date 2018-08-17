@@ -3,18 +3,18 @@
     <h3>
       收货地址
       <span>
-        <i class="el-icon-circle-plus" @click="dialogFormVisible=true">新增地址</i>
+        <i class="el-icon-circle-plus" @click="dialogFormVisible=true;form = []">新增地址</i>
       </span>
     </h3>
     <div class="box">
       <div class="list" v-for="(item,index) in list" :key="index">
         <p>收货人：{{item.Name}}</p>
         <p>联系方式：{{item.Phone}}</p>
-        <p>收货地址：{{item.Address}}</p>
+        <p>收货地址：{{item.Province+item.City+item.Region+item.Address}}</p>
         <div class="btnbox">
-          <span @click="dialogFormVisible2=true">修改</span>|
-          <span>删除</span>
-          <el-button type="primary" size="small">默认地址</el-button>
+          <span @click="handleEdit(index)">修改</span>|
+          <span @click="del(item.ID)">删除</span>
+          <el-button type="primary" size="small" v-if="!item.IsDefault" @click="moren(item.ID)">默认地址</el-button>
         </div>
       </div>
     </div>
@@ -25,50 +25,50 @@
     <el-dialog title="新增地址" :visible.sync="dialogFormVisible" center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="所在地：" prop="selectedOptions">
-          <el-cascader :options="CityInfo" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+          <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
             @change="handleChange">
           </el-cascader>
           <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
         </el-form-item>
-        <el-form-item label="详细地址：" prop="address">
-          <el-input type="textarea" v-model="form.address"></el-input>
+        <el-form-item label="详细地址：" prop="Address">
+          <el-input type="textarea" v-model="form.Address"></el-input>
         </el-form-item>
-        <el-form-item label="收货人：" prop="name">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="收货人：" prop="Name">
+          <el-input v-model="form.Name"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式：" prop="phone">
-          <el-input v-model="form.phone"></el-input>
+        <el-form-item label="联系方式：" prop="Phone">
+          <el-input v-model="form.Phone"></el-input>
         </el-form-item>
         <el-form-item prop="type">
-          <el-checkbox-group v-model="form.type">
+          <el-checkbox-group v-model="form.Type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+        <el-button type="primary" @click="addsubmitForm('form')">确 定</el-button>
       </div>
     </el-dialog>
     <el-dialog title="修改地址" :visible.sync="dialogFormVisible2" center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="所在地：" prop="selectedOptions">
-          <el-cascader :options="CityInfo" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+          <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
             @change="handleChange">
           </el-cascader>
           <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
         </el-form-item>
-        <el-form-item label="详细地址：" prop="address">
-          <el-input type="textarea" v-model="form.address"></el-input>
+        <el-form-item label="详细地址：" prop="Address">
+          <el-input type="textarea" v-model="form.Address"></el-input>
         </el-form-item>
-        <el-form-item label="收货人：" prop="name">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="收货人：" prop="Name">
+          <el-input v-model="form.Name"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式：" prop="phone">
-          <el-input v-model="form.phone"></el-input>
+        <el-form-item label="联系方式：" prop="Phone">
+          <el-input v-model="form.Phone"></el-input>
         </el-form-item>
         <el-form-item prop="type">
-          <el-checkbox-group v-model="form.type">
+          <el-checkbox-group v-model="form.Type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -82,12 +82,11 @@
 </template>
 
 <script>
+  import qs from "qs";
   export default {
     data() {
       var checkselecte = (rule, value, callback) => {
         console.log(this.form.city)
-        console.log(this.form.erae)
-        console.log(this.form.minerae)
         if (this.form.city == '' || this.form.city == undefined) {
           callback(new Error("请选择省"));
         } else if (this.form.erae == '' || this.form.erae == undefined) {
@@ -99,40 +98,30 @@
         }
       };
       return {
-        list: [{
-          Name: '张三',
-          Phone: '18258773565',
-          Address: '浙江省杭州市凯鑫大道1000号'
-        }, {
-          Name: '张三',
-          Phone: '18258773565',
-          Address: '浙江省杭州市凯鑫大道1000号'
-        }, {
-          Name: '张三',
-          Phone: '18258773565',
-          Address: '浙江省杭州市凯鑫大道1000号'
-        }],
+        list: [],
         form: {
           city: '',
           erae: '',
           minerae: '',
           selectedOptions: [], //地区筛选数组
-          address: '',
-          name: '',
-          phone: ''
+          Address: '',
+          Name: '',
+          Phone: '',
+          Type: false
         },
+        editform: {},
         rules: {
-          name: [{
+          Name: [{
             required: true,
             message: '请输入收货人',
             trigger: 'blur'
           }, ],
-          phone: [{
+          Phone: [{
             required: true,
             message: '请输入联系电话',
             trigger: 'blur'
           }, ],
-          address: [{
+          Address: [{
             required: true,
             message: '请输入详细地址',
             trigger: 'blur'
@@ -140,20 +129,19 @@
           selectedOptions: [{
             type: 'array',
             required: true,
-            trigger: 'change',
+            // trigger: 'change',
             validator: checkselecte
           }],
         },
         pageIndex: 1,
         pageCount: 10,
         dialogFormVisible: false,
-        dialogFormVisible2:false,
-        /*数据源*/
-        CityInfo: [], //地区数据
+        dialogFormVisible2: false,
+        Address: [],
       }
     },
     mounted: function () {
-      this.CityInfo = CityInfo;
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -165,44 +153,459 @@
       }
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserAddress/GetListByPage", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.Data;
+                this.pageCount = response.data.Result.page
+                this.getAdd()
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      getAdd() {
+        this.$http
+          .get("api/Web_UserInfo/GetProvinceCityRegion", {})
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                for (var i = 0; i < response.data.Result.length; i++) {
+                  this.Address[i] = {
+                    label: response.data.Result[i].ProvinceName,
+                    value: response.data.Result[i].ProvinceID,
+                    children: []
+                  }
+                  for (var y = 0; y < response.data.Result[i].City.length; y++) {
+                    var arr = {
+                      label: response.data.Result[i].City[y].CityName,
+                      value: response.data.Result[i].City[y].CityID,
+                      children: []
+                    }
+                    this.Address[i].children.push(arr)
+                    for (var z = 0; z < response.data.Result[i].City[y].Region.length; z++) {
+                      var arr2 = {
+                        label: response.data.Result[i].City[y].Region[z].RegionName,
+                        value: response.data.Result[i].City[y].Region[z].RegionID,
+                      }
+                      this.Address[i].children[y].children.push(arr2)
+                    }
+                  }
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      handleEdit(index) {
+        this.dialogFormVisible2 = true
+        this.form = this.list[index]
+        this.form.city = this.list[index].Province
+        this.form.erae = this.list[index].City
+        this.form.minerae = this.list[index].Region
+        this.form.type = this.list[index].IsDefault
+        this.addfilters(this.list[index].Province, this.list[index].City,
+          this.list[index].Region)
+      },
+      addfilters(Province, City, Region) {
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            for (var i in this.Address[y].children[z].children) {
+              if (this.Address[y].children[z].children[i].label == Region && Region != undefined) {
+                // this.InfoAddress = this.Address[y].label + this.Address[y].children[z].label + this.Address[y].children[
+                //   z].children[i].label
+                this.editform.ProvinceID = this.Address[y].value
+                this.editform.CityID = this.Address[y].children[z].value
+                this.editform.RegionID = this.Address[y].children[z].children[i].value
+              }
+            }
+          }
+        }
+        this.form.selectedOptions = [this.editform.ProvinceID, this.editform.CityID,
+          this.editform.RegionID
+        ]
+      },
       handleCurrentChange(val) {
-        this.filters.pageIndex = val;
+        this.pageIndex = val;
+        this.getInfo()
       },
       handleChange(value) {
         this.form.city = this.form.selectedOptions[0];
         this.form.erae = this.form.selectedOptions[1]
         this.form.minerae = this.form.selectedOptions[2]
       },
-    },
-    filters: {
+      addsubmitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_UserAddress/Add",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  name: this.form.Name,
+                  phone: this.form.Phone,
+                  address: this.form.Address,
+                  isDefaul: this.form.Type ? 1 : 0,
+                  provice: this.myAddressCity(this.form.city),
+                  city: this.myAddressErae(this.form.erae),
+                  region: this.myAddressMinerae(this.form.minerae),
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                    this.getInfo()
+                    this.dialogFormVisible = false
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      submitForm(formName) {
+        this.form.city = this.form.selectedOptions[0];
+        this.form.erae = this.form.selectedOptions[1]
+        this.form.minerae = this.form.selectedOptions[2]
+        console.log(this.myAddressCity(this.form.city))
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_UserAddress/Edit",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  AddressID: this.form.ID,
+                  name: this.form.Name,
+                  phone: this.form.Phone,
+                  address: this.form.Address,
+                  isDefaul: this.form.Type ? 1 : 0,
+                  provice: this.myAddressCity(this.form.city),
+                  city: this.myAddressErae(this.form.erae),
+                  region: this.myAddressMinerae(this.form.minerae),
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                    this.getInfo()
+                    this.dialogFormVisible2 = false
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      moren(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserAddress/SetDefault", {
+            params: {
+              Token: getCookie("token"),
+              ID: id
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.$message({
+                  showClose: true,
+                  type: "success",
+                  message: response.data.Result
+                });
+                this.getInfo()
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      del(id){
+        this.$confirm('确认删除该地址?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserAddress/Del", {
+            params: {
+              Token: getCookie("token"),
+              ID: id
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.$message({
+                  showClose: true,
+                  type: "success",
+                  message: response.data.Result
+                });
+                this.getInfo()
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
+      },
       myAddressCity(value) {
-        for (var y in CityInfo) {
-          if (CityInfo[y].value == value) {
-            return value = CityInfo[y].label
+        for (var y in this.Address) {
+          if (this.Address[y].value == value) {
+            return value = this.Address[y].label
           }
         }
       },
       myAddressErae(value) {
-        for (var y in CityInfo) {
-          for (var z in CityInfo[y].children) {
-            if (CityInfo[y].children[z].value == value && value != undefined) {
-              return value = CityInfo[y].children[z].label;
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            if (this.Address[y].children[z].value == value && value != undefined) {
+              return value = this.Address[y].children[z].label;
             }
           }
         }
       },
       myAddressMinerae(value) {
-        for (var y in CityInfo) {
-          for (var z in CityInfo[y].children) {
-            for (var i in CityInfo[y].children[z].children) {
-              if (CityInfo[y].children[z].children[i].value == value && value != undefined) {
-                return value = CityInfo[y].children[z].children[i].label
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            for (var i in this.Address[y].children[z].children) {
+              if (this.Address[y].children[z].children[i].value == value && value != undefined) {
+                return value = this.Address[y].children[z].children[i].label
               }
             }
           }
         }
-      }
-    }
+      },
+    },
+
   }
 
 </script>

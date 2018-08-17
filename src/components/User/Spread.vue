@@ -4,20 +4,20 @@
     <h3 v-if="detail">推广管理详情页</h3>
     <el-row :gutter="10" v-if="!detail">
       <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item,index) in list" :key="index">
-        <div class="list-box" @click="gotodetail()">
-          <img :src="item.img" class="row-img">
-          <p>{{item.Name}}</p>
+        <div class="list-box" @click="gotodetail(index)">
+          <img :src="item.Image" class="row-img">
+          <p>{{item.Title}}</p>
         </div>
       </el-col>
-      
+
     </el-row>
     <div class="block" v-if="!detail">
       <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
     <div v-if="detail" class="detail">
-      <img src="../../../static/img/insets.png" class="detail-img">
-      <p>海报</p>
+      <img :src="Info.Image" class="detail-img">
+      <p>{{Info.Title}}</p>
       <div class="sharebox">
         <p class="share">分享至</p>
         <img src="../../../static/img/sharewechat.png">
@@ -35,31 +35,18 @@
     data() {
       return {
         detail: false,
-        list: [{
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }, {
-          img: '../../../static/img/insets.png',
-          Name: '海报'
-        }],
+        list: [],
+        Info: [],
         pageIndex: 1,
-        pageCount: 10,
+        pageCount: 1,
       }
     },
     mounted: function () {
+      this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
+    },
+    updated() {
+      this.Imgresize()
     },
     beforeDestroy: function () {
       document.body.removeAttribute("class", "add_bg");
@@ -70,12 +57,137 @@
       }
     },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/GetPosterList", {
+            params: {
+              pageIndex: this.pageIndex,
+              pageSize: 6
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result.list;
+                this.pageCount = response.data.Result.page
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       handleCurrentChange(val) {
         this.filters.pageIndex = val;
       },
-      gotodetail() {
-        this.detail = true
-      }
+      gotodetail(index) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserInfo/PersionalInformation", {
+            params: {
+              Token: getCookie("token"),
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                if (response.data.Result) {
+                  this.Info = this.list[index]
+                  this.detail = true
+                } else {
+                  this.$confirm('您还没有完善个人信息哦?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                  }).then(() => {
+                    this.Info = this.list[index]
+                    this.detail = true
+                  }).catch(() => {
+                    this.Info = this.list[index]
+                    this.detail = true
+                  });
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+
+      },
+      Imgresize() {
+        window.onresize = function () {
+          $(".row-img").css("height", $(".row-img").width() * 1.5)
+        }
+        $(".row-img").css("height", $(".row-img").width() * 1.5)
+      },
     }
   }
 
@@ -132,15 +244,21 @@
     font-weight: 600;
   }
 
+  .detail-img {
+    max-width: 100%;
+  }
+
   .sharebox img {
     width: 60px;
     height: 60px;
     cursor: pointer;
   }
-  .btnbox{
+
+  .btnbox {
     margin-top: 20px;
     margin-bottom: 20px;
   }
+
   .block {
     text-align: center;
     margin-top: 20px;

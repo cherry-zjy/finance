@@ -2,7 +2,7 @@
   <div id="app">
     <h3 >专属推荐人</h3>
     <div class="info">
-      <img :src="list.Image" class="icon">
+      <img :src="mainurl+list.Image" class="icon">
       <p>姓名：{{list.Name}}</p>
       <p>推荐码：{{list.InviteCode}}</p>
       <p>级别：{{list.Level}}</p>
@@ -11,7 +11,7 @@
     </div>
     <div class="tip">
       <p class="tip-tltle">温馨提示</p>
-      <p class="tip-connect">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</p>
+      <p class="tip-connect" v-html="decodeURIComponent(list.Tips)"></p>
     </div>
   </div>
 </template>
@@ -20,10 +20,12 @@
   export default {
     data() {
       return {
-        list:[]
+        list:[],
+        mainurl:''
       }
     },
     mounted: function () {
+      this.mainurl = mainurl
       this.getInfo()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
