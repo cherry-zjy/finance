@@ -2,7 +2,7 @@
   <div id="app">
     <h3>POS超市订单</h3>
     <div class="box">
-      <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="listdetail(item.ID)">
+      <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail&&list.length>0" @click="listdetail(item.ID)">
         <div class="header">
           <span>订单号：{{item.OrderNO}}</span>
           <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
@@ -18,10 +18,13 @@
           </div>
         </div>
       </div>
-      <div class="block" v-if="!detail">
+      <div class="block" v-if="!detail&&list.length>0">
         <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
         </el-pagination>
       </div>
+      <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
+        </div>
       <div v-if="detail">
         <el-row>
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">

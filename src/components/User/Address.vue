@@ -7,7 +7,7 @@
       </span>
     </h3>
     <div class="box">
-      <div class="list" v-for="(item,index) in list" :key="index">
+      <div class="list" v-for="(item,index) in list" :key="index" v-if="list.length>0">
         <p>收货人：{{item.Name}}</p>
         <p>联系方式：{{item.Phone}}</p>
         <p>收货地址：{{item.Province+item.City+item.Region+item.Address}}</p>
@@ -17,6 +17,9 @@
           <el-button type="primary" size="small" v-if="!item.IsDefault" @click="moren(item.ID)">默认地址</el-button>
         </div>
       </div>
+      <div v-if="list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
+        </div>
     </div>
     <div class="block">
       <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">

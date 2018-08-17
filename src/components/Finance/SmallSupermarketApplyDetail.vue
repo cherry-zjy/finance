@@ -160,10 +160,14 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .post(
-            "api/Web_SmailMarket/EditAmountSq?AgreeProtocol=" + true + "&LoanOrderID=" + this.LoanOrderID + "&Token=" +
-            getCookie("token") + "&Code=" + this.form.code,
-          )
+          .get("api/Web_SmailMarket/EditAmountSq", {
+            params: {
+              AgreeProtocol: true,
+              LoanOrderID: this.LoanOrderID,
+              Token: getCookie("token"),
+              Code:this.form.code
+            }
+          })
           .then(
             function (response) {
               loading.close();
@@ -174,7 +178,6 @@
                   type: "success",
                   message: response.data.Result
                 });
-                this.dialogFormVisible = false
               } else {
                 this.$message({
                   showClose: true,
@@ -184,6 +187,7 @@
               }
             }.bind(this)
           )
+          // 请求error
           .catch(
             function (error) {
               loading.close();

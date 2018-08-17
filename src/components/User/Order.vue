@@ -4,7 +4,7 @@
     <h3 v-if="detail">银行审贷订单</h3>
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="小额超市订单" name="first">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="firstdetail(item.ID)">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail&&list.length>0" @click="firstdetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNo}}</span>
             <span class="list-status yellow" v-if="item.Type=='-1'">未提交</span>
@@ -16,14 +16,15 @@
             <img :src="item.Logo" class="body-img">
             <div class="body-text">
               <span>{{item.Name}}</span>
-              <!-- <br/> -->
-              <!-- <span class="grey">{{item.text}}</span> -->
             </div>
           </div>
         </div>
-        <div class="block" v-if="!detail">
+        <div class="block" v-if="!detail&&list.length>0">
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
+        </div>
+        <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
         </div>
         <div v-if="detail">
           <p class="detail-title">订单信息</p>
@@ -62,7 +63,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="信贷经理超市订单" name="second">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="seconddetail(item.ID)">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail&&list.length>0" @click="seconddetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNo}}</span>
             <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
@@ -76,9 +77,12 @@
             </div>
           </div>
         </div>
-        <div class="block" v-if="!detail">
+        <div class="block" v-if="!detail&&list.length>0">
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
+        </div>
+        <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
         </div>
         <div v-if="detail">
           <el-row>
@@ -131,7 +135,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="银行审贷订单" name="third">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="thirddetail(item.ID)">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail&&list.length>0" @click="thirddetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNO}}</span>
             <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
@@ -149,9 +153,12 @@
             </div>
           </div>
         </div>
-        <div class="block" v-if="!detail">
+        <div class="block" v-if="!detail&&list.length>0">
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
+        </div>
+        <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
         </div>
         <div v-if="detail">
           <el-row>
@@ -311,6 +318,9 @@
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
+        <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
+        </div>
         <div v-if="detail">
           <el-row>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
@@ -362,7 +372,7 @@
       </el-tab-pane>
 
       <el-tab-pane label="车险超市订单" name="fiveth">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="fivethdetail(item.ID)">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail&&list.length>0" @click="fivethdetail(item.ID)">
           <div class="header">
             <span>订单号：{{item.OrderNo}}</span>
             <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
@@ -376,9 +386,12 @@
             </div>
           </div>
         </div>
-        <div class="block" v-if="!detail">
+        <div class="block" v-if="!detail&&list.length>0">
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
+        </div>
+        <div v-if="!detail&&list.length==0" class="text-center">
+          <img src="../../../static/img/kong.png">
         </div>
         <div v-if="detail">
           <el-row>
