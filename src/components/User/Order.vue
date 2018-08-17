@@ -295,7 +295,7 @@
       <el-tab-pane label="信用卡超市订单" name="fourth">
         <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="fourthdetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.OrderNO}}</span>
+            <span>订单号：{{item.OrderNo}}</span>
             <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
             <span class="list-status green" v-if="item.Type=='1'">已通过</span>
             <span class="list-status red" v-if="item.Type=='2'">未通过</span>
@@ -329,7 +329,9 @@
               </div>
               <div class="Infobox">
                 <label class="info-title">订单状态：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Type=='0'">申请中</span>
+                <span v-if="Info.Type=='1'">已通过</span>
+                <span v-if="Info.Type=='2'">未通过</span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
@@ -340,15 +342,15 @@
               </div>
               <div class="Infobox">
                 <label class="info-title">证件：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.IDcard}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">电话：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Phone}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">所在地：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Adress}}</span>
               </div>
             </el-col>
           </el-row>
@@ -360,17 +362,17 @@
       </el-tab-pane>
 
       <el-tab-pane label="车险超市订单" name="fiveth">
-        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="detail=true">
+        <div v-for="(item,index) in list" :key="index" class="list" v-if="!detail" @click="fivethdetail(item.ID)">
           <div class="header">
-            <span>订单号：{{item.OrderNO}}</span>
-            <span class="list-status">{{item.status}}</span>
+            <span>订单号：{{item.OrderNo}}</span>
+            <span class="list-status yellow" v-if="item.Type=='0'">申请中</span>
+            <span class="list-status green" v-if="item.Type=='1'">已通过</span>
+            <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
-            <img :src="item.Logo" class="body-img">
+            <img src="../../../static/img/ca_insurance.png" class="body-img">
             <div class="body-text">
-              <span>{{item.Name}}</span>
-              <br/>
-              <span class="grey">{{item.text}}</span>
+              <span>{{item.Title}}</span>
             </div>
           </div>
         </div>
@@ -384,77 +386,95 @@
               <p class="detail-title">房产信息</p>
               <div class="Infobox">
                 <label class="info-title">证件类型：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.LicenseType == 1">身份证</span>
+                <span v-if="Info.LicenseType == 2">户口本驾驶证</span>
+                <span v-if="Info.LicenseType == 3">军官证/士兵证</span>
+                <span v-if="Info.LicenseType == 4">护照</span>
+                <span v-if="Info.LicenseType == 5">港澳回乡证/台胞证</span>
+                <span v-if="Info.LicenseType == 6">组织代码证</span>
+                <span v-if="Info.LicenseType == 7">其他证件</span>
+                <span v-if="Info.LicenseType == 8">社会信用代码</span>
+                <span v-if="Info.LicenseType == 9">税务登记证</span>
+                <span v-if="Info.LicenseType == 10">营业执照</span>
+                <span v-if="Info.LicenseType == 11">香港身份证</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">证件号码：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CertificatesNumber}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车辆初登日期：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CarTime}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车辆识别代号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.TrueLicense}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">发动机号码：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.EngineNumber}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">品牌类型:</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Carbrand}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">核定载人数:</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.PeopleNumber}}</span>
               </div>
               <div class="Infobox">
-                <label class="info-title">新车发票价: </label>
-                <span>{{Info.Name}}</span>
+                <label class="info-title">新车发票价: </label>1 2 3
+                <span>{{Info.Price}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车辆所属性质: </label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.CarType == 1">个人用车</span>
+                <span v-if="Info.CarType == 2">企业用车</span>
+                <span v-if="Info.CarType == 3">企业团队用车</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车辆使用性质：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.UserCarType == 1">出租租凭营业客车</span>
+                <span v-if="Info.UserCarType == 2">城市公交营业客车</span>
+                <span v-if="Info.UserCarType == 3">公路客运营业客车</span>
+                <span v-if="Info.UserCarType == 4">旅游营业客车</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">是否过户车：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.IsPass">是</span>
+                <span v-if="Info.IsPass">否</span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
               <p class="detail-title">订单信息</p>
               <div class="Infobox">
                 <label class="info-title">订单号：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.OrderNo}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">创建时间：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CreateTime}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">订单状态：</label>
-                <span>{{Info.Name}}</span>
+                <span v-if="Info.Type=='0'">申请中</span>
+                <span v-if="Info.Type=='1'">已通过</span>
+                <span v-if="Info.Type=='2'">未通过</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">地区：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.Province}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">证件：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CarLicense}}</span>
               </div>
               <div class="Infobox">
                 <label class="info-title">车主：</label>
-                <span>{{Info.Name}}</span>
+                <span>{{Info.CarMaster}}</span>
               </div>
               <p class="detail-title">驾驶证</p>
-              <img src="../../../static/img/vehicle_license.png" class="drivecard">
+              <img :src="Info.CarImage1" class="drivecard">
             </el-col>
           </el-row>
           <div class="btnbox">
@@ -886,7 +906,7 @@
         this.$http
           .get("api/Web_UserInfo/GRCreditXq", {
             params: {
-              Order: id,
+              CarOrderID: id,
             }
           })
           .then(
