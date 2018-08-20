@@ -3,15 +3,25 @@
     <div class="container">
       <div class="main">
         <h3>收货地址</h3>
-        <div class="dark">
-          <div>收货地址：杨女士</div>
-          <div>联系方式：12345678910</div>
-          <div>收货地址：浙江省杭州市杭州大道1500号</div>
+        <div class="dark" v-if="Default.length!==0&&addlist.length!==0">
+          <div>收货地址：{{Default.Name}}</div>
+          <div>联系方式：{{Default.Phone}}</div>
+          <div>收货地址：{{Default.Province+Default.City+Default.Region+Default.Address}}</div>
           <div class="btnbox">
-            <el-button size="small" @click="dialogFormVisible=true">修改地址</el-button>
+            <el-button size="small" @click="handleEdit()">修改地址</el-button>
             <br/>
-            <el-button type="primary" size="small" @click="dialogFormVisible1=true">更换地址</el-button>
+            <el-button type="primary" size="small" @click="change()">更换地址</el-button>
           </div>
+        </div>
+        <div class="dark text-center" v-if="addlist.length!==0&&Default.length==0">
+          <img src="../../../static/img/kong.png">
+          <br/>
+          <el-button type="primary" size="small" @click="change()">选择地址</el-button>
+        </div>
+        <div class="dark text-center" v-if="addlist.length==0">
+          <img src="../../../static/img/kong.png">
+          <br/>
+          <el-button type="primary" size="small" @click="dialogFormVisible=true;form = []">新增地址</el-button>
         </div>
       </div>
       <div class="main">
@@ -20,76 +30,104 @@
           <el-table :data="tableData" style="width: 100%" height="250">
             <el-table-column label="商品信息" width="300">
               <template slot-scope="scope">
-                <img src="../../../static/img/product_small.png" class="pro-img" />
-                <span>pos机pos机pos机pos机pos机pos机pos机pos机 pos机pos机</span>
+                <img :src="scope.row.Image" class="pro-img" />
+                <span>{{scope.row.ShopName}}</span>
               </template>
             </el-table-column>
-            <el-table-column prop="price" label="商品单价">
+            <el-table-column prop="Subtotal" label="商品单价">
             </el-table-column>
-            <el-table-column prop="number" label="数量">
+            <el-table-column prop="Count" label="数量">
             </el-table-column>
             <el-table-column label="实付款">
               <template slot-scope="scope">
-                <span style="color:#FF2736">{{scope.row.pay}}</span>
+                <span style="color:#FF2736">{{scope.row.Total}}</span>
               </template>
             </el-table-column>
           </el-table>
           <div class="right">
             <div>
               <label class="value">商品单价：</label>
-              <div>￥20.00</div>
+              <div>￥{{tableData[0].Subtotal}}</div>
             </div>
             <div>
               <label class="value">商品件数：</label>
-              <div>1件</div>
+              <div>{{tableData[0].Count}}件</div>
             </div>
             <div>
               <label class="value pay">实付款：</label>
-              <div class="pay">￥20.00</div>
+              <div class="pay">￥{{tableData[0].Total}}</div>
             </div>
             <el-button type="primary" size="small" @click="submit()">提交订单</el-button>
           </div>
         </div>
       </div>
     </div>
-    <el-dialog title="修改地址" :visible.sync="dialogFormVisible" center>
+    <el-dialog title="更换地址" :visible.sync="dialogFormVisible1" center>
+      <div v-for="(item,index) in addlist" :key="index" class="card">
+        <P>收货人：{{item.Name}}</P>
+        <P>联系方式：{{item.Phone}}</P>
+        <P>收货地址：{{item.Province+item.City+item.Region}}</P>
+        <img src="../../../static/img/tick.png" class="tick-img" v-if="tick == index">
+        <img src="../../../static/img/tick_no.png" class="tick-img" v-if="tick !== index" @click="tick = index">
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="changeadd()">确 定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog title="新增地址" :visible.sync="dialogFormVisible" center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="所在地：" prop="selectedOptions">
-          <el-cascader :options="CityInfo" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+          <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
             @change="handleChange">
           </el-cascader>
           <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
         </el-form-item>
-        <el-form-item label="详细地址：" prop="address">
-          <el-input type="textarea" v-model="form.address"></el-input>
+        <el-form-item label="详细地址：" prop="Address">
+          <el-input type="textarea" v-model="form.Address"></el-input>
         </el-form-item>
-        <el-form-item label="收货人：" prop="name">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="收货人：" prop="Name">
+          <el-input v-model="form.Name"></el-input>
         </el-form-item>
-        <el-form-item label="联系方式：" prop="phone">
-          <el-input v-model="form.phone"></el-input>
+        <el-form-item label="联系方式：" prop="Phone">
+          <el-input v-model="form.Phone"></el-input>
         </el-form-item>
         <el-form-item prop="type">
-          <el-checkbox-group v-model="form.type">
+          <el-checkbox-group v-model="form.Type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="submitForm('form')">确 定</el-button>
+        <el-button type="primary" @click="addsubmitForm('form')">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="更换地址" :visible.sync="dialogFormVisible1" center>
-      <div v-for="(item,index) in 3" :key="index" class="card">
-        <P>收货人：张三</P>
-        <P>联系方式：15812455678</P>
-        <P>收货地址：浙江省杭州市航海区7幢504号</P>
-        <img src="../../../static/img/tick.png" class="tick-img" v-if="tick == index">
-        <img src="../../../static/img/tick_no.png" class="tick-img" v-if="tick !== index" @click="tick = index">
-      </div>
+    <el-dialog title="修改地址" :visible.sync="dialogFormVisible2" center>
+      <el-form ref="form" :rules="rules" :model="form" label-width="100px">
+        <el-form-item label="所在地：" prop="selectedOptions">
+          <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
+            @change="handleChange">
+          </el-cascader>
+          <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
+        </el-form-item>
+        <el-form-item label="详细地址：" prop="Address">
+          <el-input type="textarea" v-model="form.Address"></el-input>
+        </el-form-item>
+        <el-form-item label="收货人：" prop="Name">
+          <el-input v-model="form.Name"></el-input>
+        </el-form-item>
+        <el-form-item label="联系方式：" prop="Phone">
+          <el-input v-model="form.Phone"></el-input>
+        </el-form-item>
+        <el-form-item prop="type">
+          <el-checkbox-group v-model="form.Type">
+            <el-checkbox label="设置默认地址" name="type"></el-checkbox>
+          </el-checkbox-group>
+        </el-form-item>
+      </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button @click="dialogFormVisible2 = false">取 消</el-button>
         <el-button type="primary" @click="submitForm('form')">确 定</el-button>
       </div>
     </el-dialog>
@@ -115,40 +153,37 @@
         }
       };
       return {
-        choose: 0,
-        checked: true,
-        num1: 1,
-        tick: 0,
-        tableData: [{
-          price: '￥68',
-          number: 1,
-          pay: '￥68',
-        }],
+        tick: '',
+        tableData: [], //商品信息
+        Default: [], //收货信息（默认）
+        Address: [], //省市区数据源
+        addlist: [], //收货地址（全部）
         dialogFormVisible: false,
         dialogFormVisible1: false,
-        /*数据源*/
-        CityInfo: [], //地区数据
+        dialogFormVisible2: false,
         form: {
           city: '',
           erae: '',
           minerae: '',
           selectedOptions: [], //地区筛选数组
-          address: '',
-          name: '',
-          phone: ''
+          Address: '',
+          Name: '',
+          Phone: '',
+          Type: false
         },
+        editform: {},
         rules: {
-          name: [{
+          Name: [{
             required: true,
             message: '请输入收货人',
             trigger: 'blur'
           }, ],
-          phone: [{
+          Phone: [{
             required: true,
             message: '请输入联系电话',
             trigger: 'blur'
           }, ],
-          address: [{
+          Address: [{
             required: true,
             message: '请输入详细地址',
             trigger: 'blur'
@@ -156,14 +191,15 @@
           selectedOptions: [{
             type: 'array',
             required: true,
-            trigger: 'change',
+            // trigger: 'change',
             validator: checkselecte
           }],
-        }
+        },
       }
     },
     mounted: function () {
-      this.CityInfo = CityInfo;
+      this.getMsg()
+      this.getAdd()
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -173,8 +209,7 @@
 
     },
     methods: {
-      handleChange(index) {},
-      submit() {
+      getMsg() {
         const loading = this.$loading({
           lock: true,
           text: "Loading",
@@ -182,11 +217,9 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .get("api/Web_POSMarket/POSDD", {
+          .get("api/Web_POSMarket/GeneratingPosOrder", {
             params: {
               prodID: location.href.split("id=")[1].split("&")[0],
-              count: window.location.href.split("num=")[1],
-              Token: getCookie("token")
             }
           })
           .then(
@@ -194,16 +227,10 @@
               loading.close();
               var status = response.data.Status;
               if (status === 1) {
-                // this.$message({
-                //   showClose: true,
-                //   type: "success",
-                //   message: response.data.Result
-                // });
-                setTimeout(() => {
-                  this.$router.push({
-                    path: "/Finance/POSSupermarketSubmitOrder/id="+response.data.Result
-                  });
-                }, 1500);
+                this.tableData = []
+                this.tableData.push(response.data.Result)
+                this.getInfo(response.data.Result.AddressID)
+                // this.Default = response.data.Result
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -237,51 +264,470 @@
             }.bind(this)
           );
       },
-      handleChange(value) {
+      getInfo(id) {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_UserAddress/GetListByPage", {
+            params: {
+              Token: getCookie("token"),
+              pageIndex: this.pageIndex
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.addlist = response.data.Result.Data;
+                for (let i = 0; i < response.data.Result.Data.length; i++) {
+                  if (response.data.Result.Data[i].ID == id) {
+                    this.Default = response.data.Result.Data[i]
+                  }
+                }
+                console.log(this.Default)
+                // this.getAdd()
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      getAdd() {
+        this.$http
+          .get("api/Web_UserInfo/GetProvinceCityRegion", {})
+          .then(
+            function (response) {
+              var status = response.data.Status;
+              if (status === 1) {
+                for (var i = 0; i < response.data.Result.length; i++) {
+                  this.Address[i] = {
+                    label: response.data.Result[i].ProvinceName,
+                    value: response.data.Result[i].ProvinceID,
+                    children: []
+                  }
+                  for (var y = 0; y < response.data.Result[i].City.length; y++) {
+                    var arr = {
+                      label: response.data.Result[i].City[y].CityName,
+                      value: response.data.Result[i].City[y].CityID,
+                      children: []
+                    }
+                    this.Address[i].children.push(arr)
+                    for (var z = 0; z < response.data.Result[i].City[y].Region.length; z++) {
+                      var arr2 = {
+                        label: response.data.Result[i].City[y].Region[z].RegionName,
+                        value: response.data.Result[i].City[y].Region[z].RegionID,
+                      }
+                      this.Address[i].children[y].children.push(arr2)
+                    }
+                  }
+                }
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      handleEdit() {
+        this.dialogFormVisible2 = true
+        this.form = this.Default
+        this.form.city = this.Default.Province
+        this.form.erae = this.Default.City
+        this.form.minerae = this.Default.Region
+        this.form.type = this.Default.IsDefault
+        this.addfilters(this.Default.Province, this.Default.City,
+          this.Default.Region)
+      },
+      addfilters(Province, City, Region) {
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            for (var i in this.Address[y].children[z].children) {
+              if (this.Address[y].children[z].children[i].label == Region && Region != undefined) {
+                this.editform.ProvinceID = this.Address[y].value
+                this.editform.CityID = this.Address[y].children[z].value
+                this.editform.RegionID = this.Address[y].children[z].children[i].value
+              }
+            }
+          }
+        }
+        this.form.selectedOptions = [this.editform.ProvinceID, this.editform.CityID,
+          this.editform.RegionID
+        ]
+      },
+      submitForm(formName) {
         this.form.city = this.form.selectedOptions[0];
         this.form.erae = this.form.selectedOptions[1]
         this.form.minerae = this.form.selectedOptions[2]
-      },
-      submitForm(formName) {
+        console.log(this.myAddressCity(this.form.city))
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_UserAddress/Edit",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  AddressID: this.form.ID,
+                  name: this.form.Name,
+                  phone: this.form.Phone,
+                  address: this.form.Address,
+                  isDefaul: this.form.Type ? 1 : 0,
+                  provice: this.myAddressCity(this.form.city),
+                  city: this.myAddressErae(this.form.erae),
+                  region: this.myAddressMinerae(this.form.minerae),
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                    this.getInfo()
+                    this.dialogFormVisible2 = false
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
           } else {
             console.log('error submit!!');
             return false;
           }
         });
       },
-    },
-    filters: {
+      // 新增地址
+      addsubmitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            const loading = this.$loading({
+              lock: true,
+              text: "Loading",
+              spinner: "el-icon-loading",
+              background: "rgba(0, 0, 0, 0.7)"
+            });
+            this.$http
+              .post(
+                "api/Web_UserAddress/Add",
+                qs.stringify({
+                  Token: getCookie("token"),
+                  name: this.form.Name,
+                  phone: this.form.Phone,
+                  address: this.form.Address,
+                  isDefaul: this.form.Type ? 1 : 0,
+                  provice: this.myAddressCity(this.form.city),
+                  city: this.myAddressErae(this.form.erae),
+                  region: this.myAddressMinerae(this.form.minerae),
+                })
+              )
+              .then(
+                function (response) {
+                  loading.close();
+                  var status = response.data.Status;
+                  if (status === 1) {
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: response.data.Result
+                    });
+                    this.getMsg()
+                    this.dialogFormVisible = false
+                  } else if (status === 40001) {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                    setTimeout(() => {
+                      this.$router.push({
+                        path: "/Login"
+                      });
+                    }, 1500);
+                  } else {
+                    this.$message({
+                      showClose: true,
+                      type: "warning",
+                      message: response.data.Result
+                    });
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  loading.close();
+                  this.$notify.error({
+                    title: "错误",
+                    message: "错误：请检查网络"
+                  });
+                }.bind(this)
+              );
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      change() {
+        this.dialogFormVisible1 = true
+      },
+      // 更换地址
+      changeadd() {
+        console.log(this.tick)
+        if (this.tick === "") {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: "请选择收货地址"
+          });
+          return;
+        }
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_POSMarket/AccordAddressChangeFreight", {
+            params: {
+              posOrderID: window.location.href.split("id=")[1],
+              addressID: this.addlist[this.tick].ID
+            }
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.dialogFormVisible1 = false
+                this.getMsg()
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      submit() {
+        if(this.Default.length == 0){
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请选择收货地址'
+          });
+          return;
+        }
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .post(
+            "api/Web_POSMarket/PerfectPosOrder",
+            qs.stringify({
+              Token: getCookie("token"),
+              PosOrderID: location.href.split("id=")[1].split("&")[0],
+              Name: this.Default.Name,
+              Phone: this.Default.Phone,
+              Address: this.Default.Province + this.Default.City + this.Default.Region + this.Default.Address,
+              Num: location.href.split("num=")[1]
+            })
+          )
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.$message({
+                  showClose: true,
+                  type: "success",
+                  message: '提交成功'
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Finance/POSSupermarketSubmitOrder/id=" + response.data.Result
+                  });
+                }, 1500);
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/Login"
+                  });
+                }, 1500);
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
+      handleChange(value) {
+        this.form.city = this.form.selectedOptions[0];
+        this.form.erae = this.form.selectedOptions[1]
+        this.form.minerae = this.form.selectedOptions[2]
+      },
       myAddressCity(value) {
-        for (var y in CityInfo) {
-          if (CityInfo[y].value == value) {
-            return value = CityInfo[y].label
+        for (var y in this.Address) {
+          if (this.Address[y].value == value) {
+            return value = this.Address[y].label
           }
         }
       },
       myAddressErae(value) {
-        for (var y in CityInfo) {
-          for (var z in CityInfo[y].children) {
-            if (CityInfo[y].children[z].value == value && value != undefined) {
-              return value = CityInfo[y].children[z].label;
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            if (this.Address[y].children[z].value == value && value != undefined) {
+              return value = this.Address[y].children[z].label;
             }
           }
         }
       },
       myAddressMinerae(value) {
-        for (var y in CityInfo) {
-          for (var z in CityInfo[y].children) {
-            for (var i in CityInfo[y].children[z].children) {
-              if (CityInfo[y].children[z].children[i].value == value && value != undefined) {
-                return value = CityInfo[y].children[z].children[i].label
+        for (var y in this.Address) {
+          for (var z in this.Address[y].children) {
+            for (var i in this.Address[y].children[z].children) {
+              if (this.Address[y].children[z].children[i].value == value && value != undefined) {
+                return value = this.Address[y].children[z].children[i].label
               }
             }
           }
         }
-      }
-    }
+      },
+    },
   }
 
 </script>

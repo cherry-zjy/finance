@@ -14,6 +14,8 @@ Vue.prototype.$http = axios;
 
 Vue.config.productionTip = false
 axios.defaults.baseURL = 'http://192.168.1.106/ZYJF/';
+// axios.defaults.baseURL = 'http://zyjf.nbxuanma.com/';
+
 
 /* eslint-disable no-new */
 new Vue({

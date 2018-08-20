@@ -99,7 +99,60 @@
       handleChange(index) {},
       apply(id) {
         if (getCookie("token")) {
-          this.$router.push("/Finance/POSSupermarketOrder/id=" + window.location.href.split("id=")[1]+"&num="+this.num1);
+          const loading = this.$loading({
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
+          });
+          this.$http
+            .get("api/Web_POSMarket/POSDD", {
+              params: {
+                Token: getCookie("token"),
+                prodID:window.location.href.split("id=")[1],
+                count:this.num1
+              }
+            })
+            .then(
+              function (response) {
+                loading.close();
+                var status = response.data.Status;
+                if (status === 1) {
+                  this.$router.push({
+                      path: "/Finance/POSSupermarketOrder/id="+response.data.Result+"&num="+this.num1
+                    });
+                } else if (status === 40001) {
+                  this.$message({
+                    showClose: true,
+                    type: "warning",
+                    message: response.data.Result
+                  });
+                  setTimeout(() => {
+                    this.$router.push({
+                      path: "/login"
+                    });
+                  }, 1500);
+                } else {
+                  loading.close();
+                  this.$message({
+                    showClose: true,
+                    type: "warning",
+                    message: response.data.Result
+                  });
+                }
+              }.bind(this)
+            )
+            // 请求error
+            .catch(
+              function (error) {
+                console.log(error)
+                loading.close();
+                this.$notify.error({
+                  title: "错误",
+                  message: "错误：请检查网络"
+                });
+              }.bind(this)
+            );
         } else {
           this.$message({
             showClose: true,
@@ -112,7 +165,6 @@
             });
           }, 1500);
         }
-
       },
     }
   }
