@@ -160,8 +160,8 @@
   }
 
   .step.flex .step-text {
-    margin-left: 5%;
-    text-align: left;
+    margin-right: 42%;
+    text-align: center;
     font-family: MicrosoftYaHei;
     color: rgba(43, 43, 43, 1);
   }

@@ -265,6 +265,17 @@
           );
       },
       getInfo(id) {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         const loading = this.$loading({
           lock: true,
           text: "Loading",
@@ -411,6 +422,17 @@
         ]
       },
       submitForm(formName) {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         this.form.city = this.form.selectedOptions[0];
         this.form.erae = this.form.selectedOptions[1]
         this.form.minerae = this.form.selectedOptions[2]
@@ -487,6 +509,17 @@
       },
       // 新增地址
       addsubmitForm(formName) {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const loading = this.$loading({
@@ -624,7 +657,18 @@
           );
       },
       submit() {
-        if(this.Default.length == 0){
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
+        if (this.Default.length == 0) {
           this.$message({
             showClose: true,
             type: "warning",

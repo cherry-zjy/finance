@@ -172,6 +172,17 @@
         }, 1000)
       },
       submitForm(formName) {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const loading = this.$loading({

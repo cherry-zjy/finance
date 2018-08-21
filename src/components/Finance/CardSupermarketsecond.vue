@@ -80,6 +80,17 @@
     },
     methods: {
       getInfo() {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         const loading = this.$loading({
           lock: true,
           text: "Loading",
@@ -145,6 +156,17 @@
         this.dialogFormVisible = true;
       },
       save() {
+        if (getCookie("token") == undefined) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: '请先登录'
+          });
+          setTimeout(() => {
+            this.$router.push("/Login");
+          }, 1000);
+          return;
+        }
         if (this.form.code == "") {
           this.$message({
             showClose: true,

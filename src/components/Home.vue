@@ -25,7 +25,7 @@
                   {{item}}
                 </el-tag>
               </div>
-              <el-button type="primary" class="card-btn">免费申请</el-button>
+              <el-button type="primary" class="card-btn" @click="apply(item.ID)">免费申请</el-button>
             </div>
           </el-card>
         </el-col>
@@ -206,6 +206,9 @@
               });
             }.bind(this)
           );
+      },
+      apply(id) {
+        this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
       },
       Imgresize() {
         // window.onresize = function () {
