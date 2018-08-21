@@ -110,7 +110,7 @@
           </el-upload>
         </el-col>
         <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-          <p>身份证反面</p> 
+          <p>身份证反面</p>
           <!-- <img src="../../../static/img/reverse.png" class="card-img"> -->
           <el-upload v-model="Info.IDCardImageBack" class="avatar-uploader" :action="action" :show-file-list="false" :on-success="handleAvatarSuccess3"
             :before-upload="beforeAvatarUpload">
@@ -128,16 +128,16 @@
 </template>
 
 <script>
-import qs from "qs";
+  import qs from "qs";
   export default {
-    props:['Info.Image'],
+    props: ['Info.Image'],
     data() {
       return {
         Info: {
-          Image:''
+          Image: ''
         },
         edit: false,
-        isshow:false,
+        isshow: false,
         Address: [],
         InfoAddress: '',
         mainurl: '',
@@ -145,8 +145,8 @@ import qs from "qs";
         imageUrl: '',
         cer: false,
         LogoUrl: '',
-        IDCardImageBackUrl:'',
-        IDCardImageUrl:'',
+        IDCardImageBackUrl: '',
+        IDCardImageUrl: '',
         form: {
           city: '',
           erae: '',
@@ -279,7 +279,7 @@ import qs from "qs";
                 ]
                 this.addfilters(this.Info.ProvinceID, this.Info.CityID,
                   this.Info.RegionID)
-                  
+
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -315,13 +315,13 @@ import qs from "qs";
         this.cer = true
         if (this.Info.IDCardImageBack == '') {
           this.IDCardImageBackUrl = this.Info.IDCardImageBack
-        }else{
-          this.IDCardImageBackUrl = mainurl+this.Info.IDCardImageBack
+        } else {
+          this.IDCardImageBackUrl = mainurl + this.Info.IDCardImageBack
         }
         if (this.Info.IDCardImage == '') {
           this.IDCardImageUrl = this.Info.IDCardImage
-        }else{
-          this.IDCardImageUrl = mainurl+this.Info.IDCardImage
+        } else {
+          this.IDCardImageUrl = mainurl + this.Info.IDCardImage
         }
       },
       myAddressCity(value) {
@@ -394,8 +394,8 @@ import qs from "qs";
                 this.getInfo()
                 this.edit = false
                 this.cer = false
-                this.$emit('changeicon',this.Info.Image);
-                this.$emit('changename',this.Info.NickName);
+                this.$emit('changeicon', this.Info.Image);
+                this.$emit('changename', this.Info.NickName);
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -454,13 +454,13 @@ import qs from "qs";
         this.edit = true
         if (this.Info.Image == '') {
           this.imageUrl = this.Info.Image
-        }else{
-          this.imageUrl = mainurl+this.Info.Image
+        } else {
+          this.imageUrl = mainurl + this.Info.Image
         }
         if (this.Info.Logo == '') {
           this.LogoUrl = this.Info.Logo
-        }else{
-          this.LogoUrl = mainurl+this.Info.Logo
+        } else {
+          this.LogoUrl = mainurl + this.Info.Logo
         }
         this.form.city = this.form.selectedOptions[0];
         this.form.erae = this.form.selectedOptions[1]
@@ -529,7 +529,8 @@ import qs from "qs";
   .Infobox img {
     vertical-align: middle;
   }
-  .idcard-img{
+
+  .idcard-img {
     max-width: 100%;
   }
 
@@ -556,6 +557,20 @@ import qs from "qs";
   .Infobox .el-input {
     display: inline-block;
     width: auto;
+  }
+
+  @media (max-width:768px) {
+    .Infobox .el-input {
+      display: inherit;
+      margin-top: 10px;
+    }
+    .el-radio-group{
+      display: inherit;
+      margin-top: 10px;
+    }
+    .el-cascader{
+      width: 100%;
+    }
   }
 
   .Infobox .el-input input {

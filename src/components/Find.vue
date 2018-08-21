@@ -175,8 +175,8 @@
 
   @media (max-width: 768px) {
     .news-item-avatar {
-      width: 150px;
-      height: 100px;
+      width: 100px;
+      height: 66px;
     }
   }
 

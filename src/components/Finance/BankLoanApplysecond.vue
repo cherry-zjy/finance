@@ -478,14 +478,23 @@
     margin-left: 25%;
     padding-bottom: 50px;
   }
+  .tip {
+    width: 50%;
+    margin-left: 25%;
+    padding-bottom: 50px;
+  }
 
   .text-center {
     padding: 20px 0;
   }
 
   @media (max-width:768px) {
-    .step {
+    .step{
       padding: 100px 0 0 0;
+      width: 90%;
+      margin-left: 5%;
+    }
+    .tip {
       width: 90%;
       margin-left: 5%;
     }
@@ -494,7 +503,6 @@
   .tip {
     text-align: center;
     color: #F9183D;
-    margin: 20px 0;
   }
 
   /* 第三步 */

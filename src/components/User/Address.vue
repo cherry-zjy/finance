@@ -656,10 +656,15 @@
   }
 
   .btnbox {
-    position: absolute;
-    right: 50px;
-    top: 65px;
     color: #CEAA70;
+  }
+
+  @media (min-width:768px) {
+    .btnbox {
+      position: absolute;
+      right: 50px;
+      top: 65px;
+    }
   }
 
   .btnbox button {

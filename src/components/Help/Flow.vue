@@ -121,6 +121,9 @@
     .step.flex {
       flex-basis: 50%;
     }
+    .step.flex .step-text {
+      margin-right: 42%;
+    }
   }
 
   @media (max-width:768px) {
@@ -160,7 +163,6 @@
   }
 
   .step.flex .step-text {
-    margin-right: 42%;
     text-align: center;
     font-family: MicrosoftYaHei;
     color: rgba(43, 43, 43, 1);

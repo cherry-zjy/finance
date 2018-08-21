@@ -1,24 +1,29 @@
-html{
-    width: 100%;
-    margin: 0;
-    height: 100%;
-  }
-  body {
-    position: relative;
-    min-height: 100%;
-    box-sizing: border-box;
-    padding-bottom: 100px;/* 底部导航条 */
-    margin:0;
-    background-color: #fff;
-  }
-  .add_bg{
-    background-color: #f5f5f5;
-  }
-  .login{
-    width: 100%;
-    height: 100%;
-    padding-bottom: 0
-  }
+html {
+  width: 100%;
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  position: relative;
+  min-height: 100%;
+  box-sizing: border-box;
+  padding-bottom: 100px;
+  /* 底部导航条 */
+  margin: 0;
+  background-color: #fff;
+}
+
+.add_bg {
+  background-color: #f5f5f5;
+}
+
+.login {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0
+}
+
 @media (min-width:768px) {
   .navbar-right .dropdown-menu {
     right: 0;
@@ -28,8 +33,16 @@ html{
     right: auto;
     left: 0
   }
+  .el-carousel__container {
+    height: 500px!important;
+  }
 }
 
+@media (max-width:768px) {
+  .el-carousel__container {
+    height: 300px!important;
+  }
+}
 
 .nav {
   padding-left: 0;
@@ -444,6 +457,7 @@ html{
     display: none
   }
 }
+
 @media (max-width:767px) {
   .navbar-nav .open .dropdown-menu {
     position: static;
@@ -858,8 +872,6 @@ fieldset[disabled] .navbar-inverse .btn-link:hover {
   color: #444
 }
 
-
-
 a.list-group-item,
 button.list-group-item {
   color: #555
@@ -883,7 +895,6 @@ button.list-group-item {
   width: 100%;
   text-align: left
 }
-
 
 .list-group-item-success {
   color: #3c763d;
@@ -1021,7 +1032,6 @@ button.list-group-item-danger.active:hover {
   border-color: #a94442
 }
 
-
 .btn-group-vertical>.btn-group:after,
 .btn-group-vertical>.btn-group:before,
 .btn-toolbar:after,
@@ -1078,37 +1088,46 @@ button.list-group-item-danger.active:hover {
 }
 
 .container {
-    margin-right: auto;
-    margin-left: auto;
+  margin-right: auto;
+  margin-left: auto;
 }
+
 @media (max-width: 992px) and (min-width: 768px) {
-    .container {
-      width: 100% !important;
-    }
+  .container {
+    width: 100% !important;
   }
+}
 
-  @media (min-width: 992px) {
-    .container {
-      width: 970px;
-    }
+@media (min-width: 992px) {
+  .container {
+    width: 970px;
   }
+}
 
-  @media (min-width: 1200px) {
-    .container {
-      width: 1170px;
-    }
+@media (min-width: 1200px) {
+  .container {
+    width: 1170px;
   }
+}
+
 .navbar {
   position: relative;
-  min-height: 50px;/**导航条最小宽度为50px**/
-  margin-bottom: 20px;/****/
+  min-height: 50px;
+  /**导航条最小宽度为50px**/
+  margin-bottom: 20px;
+  /****/
   border: 1px solid transparent;
 }
-@media (min-width: 768px) {/**>=768的设备，其实就是pc，移动设备width属性都小于768px**//**可能有很多人不理解，实际上移动端的width属性是以device-width来计量的，不是单纯的像数的概念，建议有疑问的同学自行搜索device-width关键字**/
+
+@media (min-width: 768px) {
+  /**>=768的设备，其实就是pc，移动设备width属性都小于768px**/
+  /**可能有很多人不理解，实际上移动端的width属性是以device-width来计量的，不是单纯的像数的概念，建议有疑问的同学自行搜索device-width关键字**/
   .navbar {
-    border-radius: 4px;/****/
+    border-radius: 4px;
+    /****/
   }
 }
+
 .navbar-default {
   position: fixed;
   z-index: 1999;
@@ -1117,13 +1136,17 @@ button.list-group-item-danger.active:hover {
   border: 0;
   border-radius: 0;
 }
+
 .navbar-fixed-top,
 .navbar-fixed-bottom {
-  position: fixed;/**相对浏览器定位**/
+  position: fixed;
+  /**相对浏览器定位**/
   right: 0;
   left: 0;
-  z-index: 1998;/**样式层叠在上层的优先级**/
+  z-index: 1998;
+  /**样式层叠在上层的优先级**/
 }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1131,16 +1154,20 @@ button.list-group-item-danger.active:hover {
   margin: -1px;
   padding: 0;
   overflow: hidden;
-  clip: rect(0,0,0,0);
+  clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #888;
 }
+
 .navbar-toggle .icon-bar+.icon-bar {
   margin-top: 4px;
 }
+
 /**在pc端显示时向右浮动，在移动端此样式无效**/
+
 @media (min-width: 768px) {
   .navbar-header {
     float: left;
@@ -1150,6 +1177,7 @@ button.list-group-item-danger.active:hover {
 .navbar-toggle:focus {
   outline: 0;
 }
+
 .navbar-brand {
   float: left;
   height: 50px;
@@ -1157,7 +1185,9 @@ button.list-group-item-danger.active:hover {
   font-size: 18px;
   line-height: 20px;
 }
+
 /**由于.navbar-collapse，.navbar-collapse.in，.collapse在（@meida min-width:768px）pc端均有定义，故一下的属性只对移动端有效**/
+
 .navbar-collapse {
   padding-right: 15px;
   padding-left: 15px;
@@ -1165,27 +1195,36 @@ button.list-group-item-danger.active:hover {
   -webkit-overflow-scrolling: touch;
   border-top: 1px solid transparent;
   -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
-          box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
-}
-.navbar-collapse.in {/**点击navbar-header的navbar-toggle的button后， navbar-collapse collapse会被js修改成。navbar-collapse collapse in**/
-  /* overflow-y: auto; */
-}
-.collapse {/**决定了本组件在移动端时不显示**/
-  display: none;/**点击事件发生后将被覆盖**/
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1);
 }
 
- .collapse.in {/**点击事件发生后，以块级元素显示，覆盖掉display：none**/
+.navbar-collapse.in {
+  /**点击navbar-header的navbar-toggle的button后， navbar-collapse collapse会被js修改成。navbar-collapse collapse in**/
+  /* overflow-y: auto; */
+}
+
+.collapse {
+  /**决定了本组件在移动端时不显示**/
+  display: none;
+  /**点击事件发生后将被覆盖**/
+}
+
+.collapse.in {
+  /**点击事件发生后，以块级元素显示，覆盖掉display：none**/
   display: block;
- }
-@media (min-width: 768px) {/**pc端**/
+}
+
+@media (min-width: 768px) {
+  /**pc端**/
   .navbar-collapse {
     width: auto;
     border-top: 0;
     -webkit-box-shadow: none;
-            box-shadow: none;
+    box-shadow: none;
   }
   .navbar-collapse.collapse {
-    display: block !important;/**作为块级显示，由于兄弟节点navbar-header是浮动元素，所以navbar-collapse会占满父元素的宽高**/
+    display: block !important;
+    /**作为块级显示，由于兄弟节点navbar-header是浮动元素，所以navbar-collapse会占满父元素的宽高**/
     height: auto !important;
     padding-bottom: 0;
     overflow: visible !important;
@@ -1200,7 +1239,9 @@ button.list-group-item-danger.active:hover {
     padding-left: 0;
   }
 }
-.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+
+.navbar>.container .navbar-brand,
+.navbar>.container-fluid .navbar-brand {
   margin-left: 10px;
   vertical-align: middle;
   display: inline-block;
@@ -1209,31 +1250,41 @@ button.list-group-item-danger.active:hover {
   padding: 0;
   line-height: inherit;
 }
-.navbar-default .navbar-brand>img, .navbar-inverse .navbar-brand>img {
+
+.navbar-default .navbar-brand>img,
+.navbar-inverse .navbar-brand>img {
   top: auto;
   width: 160px;
   position: relative;
 }
+
 .navbar-header {
   margin-top: 10px;
 }
-.nav:after, .nav:before {
+
+.nav:after,
+.nav:before {
   content: " ";
   display: table;
 }
-.navbar-collapse:after, .navbar-collapse:before {
+
+.navbar-collapse:after,
+.navbar-collapse:before {
   content: " ";
   display: table;
 }
-.text-center>ul>li{
+
+.text-center>ul>li {
   display: inline-block;
   font-size: 14px;
 }
-@media (max-width: 767px){
+
+@media (max-width: 767px) {
   .text-center>ul>li {
     display: block;
+  }
 }
-}
+
 .collapsing {
   position: relative;
   height: 0;
@@ -1248,21 +1299,25 @@ button.list-group-item-danger.active:hover {
   -o-transition-property: height, visibility;
   transition-property: height, visibility
 }
+
 .navbar-nav>li>a {
   padding-top: 10px;
   padding-bottom: 10px;
   line-height: 20px;
 }
+
 .nav>li>a {
   position: relative;
   display: block;
   padding: 16px 19px;
 }
+
 .navbar-nav>li>.dropdown-menu {
   margin-top: 0;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
 .dropdown-menu {
   position: absolute;
   top: 100%;
@@ -1280,11 +1335,12 @@ button.list-group-item-danger.active:hover {
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 1px solid #ccc;
-  border: 1px solid rgba(0,0,0,.15);
+  border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
 }
+
 .dropdown-menu>li>a {
   display: block;
   padding: 5px 20px;
@@ -1295,12 +1351,15 @@ button.list-group-item-danger.active:hover {
   white-space: nowrap;
   cursor: pointer;
 }
+
 .open>.dropdown-menu {
   display: block;
 }
+
 a {
   text-decoration: none;
 }
+
 .caret {
   display: inline-block;
   width: 0;
@@ -1312,19 +1371,22 @@ a {
   border-right: 4px solid transparent;
   border-left: 4px solid transparent;
 }
+
 .navbar-nav {
   margin: 7.5px -15px;
 }
-@media (max-width: 767px){
-.nav {
+
+@media (max-width: 767px) {
+  .nav {
     margin-bottom: 20px;
-}
+  }
 }
 
 .nav {
-    margin-bottom: 0;
-    padding-left: 0;
+  margin-bottom: 0;
+  padding-left: 0;
 }
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -1339,62 +1401,75 @@ a {
 html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0)
 }
+
 .container {
   padding-right: 15px;
   padding-left: 15px;
   margin-right: auto;
   margin-left: auto
 }
-.el-checkbox__input.is-checked+.el-checkbox__label{
+
+.el-checkbox__input.is-checked+.el-checkbox__label {
   color: #606266;
 }
-.el-dialog{
-  width: 40%!important;
+
+.el-dialog {
+  width: 40% !important;
 }
+
 @media (max-width:768px) {
-  .el-dialog{
-    width: 80%!important;
+  .el-dialog {
+    width: 80% !important;
   }
 }
+
 /* 步骤条 */
-.el-step__head.is-finish .el-step__icon.is-text{
+
+.el-step__head.is-finish .el-step__icon.is-text {
   background-color: #CEAA70;
   color: #fff;
   width: 40px;
   height: 40px;
 }
+
 .el-step__head.is-process .el-step__icon.is-text,
-.el-step__head.is-wait .el-step__icon.is-text{
+.el-step__head.is-wait .el-step__icon.is-text {
   background-color: #C9C9C9;
   color: #fff;
   border: unset;
   width: 40px;
   height: 40px;
 }
+
 .el-step.is-horizontal .el-step__line {
-  top: 20px!important;
+  top: 20px !important;
 }
+
 @media (max-width:768px) {
-  .el-date-editor.el-input, .el-date-editor.el-input__inner {
-    width: 100%!important;
+  .el-date-editor.el-input,
+  .el-date-editor.el-input__inner {
+    width: 100% !important;
   }
 }
-.el-select{
-  display: block!important;
+
+.el-select {
+  display: block !important;
 }
-.el-date-editor.el-input, .el-date-editor.el-input__inner{
-  width: 100%!important;
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 100% !important;
 }
-.el-collapse-item__header{
-  background-color: #F5F5F5!important;
+
+.el-collapse-item__header {
+  background-color: #F5F5F5 !important;
   padding: 0 20px;
-  color: #333333!important;
-  font-weight: 600!important;
+  color: #333333 !important;
+  font-weight: 600 !important;
 }
-.el-collapse-item__content{
+
+.el-collapse-item__content {
   padding: 0 20px;
   border: 1px solid #EEEEEE;
-  line-height: 40px!important;
+  line-height: 40px !important;
 }
-
-

@@ -186,8 +186,8 @@
   }
 
   .dark {
-    padding: 50px 20px 10px 20px;
-    margin: 0 30px;
+    padding: 5% 2% 3% 2%;
+    margin: 0 3%;
     color: #666666;
     font-family: MicrosoftYaHei;
   }

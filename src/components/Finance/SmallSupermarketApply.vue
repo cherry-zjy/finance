@@ -289,6 +289,9 @@
     .type {
       margin-left: -100px;
     }
+    #getcode {
+      margin-top: 20px;
+    }
   }
 
   .dark {

@@ -205,6 +205,9 @@
       width: 90%;
       margin-left: 5%;
     }
+    #getcode {
+      margin-top: 20px;
+    }
   }
 
 </style>

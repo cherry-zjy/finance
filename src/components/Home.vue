@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <el-carousel indicator-position="none" arrow="always" height="500px">
+    <el-carousel indicator-position="none" arrow="always">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
         <img :src="mainurl+item.Image" class="banner-img">
       </el-carousel-item>
@@ -347,7 +347,12 @@
     color: rgba(102,102,102,1);
     line-height: 25px;
     margin-top: 50px;
-    padding-bottom: 200px;
   }
+  @media (min-width:768px) {
+    .aboutus{
+      padding-bottom: 200px;
+    }
+  }
+  
 
 </style>
