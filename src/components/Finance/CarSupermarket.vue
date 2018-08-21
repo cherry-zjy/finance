@@ -4,8 +4,9 @@
       <div class="main">
         <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
           <el-form-item label="所在地：" prop="selectedOptions">
+            <i v-if="!isshow" class="el-icon-loading"></i>
             <el-cascader :options="Address" v-model="ruleForm.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
-              @change="handleChange">
+              @change="handleChange" v-if="isshow">
             </el-cascader>
             <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
           </el-form-item>

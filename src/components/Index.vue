@@ -116,7 +116,7 @@
     },
     mounted: function () {
       this.mainurl = mainurl
-      this.getInfo()
+      
       var path = window.location.href;
       if (path.indexOf('Find') > 0) {
         this.linum = 'Find'
@@ -129,8 +129,9 @@
       } else {
         this.linum = 'Home'
       }
-      if (getCookie("token")) {
+      if (getCookie("token") !== undefined) {
         this.login = true
+        this.getInfo()
       } else {
         this.login = false
       }

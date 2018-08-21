@@ -28,8 +28,9 @@
     <el-dialog title="新增地址" :visible.sync="dialogFormVisible" center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="所在地：" prop="selectedOptions">
+          <i v-if="!isshow" class="el-icon-loading"></i>
           <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
-            @change="handleChange">
+            @change="handleChange" v-if="isshow">
           </el-cascader>
           <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
         </el-form-item>
@@ -56,8 +57,9 @@
     <el-dialog title="修改地址" :visible.sync="dialogFormVisible2" center>
       <el-form ref="form" :rules="rules" :model="form" label-width="100px">
         <el-form-item label="所在地：" prop="selectedOptions">
+          <i v-if="!isshow" class="el-icon-loading"></i>
           <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
-            @change="handleChange">
+            @change="handleChange" v-if="isshow">
           </el-cascader>
           <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
         </el-form-item>
@@ -101,6 +103,7 @@
         }
       };
       return {
+        isshow:false,
         list: [],
         form: {
           city: '',
@@ -240,6 +243,7 @@
                     }
                   }
                 }
+                this.isshow = true
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,

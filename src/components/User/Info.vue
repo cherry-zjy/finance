@@ -27,9 +27,10 @@
       </div>
       <div class="Infobox">
         <label class="info-title">所在地：</label>
-        <span v-if="!edit">{{InfoAddress}}</span>
+        <i v-if="!isshow" class="el-icon-loading"></i>
+        <span v-if="!edit&&isshow">{{InfoAddress}}</span>
         <el-cascader :options="Address" v-model="form.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
-          @change="handleChange" v-if="edit">
+          @change="handleChange" v-if="edit&&isshow">
         </el-cascader>
         <!-- <el-input v-model="Info.Address"></el-input> -->
       </div>
@@ -136,6 +137,7 @@ import qs from "qs";
           Image:''
         },
         edit: false,
+        isshow:false,
         Address: [],
         InfoAddress: '',
         mainurl: '',
@@ -277,6 +279,7 @@ import qs from "qs";
                 ]
                 this.addfilters(this.Info.ProvinceID, this.Info.CityID,
                   this.Info.RegionID)
+                  
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -445,6 +448,7 @@ import qs from "qs";
             }
           }
         }
+        this.isshow = true
       },
       handleEdit() {
         this.edit = true

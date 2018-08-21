@@ -17,8 +17,9 @@
             <el-button type="primary" id="getcode">获取验证码</el-button>
           </el-form-item>
           <el-form-item label="所在地：" prop="selectedOptions">
+            <i v-if="!isshow" class="el-icon-loading"></i>
             <el-cascader :options="Address" v-model="ruleForm.selectedOptions" :change-on-select="true" :clearable="true" :filterable="true"
-              @change="handleChange">
+              @change="handleChange" v-if="isshow">
             </el-cascader>
             <!-- <span>所在地：{{form.city | myAddressCity}}{{form.erae|myAddressErae}}{{form.minerae|myAddressMinerae}}</span> -->
           </el-form-item>
@@ -54,6 +55,7 @@
         }
       };
       return {
+        isshow:false,
         ruleForm: {
           Name: '',
           IDCard: '',
@@ -139,6 +141,7 @@
                     this.Address[i].children.push(arr)
                   }
                 }
+                this.isshow = true
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
