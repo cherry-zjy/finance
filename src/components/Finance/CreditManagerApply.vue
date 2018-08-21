@@ -96,7 +96,7 @@
     },
     methods: {
       submitForm(formName) {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",

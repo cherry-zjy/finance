@@ -268,7 +268,7 @@
           );
       },
       getInfo(id) {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",
@@ -426,7 +426,7 @@
         ]
       },
       submitForm(formName) {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",
@@ -513,7 +513,7 @@
       },
       // 新增地址
       addsubmitForm(formName) {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",
@@ -661,7 +661,7 @@
           );
       },
       submit() {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",

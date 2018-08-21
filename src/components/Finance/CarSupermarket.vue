@@ -87,12 +87,6 @@
     },
     methods: {
       getInfo() {
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
-        });
         this.$http
           .get("api/Web_UserInfo/GetProvinceCityRegion", {
             params: {
@@ -102,7 +96,6 @@
           })
           .then(
             function (response) {
-              loading.close();
               var status = response.data.Status;
               if (status === 1) {
                 for (var i = 0; i < response.data.Result.length; i++) {
@@ -143,7 +136,6 @@
           // 请求error
           .catch(
             function (error) {
-              loading.close();
               console.log(error)
               this.$notify.error({
                 title: "错误",
@@ -153,7 +145,7 @@
           );
       },
       submitForm(formName) {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",

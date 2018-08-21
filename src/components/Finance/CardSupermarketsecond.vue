@@ -80,7 +80,7 @@
     },
     methods: {
       getInfo() {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",
@@ -156,7 +156,7 @@
         this.dialogFormVisible = true;
       },
       save() {
-        if (getCookie("token") == undefined) {
+        if (getCookie("token") == undefined || getCookie("token") == null) {
           this.$message({
             showClose: true,
             type: "warning",

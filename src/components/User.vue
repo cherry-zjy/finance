@@ -51,6 +51,19 @@
       }
     },
     mounted() {
+      if (getCookie("token") == undefined || getCookie("token") == null) {
+          this.$message({
+            showClose: true,
+            type: "warning",
+            message: "请先登录"
+          });
+          setTimeout(() => {
+            this.$router.push({
+              path: "/Login"
+            });
+          }, 1500);
+          return;
+        }
       this.mainurl = mainurl
       this.getInfo()
       var path = window.location.href;

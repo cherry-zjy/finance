@@ -110,13 +110,13 @@
       return {
         linum: 'Home',
         login: false,
-        mainurl:'',
-        Info:[]
+        mainurl: '',
+        Info: []
       };
     },
     mounted: function () {
       this.mainurl = mainurl
-      
+
       var path = window.location.href;
       if (path.indexOf('Find') > 0) {
         this.linum = 'Find'
@@ -129,7 +129,8 @@
       } else {
         this.linum = 'Home'
       }
-      if (getCookie("token") !== undefined) {
+      console.log(getCookie("token"))
+      if (getCookie("token") !== undefined && getCookie("token") !== null) {
         this.login = true
         this.getInfo()
       } else {
@@ -182,7 +183,7 @@
             }.bind(this)
           );
       },
-      icon(data){
+      icon(data) {
         this.Info.Image = data;
         this.login = true
       },
