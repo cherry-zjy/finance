@@ -12,7 +12,7 @@
           <el-form-item label="车牌" prop="cp">
             <el-input v-model="ruleForm.cp"></el-input>
             <el-checkbox-group v-model="ruleForm.type" class="switch">
-              <el-checkbox label="未上线" name="type"></el-checkbox>
+              <el-checkbox label="未上牌" name="type"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
 
@@ -42,7 +42,8 @@
         }
       };
       return {
-        Address:[],
+        isshow: false,
+        Address: [],
         ruleForm: {
           city: '',
           erae: '',
@@ -74,6 +75,7 @@
     },
     mounted: function () {
       this.getInfo()
+      this.restaurants = this.loadAll();
       document.getElementsByTagName("body")[0].className = "add_bg";
     },
     beforeDestroy: function () {
@@ -84,6 +86,12 @@
     },
     methods: {
       getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
         this.$http
           .get("api/Web_UserInfo/GetProvinceCityRegion", {
             params: {
@@ -93,6 +101,7 @@
           })
           .then(
             function (response) {
+              loading.close();
               var status = response.data.Status;
               if (status === 1) {
                 for (var i = 0; i < response.data.Result.length; i++) {
@@ -109,6 +118,7 @@
                     this.Address[i].children.push(arr)
                   }
                 }
+                this.isshow = true
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -132,6 +142,7 @@
           // 请求error
           .catch(
             function (error) {
+              loading.close();
               console.log(error)
               this.$notify.error({
                 title: "错误",

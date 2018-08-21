@@ -9,8 +9,8 @@
           <h2 class="card-name">房屋贷款</h2>
           <div class="imgbox">
             <el-row>
-              <el-col :span="6" :gutter="20" v-for="item in 4" :key="item">
-                <img src="../../../static/img/fwdk_icbc.png">
+              <el-col :span="6" :gutter="20" v-for="item in list.House" :key="item">
+                <img :src="item.Logo">
               </el-col>
             </el-row>
           </div>
@@ -20,8 +20,8 @@
           <h2 class="card-name">车辆贷款</h2>
           <div class="imgbox">
             <el-row>
-              <el-col :span="6" :gutter="20" v-for="item in 4" :key="item">
-                <img src="../../../static/img/fwdk_icbc.png">
+              <el-col :span="6" :gutter="20" v-for="item in list.Car" :key="item">
+                <img :src="item.Logo">
               </el-col>
             </el-row>
           </div>
@@ -31,8 +31,8 @@
           <h2 class="card-name">信用贷款</h2>
           <div class="imgbox">
             <el-row>
-              <el-col :span="6" :gutter="20" v-for="item in 4" :key="item">
-                <img src="../../../static/img/fwdk_icbc.png">
+              <el-col :span="6" :gutter="20" v-for="item in list.Credit" :key="item">
+                <img :src="item.Logo">
               </el-col>
             </el-row>
           </div>
@@ -45,12 +45,67 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        list:[]
+      }
     },
     computed: {
 
     },
+    mounted: function () {
+      this.getInfo()
+    },
     methods: {
+      getInfo() {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/Web_BankLoan/Business", {
+            params: {}
+          })
+          .then(
+            function (response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.list = response.data.Result;
+              } else if (status === 40001) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
+              } else {
+                loading.close();
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function (error) {
+              console.log(error)
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      },
       apply(id) {
         this.$router.push("/Finance/BankLoanApplyfirst/id=" + id);
       },
@@ -116,6 +171,7 @@
 
   .imgbox img {
     width: 60%;
+    border-radius: 50%
   }
 
 </style>

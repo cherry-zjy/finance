@@ -147,7 +147,6 @@
     width: 300px;
     height: 200px;
     float: left;
-    border-radius: 50%;
   }
 
   .manager-msg {

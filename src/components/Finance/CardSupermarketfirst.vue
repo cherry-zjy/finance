@@ -214,7 +214,7 @@
                     this.$message({
                       showClose: true,
                       type: "success",
-                      message: response.data.Result
+                      message: '提交成功'
                     });
                     setTimeout(() => {
                       this.$router.push("/Finance/CardSupermarketsecond/id=" + window.location.href.split("id=")[1]);
