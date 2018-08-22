@@ -14,7 +14,7 @@
       <span class="detail-money red" v-if="item.Type == 1">-{{item.Price}}</span>
       <span class="detail-money green" v-if="item.Type == 0">+{{item.Price}}</span>
     </div>
-    <div class="block">
+    <div class="block" v-if="pageCount>0">
       <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
@@ -45,7 +45,7 @@
         dialogFormVisible: false,
         Integration:0,
         pageIndex: 1,
-        pageCount: 10,
+        pageCount: 0,
         list: [],
         form: {
           realName: '',

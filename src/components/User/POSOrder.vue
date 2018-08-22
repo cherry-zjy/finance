@@ -105,7 +105,7 @@
         mainurl:'',
         detail: false,
         pageIndex: 1,
-        pageCount: 10,
+        pageCount: 0,
       }
     },
     mounted: function () {

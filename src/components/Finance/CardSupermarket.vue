@@ -25,7 +25,7 @@
           </div>
         </div>
         <!-- 分页 -->
-        <div class="block">
+        <div class="block" v-if="pageCount>0">
           <el-pagination @current-change="handleCurrentChange" :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
           </el-pagination>
         </div>
@@ -46,7 +46,7 @@
         }],
         list:[],
         pageIndex: 1,
-        pageCount: 10,
+        pageCount: 0,
       }
     },
     mounted: function () {

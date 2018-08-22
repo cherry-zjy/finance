@@ -11,7 +11,7 @@
       </el-col>
 
     </el-row>
-    <div class="block" v-if="!detail">
+    <div class="block" v-if="!detail&&pageCount>0">
       <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
@@ -38,7 +38,7 @@
         list: [],
         Info: [],
         pageIndex: 1,
-        pageCount: 1,
+        pageCount: 0,
       }
     },
     mounted: function () {
