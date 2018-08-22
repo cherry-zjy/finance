@@ -2,7 +2,34 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <div class="step flex" @click="one(0)">
+        <el-row :gutter="10">
+          <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" class="picture">
+            <div @click="one(0)">
+              <img src="../../../static/img/credit_card.png">
+              <div class="step-text">{{list[0].Title}}</div>
+            </div>
+          </el-col>
+          <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="jiantou">
+            <img src="../../../static/img/jiantou.png" class="right">
+          </el-col>
+          <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" class="picture">
+            <div @click="one(1)">
+              <img src="../../../static/img/illegal.png">
+              <div class="step-text">{{list[0].Title}}</div>
+            </div>
+          </el-col>
+          <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="jiantou">
+            <img src="../../../static/img/jiantou.png" class="right">
+          </el-col>
+          <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" @click="one(2)" class="picture">
+            <div @click="one(2)">
+              <img src="../../../static/img/merchants_gathering.png">
+              <div class="step-text">{{list[0].Title}}</div>
+            </div>
+          </el-col>
+        </el-row>
+
+        <!-- <div class="step flex" @click="one(0)">
           <div class="step-main">
             <img src="../../../static/img/credit_card.png">
             <i class="el-icon-arrow-right"></i>
@@ -19,7 +46,7 @@
         <div class="step" @click="one(2)">
           <img src="../../../static/img/merchants_gathering.png">
           <div class="step-text">{{list[2].Title}}</div>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -29,12 +56,12 @@
   export default {
     data() {
       return {
-        list:[{
-          Title:''
-        },{
-          Title:''
-        },{
-          Title:''
+        list: [{
+          Title: ''
+        }, {
+          Title: ''
+        }, {
+          Title: ''
         }]
       }
     },
@@ -59,7 +86,7 @@
         this.$http
           .get("api/Web_UserInfo/GetProcess", {
             params: {
-              type:0,
+              type: 0,
               pageIndex: 1,
               pageSize: 6,
             }
@@ -92,7 +119,7 @@
           );
       },
       one(index) {
-        this.$router.push("/Help/Flowone/id="+index);
+        this.$router.push("/Help/Flowone/id=" + index);
       },
     }
   }
@@ -113,16 +140,28 @@
     cursor: pointer;
   }
 
+  .el-row {
+    width: 100%
+  }
+
+  .el-col {
+    text-align: center
+  }
+
+  .right {
+    margin-top: 40px;
+  }
+
+  @media (max-width:1200px) {
+    .jiantou {
+      display: none
+    }
+  }
+
   @media (min-width:768px) {
     .main {
-      width: 60%;
-      padding: 25% 20%;
-    }
-    .step.flex {
-      flex-basis: 50%;
-    }
-    .step.flex .step-text {
-      margin-right: 42%;
+      width: 70%;
+      padding: 25% 15%;
     }
   }
 
@@ -131,41 +170,15 @@
       width: 100%;
       padding: 25% 0;
     }
-    .step {
-      width: 33%
-    }
-    .step img {
-      max-width: 100%;
-    }
-    .el-icon-arrow-right {
-      display: none;
-    }
   }
 
-  .el-steps--simple {
-    background-color: #fff;
-  }
-
-  .step-main {
-    position: relative;
-    width: 100%;
-  }
-
-  .el-icon-arrow-right {
-    position: absolute;
-    top: 65px;
-    right: 20%;
-  }
-
-  .step .step-text {
+  .step-text {
     text-align: center;
     margin-top: 20px;
   }
 
-  .step.flex .step-text {
-    text-align: center;
-    font-family: MicrosoftYaHei;
-    color: rgba(43, 43, 43, 1);
+  .picture {
+    cursor: pointer;
   }
 
 </style>

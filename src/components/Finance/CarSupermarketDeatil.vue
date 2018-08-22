@@ -78,7 +78,7 @@
                 </el-upload>
               </el-form-item>
               <div class="el-upload el-upload--text">
-                <img src="../../../static/img/vehicle_license.png" class="avatar">
+                <img src="../../../static/img/vehicle_license.png" class="avatar" @click="handlePictureCardPreview()">
               </div>
             </el-col>
           </el-row>
@@ -100,6 +100,9 @@
         </div>
       </div>
     </div>
+    <el-dialog :visible.sync="dialogVisible">
+      <img width="100%" :src="dialogImageUrl" alt="">
+    </el-dialog>
   </div>
 </template>
 
@@ -253,8 +256,8 @@
         return isLt2M;
       },
       //图片放大
-      handlePictureCardPreview(url) {
-        this.dialogImageUrl = this.mainurl + url;
+      handlePictureCardPreview() {
+        this.dialogImageUrl = '../../../static/img/vehicle_license.png';
         this.dialogVisible = true;
       },
       submitForm(formName) {

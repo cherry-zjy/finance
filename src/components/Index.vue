@@ -250,9 +250,9 @@
   }
 
   @media (max-width: 768px) {
-    .menu-btn button {
+    /* .menu-btn button {
       position: absolute;
-    }
+    } */
     .foot {
       font-size: 14px;
     }

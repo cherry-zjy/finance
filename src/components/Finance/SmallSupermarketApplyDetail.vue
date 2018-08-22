@@ -331,6 +331,7 @@
     color: #666666;
     position: relative;
     margin-top: 20px;
+    cursor: pointer;
   }
 
   .tick-icon {

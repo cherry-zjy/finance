@@ -34,13 +34,16 @@ body {
     left: 0
   }
   .el-carousel__container {
-    height: 500px!important;
+    height: 500px !important;
   }
 }
 
 @media (max-width:768px) {
   .el-carousel__container {
-    height: 300px!important;
+    height: 300px !important;
+  }
+  .el-message-box {
+    width: 80% !important;
   }
 }
 

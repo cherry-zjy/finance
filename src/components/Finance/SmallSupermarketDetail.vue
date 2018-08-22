@@ -182,7 +182,8 @@
 <style scoped>
   .main {
     margin-top: 60px;
-    background-color: #fff
+    background-color: #fff;
+    margin-bottom: 60px;
   }
 
   .dark {

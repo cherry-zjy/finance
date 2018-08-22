@@ -5,7 +5,7 @@
         <div class="dark">
           <el-row :gutter="20" style="position: relative;">
             <el-col :xs="24" :sm="8" :md="8" :lg="8" :xl="8">
-              <img :src="list.Image" class="card-img">
+              <img :src="list.Image" class="card-img" @click="handlePictureCardPreview(list.Image)">
             </el-col>
             <el-col :xs="24" :sm="16" :md="16" :lg="16" :xl="16">
               <p class="big-text">{{list.Name}}</p>
@@ -24,6 +24,9 @@
           </div>
         </div>
       </div>
+      <el-dialog :visible.sync="dialogVisible">
+        <img width="100%" :src="dialogImageUrl" alt="">
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -34,6 +37,8 @@
       return {
         list: [],
         num1: 1,
+        dialogVisible: false,
+        dialogImageUrl: ''
       }
     },
     mounted: function () {
@@ -90,6 +95,11 @@
             }.bind(this)
           );
       },
+      //图片放大
+      handlePictureCardPreview(url) {
+        this.dialogImageUrl = url;
+        this.dialogVisible = true;
+      },
       Imgresize() {
         window.onresize = function () {
           $(".card-img").css("height", $(".card-img").width())
@@ -109,8 +119,8 @@
             .get("api/Web_POSMarket/POSDD", {
               params: {
                 Token: getCookie("token"),
-                prodID:window.location.href.split("id=")[1],
-                count:this.num1
+                prodID: window.location.href.split("id=")[1],
+                count: this.num1
               }
             })
             .then(
@@ -119,8 +129,8 @@
                 var status = response.data.Status;
                 if (status === 1) {
                   this.$router.push({
-                      path: "/Finance/POSSupermarketOrder/id="+response.data.Result+"&num="+this.num1
-                    });
+                    path: "/Finance/POSSupermarketOrder/id=" + response.data.Result + "&num=" + this.num1
+                  });
                 } else if (status === 40001) {
                   this.$message({
                     showClose: true,
@@ -192,7 +202,8 @@
   }
 
   .card-img {
-    width: 100%
+    width: 100%;
+    cursor: pointer;
   }
 
   .big-text {

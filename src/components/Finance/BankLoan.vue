@@ -151,6 +151,10 @@
     position: relative;
   }
 
+  .el-col:hover {
+    transform: translate3d(0, -4px, 0);
+  }
+
   .card-name {
     position: absolute;
     top: 90px;
