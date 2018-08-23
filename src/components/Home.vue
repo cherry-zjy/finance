@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-carousel indicator-position="none" arrow="always">
+    <el-carousel arrow="always">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
         <img :src="item.Image" class="banner-img">
       </el-carousel-item>
@@ -138,8 +138,52 @@
       this.mainurl = mainurl;
       this.getInfo();
       this.getsSmall()
+      this.transition()
     },
     methods: {
+      transition(){
+        $('.content_2_box').css({
+          position: 'relative',
+          opacity: 0,
+          top: '90px',
+        });
+        $('.content_3_box').css({
+          position: 'relative',
+          opacity: 0,
+          top: '90px'
+        });
+        $('.content_4_box').css({
+          position: 'relative',
+          opacity: 0,
+          top: '90px'
+        });
+
+        $(window).scroll(function () {
+          var sTop = $(document).scrollTop();
+          if ($('.content_2').offset().top - sTop < 400) {
+            $('.content_2_box').animate({
+              position: 'absolute',
+              opacity: 1,
+              top: '50px',
+            }, 1200)
+          }
+          if ($('.content_3').offset().top - sTop < 400) {
+            $('.content_3_box').animate({
+              position: 'absolute',
+              opacity: 1,
+              top: '50px'
+            }, 1200)
+          }
+          if ($('.content_4').offset().top - sTop < 400) {
+            $('.content_4_box').animate({
+              position: 'absolute',
+              opacity: 1,
+              top: '50px'
+            }, 1200)
+          }
+        })
+      },
+      
       getInfo() {
         this.$http
           .get("api/Web_Home/HomeBanner", {
@@ -196,7 +240,7 @@
                   this.list[i].tag = new Array()
                   this.list[i].tag = this.list[i].Condition.split(",");
                 }
-                this.Imgresize()
+                // this.Imgresize()
               } else {
                 this.$message({
                   showClose: true,
@@ -220,12 +264,6 @@
       },
       apply(id) {
         this.$router.push("/Finance/SmallSupermarketDetail/id=" + id);
-      },
-      Imgresize() {
-        // window.onresize = function () {
-        //   $(".row-img").css("height", $(".row-img").width() * 1.5)
-        // }
-        // $(".row-img").css("height", $(".row-img").width() * 1.5)
       },
     }
   }
@@ -338,7 +376,7 @@
     margin-top: 50px;
   }
 
-  .content_3_box .box-card:hover{
+  .content_3_box .box-card:hover {
     transform: translate3d(0, -4px, 0);
   }
 

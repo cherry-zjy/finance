@@ -67,7 +67,8 @@
       </div>
       <div class="Infobox">
         <label class="info-title">二维码：</label>
-        <img :src="mainurl+Info.Logo" class="info-qrcode" v-if="!edit">
+        <img :src="mainurl+Info.Logo" class="info-qrcode" v-if="!edit&&Info.Logo!==''">
+        <label v-if="!edit&&Info.Logo==''">无</label>
         <el-upload v-if="edit" v-model="Info.Logo" class="avatar-uploader" :action="action" :show-file-list="false" :on-success="handleAvatarSuccess1"
           :before-upload="beforeAvatarUpload">
           <img v-if="LogoUrl" :src="LogoUrl" class="avatar info-icon">
@@ -395,6 +396,7 @@
                 this.edit = false
                 this.cer = false
                 this.$emit('changeicon', this.Info.Image);
+                console.log(this.Info.Image)
                 this.$emit('changename', this.Info.NickName);
               } else if (status === 40001) {
                 this.$message({

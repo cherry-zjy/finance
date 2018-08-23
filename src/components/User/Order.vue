@@ -143,7 +143,8 @@
             <span class="list-status red" v-if="item.Type=='2'">未通过</span>
           </div>
           <div class="body">
-            <img :src="item.Logo" class="body-img">
+            <img :src="item.Logo" class="body-img" v-if="item.Logo !==''">
+            <img src="../../../static/img/logo.png" class="body-img" v-if="item.Logo ==''">
             <div class="body-text">
               <span>{{item.Name}}</span>
               <br/>

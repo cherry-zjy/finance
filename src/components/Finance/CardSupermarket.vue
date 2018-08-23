@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <el-carousel indicator-position="none" arrow="always" height="500px">
+    <el-carousel arrow="always" height="500px">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
-        <img :src="item.Url" class="banner-img">
+        <img :src="item.Image" class="banner-img">
       </el-carousel-item>
     </el-carousel>
     <div class="container">

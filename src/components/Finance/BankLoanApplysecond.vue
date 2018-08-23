@@ -418,6 +418,7 @@
               WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
               Businessinsurance: this.ruleForm.Businessinsurance == "" ? 0 : this.ruleForm.Businessinsurance,
               BankLoanID: window.location.href.split("id=")[1],
+              BankID:id
             })
           )
           .then(

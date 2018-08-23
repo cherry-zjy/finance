@@ -90,7 +90,7 @@
     <router-view @changehomeicon="icon"></router-view>
     <div class="foot ">
       <div class="container">
-        <el-row :gutter="10">
+        <el-row >
           <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
             <img src="../../static/img/customer_service_hotline.png" class="foot-icon">客服热线：0574-278900601 周一至周六（9:00-18:00）</el-col>
           <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">

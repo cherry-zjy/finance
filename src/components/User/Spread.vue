@@ -136,7 +136,7 @@
                   this.Info = this.list[index]
                   this.detail = true
                 } else {
-                  this.$confirm('您还没有完善个人信息哦?', '提示', {
+                  this.$confirm('您还没有完善个人信息哦', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'

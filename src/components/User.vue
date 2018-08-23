@@ -149,9 +149,9 @@
             }.bind(this)
           );
       },
-      icon(data){//触发子组件城市选择-选择城市的事件
-        this.Info.Image = data;//改变了父组件的值
-        this.$emit('changehomeicon',data);
+      icon(data){//触发子组件修改头像的事件
+        this.Info.Image = mainurl+data;//改变了父组件的值
+        this.$emit('changehomeicon',mainurl+data);
       },
       name(data){
         this.Info.NickName = data;//改变了父组件的值
