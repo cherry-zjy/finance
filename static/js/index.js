@@ -1,5 +1,5 @@
-var mainurl = "http://192.168.1.106/ZYJF/"
-// var mainurl = "http://zyjf.nbxuanma.com/"
+// var mainurl = "http://192.168.1.106/ZYJF/"
+var mainurl = "http://zyjf.nbzzjr.com/"
 
 
 function setCookie(name, value) {

@@ -2,7 +2,7 @@
   <div>
     <el-carousel indicator-position="none" arrow="always">
       <el-carousel-item v-for="item in bannerlist" :key="item.url">
-        <img :src="mainurl+item.Image" class="banner-img">
+        <img :src="item.Image" class="banner-img">
       </el-carousel-item>
     </el-carousel>
     <div class="content_2">
@@ -15,7 +15,7 @@
             <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item,index) in list" :key="index">
               <el-card class="box-card" shadow="hover">
                 <div class="header">
-                  <img :src="mainurl+item.Logo" class="header-icon row-img">
+                  <img :src="item.Logo" class="header-icon row-img">
                   <span class="header-icon">{{item.Name}}</span>
                 </div>
                 <div class="body">

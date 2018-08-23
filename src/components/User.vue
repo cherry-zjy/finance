@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main">
         <div class="user-nav">
-          <img :src="mainurl+Info.Image" class="user-icon">
+          <img :src="Info.Image" class="user-icon">
           <P class="user-name">{{Info.NickName}}</P>
           <div v-for="(item,index) in menulist" :key="index">
             <a @click.stop='navtourl(index,item.path)' :class="{active:current==index}">{{item.name}}</a>

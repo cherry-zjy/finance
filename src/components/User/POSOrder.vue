@@ -10,7 +10,7 @@
           <span class="list-status red" v-if="item.Type=='2'">未通过</span>
         </div>
         <div class="body">
-          <img :src="mainurl+item.Image" class="body-img">
+          <img :src="item.Image" class="body-img">
           <div class="body-text">
             <span>{{item.Name}}</span>
             <br/>

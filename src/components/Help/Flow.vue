@@ -15,7 +15,7 @@
           <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" class="picture">
             <div @click="one(1)">
               <img src="../../../static/img/illegal.png">
-              <div class="step-text">{{list[0].Title}}</div>
+              <div class="step-text">{{list[1].Title}}</div>
             </div>
           </el-col>
           <el-col :xs="3" :sm="3" :md="3" :lg="3" :xl="3" class="jiantou">
@@ -24,7 +24,7 @@
           <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" @click="one(2)" class="picture">
             <div @click="one(2)">
               <img src="../../../static/img/merchants_gathering.png">
-              <div class="step-text">{{list[0].Title}}</div>
+              <div class="step-text">{{list[2].Title}}</div>
             </div>
           </el-col>
         </el-row>

@@ -7,7 +7,7 @@
         <el-col :xs="24" :sm="12" :md="12" :lg="8" :xl="8" v-for="(item,index) in list" :key="index">
           <el-card class="box-card" shadow="hover">
             <div class="header">
-              <img :src="mainurl+item.Logo" class="header-icon">
+              <img :src="item.Logo" class="header-icon">
               <span class="header-icon">{{item.Name}}</span>
             </div>
             <div class="body">

@@ -2,7 +2,7 @@
   <div id="app">
     <h3 >专属推荐人</h3>
     <div class="info">
-      <img :src="mainurl+list.Image" class="icon">
+      <img :src="list.Image" class="icon">
       <p>姓名：{{list.Name}}</p>
       <p>推荐码：{{list.InviteCode}}</p>
       <p>级别：{{list.Level}}</p>
@@ -97,13 +97,13 @@
     text-align: center;
   }
   .icon{
-    width: 48px;
-    height: 48px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%
   }
   .tip{
     padding: 0 30px;
-    font-size: 14px;
+    /* font-size: 14px; */
     margin-top: 100px;
     border-top: 1px solid #EEEEEE;
     padding-bottom: 30px;

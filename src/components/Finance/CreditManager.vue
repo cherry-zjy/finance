@@ -5,7 +5,7 @@
         <h3>信贷经理</h3>
         <div class="dark">
           <div class="managerlist" v-for="(item,index) in list" :key="index">
-            <img :src="mainurl+item.Logo" class="manager-icon">
+            <img :src="item.Logo" class="manager-icon">
             <div class="manager-msg">
               <p class="manager-name">{{item.Name}}</p>
               <p class="manager-money">利率：
