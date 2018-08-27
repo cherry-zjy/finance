@@ -14,7 +14,8 @@
         <div class="btnbox">
           <span @click="handleEdit(index)">修改</span>|
           <span @click="del(item.ID)">删除</span>
-          <el-button type="primary" size="small" v-if="!item.IsDefault" @click="moren(item.ID)">默认地址</el-button>
+          <el-button type="primary" size="small" v-if="!item.IsDefault" @click="moren(item.ID)">设为默认</el-button>
+          <el-button size="small" v-if="item.IsDefault" disabled>默认地址</el-button>
         </div>
       </div>
       <div v-if="list.length==0" class="text-center">
@@ -329,7 +330,7 @@
                   name: this.form.Name,
                   phone: this.form.Phone,
                   address: this.form.Address,
-                  isDefaul: this.form.Type ? 1 : 0,
+                  isDefault: this.form.Type ? 1 : 0,
                   provice: this.myAddressCity(this.form.city),
                   city: this.myAddressErae(this.form.erae),
                   region: this.myAddressMinerae(this.form.minerae),

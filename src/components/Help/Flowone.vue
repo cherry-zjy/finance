@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main">
         <h3>{{Title}}</h3>
-        <p v-html="Info"></p>
+        <p class="detail"></p>
       </div>
     </div>
   </div>
@@ -13,7 +13,7 @@
   export default {
     data() {
       return {
-        Info:"",
+        // Info:"",
         Title:''
       }
     },
@@ -48,7 +48,8 @@
               loading.close();
               var status = response.data.Status;
               if (status === 1) {
-                this.Info = decodeURIComponent(response.data.Result.data[window.location.href.split("id=")[1]].Content)
+                $(".detail").html(decodeURIComponent(response.data.Result.data[window.location.href.split("id=")[1]].Content))
+                $(".detail img").css("max-width","100%")
                 this.Title = response.data.Result.data[window.location.href.split("id=")[1]].Title;
               } else {
                 this.$message({

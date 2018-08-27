@@ -5,7 +5,7 @@
         <h3>帮助中心</h3>
         <el-collapse v-model="activeName" accordion @change="handleChange">
           <el-collapse-item :title="item.Title" :name="index" v-for="(item,index) in list" :key="index">
-            <div v-html="decodeURIComponent(item.Content)"></div>
+            <div class="detail"></div>
           </el-collapse-item>
         </el-collapse>
       </div>
@@ -53,6 +53,8 @@
               var status = response.data.Status;
               if (status === 1) {
                 this.list = response.data.Result.data
+                $(".detail").html(decodeURIComponent(this.list.Content))
+                $(".detail img").css("max-width","100%")
               } else {
                 this.$message({
                   showClose: true,
@@ -75,8 +77,8 @@
           );
       },
       handleChange(val) {
-        console.log(val);
-        console.log(this.activeName)
+        // console.log(val);
+        // console.log(this.activeName)
       }
     }
   }

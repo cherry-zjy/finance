@@ -437,7 +437,7 @@
                 <span>{{Info.PeopleNumber}}</span>
               </div>
               <div class="Infobox">
-                <label class="info-title">新车发票价: </label>1 2 3
+                <label class="info-title">新车发票价: </label>
                 <span>{{Info.Price}}</span>
               </div>
               <div class="Infobox">
@@ -456,7 +456,7 @@
               <div class="Infobox">
                 <label class="info-title">是否过户车：</label>
                 <span v-if="Info.IsPass">是</span>
-                <span v-if="Info.IsPass">否</span>
+                <span v-if="!Info.IsPass">否</span>
               </div>
             </el-col>
             <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">

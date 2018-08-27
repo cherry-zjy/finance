@@ -23,7 +23,8 @@
         </div>
         <div class="dark bottom">
           <h4>如何快速申请</h4>
-          <div class="detail" v-html="decodeURIComponent(ApplyIntroduce)"></div>
+          <!-- <div class="detail" v-html="decodeURIComponent(ApplyIntroduce)"></div> -->
+          <div class="detail"></div><!-- v-html的css无效 -->
           <el-button type="primary" size="small" @click="apply()">立即申请</el-button>
         </div>
 
@@ -78,6 +79,8 @@
                 this.pageCount = response.data.Result.page;
                 this.rule = response.data.Result.Requirt;
                 this.ApplyIntroduce = response.data.Result.ApplyIntroduce
+                $(".detail").html(decodeURIComponent(this.ApplyIntroduce))
+                $(".detail img").css("max-width","100%")
               } else {
                 this.$message({
                   showClose: true,
@@ -91,6 +94,7 @@
           .catch(
             function (error) {
               loading.close();
+              console.log(error)
               this.$notify.error({
                 title: "错误",
                 message: "错误：请检查网络"
@@ -216,6 +220,9 @@
     border-radius: 50%;
     vertical-align: middle;
     margin-right: 10px;
+  }
+  .detail img{
+    max-width: 100%;
   }
 
 </style>

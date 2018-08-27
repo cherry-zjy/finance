@@ -122,11 +122,11 @@
         <el-form-item label="联系方式：" prop="Phone">
           <el-input v-model="form.Phone"></el-input>
         </el-form-item>
-        <el-form-item prop="type">
+        <!-- <el-form-item prop="type">
           <el-checkbox-group v-model="form.Type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible2 = false">取 消</el-button>
@@ -157,7 +157,9 @@
       return {
         isshow:'',
         tick: '',
-        tableData: [], //商品信息
+        tableData: [{
+          
+        }], //商品信息
         Default: [], //收货信息（默认）
         Address: [], //省市区数据源
         addlist: [], //收货地址（全部）
@@ -458,7 +460,7 @@
                   name: this.form.Name,
                   phone: this.form.Phone,
                   address: this.form.Address,
-                  isDefaul: this.form.Type ? 1 : 0,
+                  isDefaul: 0,
                   provice: this.myAddressCity(this.form.city),
                   city: this.myAddressErae(this.form.erae),
                   region: this.myAddressMinerae(this.form.minerae),
@@ -616,7 +618,7 @@
         this.$http
           .get("api/Web_POSMarket/AccordAddressChangeFreight", {
             params: {
-              posOrderID: window.location.href.split("id=")[1],
+              posOrderID: location.href.split("id=")[1].split("&")[0],
               addressID: this.addlist[this.tick].ID
             }
           })

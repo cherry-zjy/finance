@@ -13,11 +13,12 @@
         <el-row :gutter="20">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
             <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
-              <el-form-item label="金额">
-                <el-select v-model="ruleForm.Price" placeholder="请选择金额">
+              <el-form-item label="金额（万元）">
+                <el-input v-model="ruleForm.Price"></el-input>
+                <!-- <el-select v-model="ruleForm.Price" placeholder="请选择金额">
                   <el-option label="5—20万" value="1"></el-option>
                   <el-option label="20万以上" value="2"></el-option>
-                </el-select>
+                </el-select> -->
               </el-form-item>
               <el-form-item label="身份证号">
                 <el-input v-model="ruleForm.IDCard"></el-input>
@@ -158,7 +159,7 @@
               </p>
               <p class="manager-text">放贷时间：{{item.Days}}</p>
             </div>
-            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.ID)">申请</el-button>
+            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.BankID)">申请</el-button>
           </div>
         </div>
         <!-- 分页 -->

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="main">
         <h3>平台手册</h3>
-        <p v-html="detail"></p>
+        <p class="detail"></p>
       </div>
     </div>
   </div>
@@ -47,7 +47,8 @@
               loading.close();
               var status = response.data.Status;
               if (status === 1) {
-                this.detail = decodeURIComponent(response.data.Result.data[0].Content)
+                $(".detail").html(decodeURIComponent(response.data.Result.data[0].Content))
+                $(".detail img").css("max-width","100%")
               } else {
                 this.$message({
                   showClose: true,
