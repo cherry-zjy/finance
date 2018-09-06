@@ -89,7 +89,7 @@
     <div class="shelter"></div>
     <router-view @changehomeicon="icon"></router-view>
     <div class="foot ">
-      <div class="container">
+      <!-- <div class="container"> -->
         <el-row >
           <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
             <img src="../../static/img/customer_service_hotline.png" class="foot-icon">客服热线：0574-278900601 周一至周六（9:00-18:00）</el-col>
@@ -98,7 +98,7 @@
           <el-col :xs="24" :sm="24" :md="12" :lg="8" :xl="8">
             <span style="font-family:Arial;">©</span>2002-2017. 宁波掌众金融外包服务有限公司. 版权所有.</el-col>
         </el-row>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -279,6 +279,7 @@
     left: 0;
     width: 100%;
     height: 100px;
+    text-align: center
   }
 
 

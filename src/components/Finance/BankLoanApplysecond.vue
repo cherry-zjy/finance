@@ -13,14 +13,14 @@
         <el-row :gutter="20">
           <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
             <el-form label-position="left" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm">
-              <el-form-item label="金额（万元）">
-                <el-input v-model="ruleForm.Price"></el-input>
+              <el-form-item label="金额（万元）"  prop="Price">
+                <el-input v-model="ruleForm.Price" type="number"></el-input>
                 <!-- <el-select v-model="ruleForm.Price" placeholder="请选择金额">
                   <el-option label="5—20万" value="1"></el-option>
                   <el-option label="20万以上" value="2"></el-option>
                 </el-select> -->
               </el-form-item>
-              <el-form-item label="身份证号">
+              <el-form-item label="身份证号"  prop="IDCard">
                 <el-input v-model="ruleForm.IDCard"></el-input>
               </el-form-item>
               <el-form-item label="职业身份">
@@ -159,7 +159,8 @@
               </p>
               <p class="manager-text">放贷时间：{{item.Days}}</p>
             </div>
-            <el-button type="primary" class="manager-btn" size="small" @click="apply(item.BankID)">申请</el-button>
+            <el-button type="primary" v-if="item.IsApply" class="manager-btn" size="small">已申请</el-button>
+            <el-button type="primary" v-else class="manager-btn" size="small" @click="apply(item.BankID)">申请</el-button>
           </div>
         </div>
         <!-- 分页 -->
@@ -174,35 +175,53 @@
 </template>
 
 <script>
-  import qs from "qs";
-  export default {
-    data() {
-      return {
-        seconed: true,
-        ruleForm: {
-          HouseType: '',
-          HousePlace: '',
-          IsSelf: '',
-          MonthHouse: '',
-          MonthHousePrice: '',
-          IshaveCar: '',
-          CarPlace: '',
-          CarAge: '',
-          socialsecurity: '',
-          Accumulationfund: '',
-          ZhiM: '',
-          WeiL: '',
-          Businessinsurance: '',
-          type: []
-        },
-        rules: {
-          type: [{
-            type: 'array',
+import qs from "qs";
+export default {
+  data() {
+    var checkIDCard = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("身份证号不能为空"));
+      }
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      setTimeout(() => {
+        if (reg.test(value) == false) {
+          callback(new Error("请输入正确的身份证号码"));
+        } else {
+          callback();
+        }
+      }, 100);
+    };
+    return {
+      seconed: true,
+      ruleForm: {
+        Price:'',
+        IDCard:'',
+        HouseType: "",
+        HousePlace: "",
+        IsSelf: "",
+        MonthHouse: "",
+        MonthHousePrice: "",
+        IshaveCar: "",
+        CarPlace: "",
+        CarAge: "",
+        socialsecurity: "",
+        Accumulationfund: "",
+        ZhiM: "",
+        WeiL: "",
+        Businessinsurance: "",
+        type: []
+      },
+      rules: {
+        type: [
+          {
+            type: "array",
             required: true,
-            message: '请先阅读并同意《金融联盟服务协议》',
-            trigger: 'change'
-          }],
-          CarAge: [{
+            message: "请先阅读并同意《金融联盟服务协议》",
+            trigger: "change"
+          }
+        ],
+        CarAge: [
+          {
             validator: (rule, value, callback) => {
               if (value == "") {
                 callback();
@@ -213,371 +232,432 @@
               }
             },
             required: false,
-            trigger: 'blur'
-          }],
-        },
-        pageIndex: 1,
-        pageCount: 10,
-        list: {}
-      }
-    },
-    mounted: function () {
-      document.getElementsByTagName("body")[0].className = "add_bg";
-    },
-    beforeDestroy: function () {
-      document.body.removeAttribute("class", "add_bg");
-    },
-    computed: {
-      currentPage: function () {
-        return this.pageIndex
-      }
-    },
-    methods: {
-      back() {
-        this.$router.push("/Finance/BankLoanApplyfirst/id=" + window.location.href.split("id=")[1]);
-      },
-      handleCurrentChange(val) {
-        this.pageIndex = val;
-        this.getInfo();
-      },
-      submitForm(formName) {
-        if (getCookie("token") == undefined || getCookie("token") == null) {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: '请先登录'
-          });
-          setTimeout(() => {
-            this.$router.push("/Login");
-          }, 1000);
-          return;
-        }
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            const loading = this.$loading({
-              lock: true,
-              text: "Loading",
-              spinner: "el-icon-loading",
-              background: "rgba(0, 0, 0, 0.7)"
-            });
-            this.$http
-              .post(
-                "api/Web_BankLoan/BankApply",
-                qs.stringify({
-                  Token: getCookie("token"),
-                  Price: this.ruleForm.Price == "" ? 0 : this.ruleForm.Price,
-                  IDCard: this.ruleForm.IDCard == "" ? "" : this.ruleForm.IDCard,
-                  Professional: this.ruleForm.Professional == "" ? 0 : this.ruleForm.Professional,
-                  SalaryType: this.ruleForm.SalaryType == "" ? 0 : this.ruleForm.SalaryType,
-                  HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
-                  HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
-                  IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
-                  MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
-                  MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
-                  IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
-                  CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
-                  CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
-                  socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
-                  Accumulationfund: this.ruleForm.Accumulationfund == 0 ? 0 : this.ruleForm.Accumulationfund,
-                  ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
-                  WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
-                  Businessinsurance: this.ruleForm.Businessinsurance == "" ? 0 : this.ruleForm.Businessinsurance,
-                  BankLoanID: window.location.href.split("id=")[1],
-                  BankID: ""
-                })
-              )
-              .then(
-                function (response) {
-                  loading.close();
-                  var status = response.data.Status;
-                  if (status === 1) {
-                    this.$message({
-                      showClose: true,
-                      type: "success",
-                      message: response.data.Result
-                    });
-                    this.getInfo()
-                    this.seconed = false
-                  } else {
-                    this.$message({
-                      showClose: true,
-                      type: "warning",
-                      message: response.data.Result
-                    });
-                  }
-                }.bind(this)
-              )
-              .catch(
-                function (error) {
-                  loading.close();
-                  this.$notify.error({
-                    title: "错误",
-                    message: "错误：请检查网络"
-                  });
-                }.bind(this)
-              );
-
-          } else {
-            return false;
+            trigger: "blur"
           }
-        });
-        // this.$router.push("/Finance/BankLoanApplythird/id=" + window.location.href.split("id=")[1]);
-      },
-      getInfo() {
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
-        });
-        this.$http
-          .get("api/Web_BankLoan/GetBankList", {
-            params: {
-              bankApplyID: window.location.href.split("id=")[1],
-              pageIndex: this.pageIndex,
-              pageSize: 8
-            }
-          })
-          .then(
-            function (response) {
-              loading.close();
-              var status = response.data.Status;
-              if (status === 1) {
-                this.list = response.data.Result.bank;
-                this.pageCount = response.data.Result.page
-              } else if (status === 40001) {
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
-                setTimeout(() => {
-                  this.$router.push({
-                    path: "/login"
-                  });
-                }, 1500);
+        ],
+        Price: [
+          {
+            validator: (rule, value, callback) => {
+              if (value == "") {
+                callback();
+              } else if (/^\d+$/.test(value) == false) {
+                callback(new Error("请输入数字"));
               } else {
-                loading.close();
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
+                callback();
               }
-            }.bind(this)
-          )
-          // 请求error
-          .catch(
-            function (error) {
-              console.log(error)
-              loading.close();
-              this.$notify.error({
-                title: "错误",
-                message: "错误：请检查网络"
-              });
-            }.bind(this)
-          );
+            },
+            trigger: "blur"
+          }
+        ],
+        // 必填项身份验证
+        IDCard:[
+         {
+            validator: checkIDCard,
+            trigger: "blur"
+          }
+        ]
       },
-      apply(id) {
-        if (getCookie("token") == undefined || getCookie("token") == null) {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: '请先登录'
-          });
-          setTimeout(() => {
-            this.$router.push("/Login");
-          }, 1000);
-          return;
-        }
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
+      pageIndex: 1,
+      pageCount: 10,
+      list: {}
+    };
+  },
+  mounted: function() {
+    document.getElementsByTagName("body")[0].className = "add_bg";
+  },
+  beforeDestroy: function() {
+    document.body.removeAttribute("class", "add_bg");
+  },
+  computed: {
+    currentPage: function() {
+      return this.pageIndex;
+    }
+  },
+  methods: {
+    back() {
+      this.$router.push(
+        "/Finance/BankLoanApplyfirst/id=" + window.location.href.split("id=")[1]
+      );
+    },
+    handleCurrentChange(val) {
+      this.pageIndex = val;
+      this.getInfo();
+    },
+    submitForm(formName) {
+      if (getCookie("token") == undefined || getCookie("token") == null) {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请先登录"
         });
-        this.$http
-          .post(
-            "api/Web_BankLoan/BankApply",
-            qs.stringify({
-              Token: getCookie("token"),
-              Price: this.ruleForm.Price == "" ? 0 : this.ruleForm.Price,
-              IDCard: this.ruleForm.IDCard == "" ? "" : this.ruleForm.IDCard,
-              Professional: this.ruleForm.Professional == "" ? 0 : this.ruleForm.Professional,
-              SalaryType: this.ruleForm.SalaryType == "" ? 0 : this.ruleForm.SalaryType,
-              HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
-              HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
-              IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
-              MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
-              MonthHousePrice: this.ruleForm.MonthHousePrice == "" ? 0 : this.ruleForm.MonthHousePrice,
-              IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
-              CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
-              CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
-              socialsecurity: this.ruleForm.socialsecurity == "" ? 0 : this.ruleForm.socialsecurity,
-              Accumulationfund: this.ruleForm.Accumulationfund == 0 ? 0 : this.ruleForm.Accumulationfund,
-              ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
-              WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
-              Businessinsurance: this.ruleForm.Businessinsurance == "" ? 0 : this.ruleForm.Businessinsurance,
-              BankLoanID: window.location.href.split("id=")[1],
-              BankID:id
-            })
-          )
-          .then(
-            function (response) {
-              loading.close();
-              var status = response.data.Status;
-              if (status === 1) {
-                this.$message({
-                  showClose: true,
-                  type: "success",
-                  message: response.data.Result
-                });
-              } else {
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
-              }
-            }.bind(this)
-          )
-          .catch(
-            function (error) {
-              loading.close();
-              this.$notify.error({
-                title: "错误",
-                message: "错误：请检查网络"
-              });
-            }.bind(this)
-          );
+        setTimeout(() => {
+          this.$router.push("/Login");
+        }, 1000);
+        return;
       }
+      this.$refs[formName].validate(valid => {
+        console.log(this.ruleForm)
+        if (valid) {
+          const loading = this.$loading({
+            lock: true,
+            text: "Loading",
+            spinner: "el-icon-loading",
+            background: "rgba(0, 0, 0, 0.7)"
+          });
+          this.$http
+            .post(
+              "api/Web_BankLoan/BankApply",
+              qs.stringify({
+                Token: getCookie("token"),
+                Price: this.ruleForm.Price == "" ? 0 : this.ruleForm.Price,
+                IDCard: this.ruleForm.IDCard == "" ? "" : this.ruleForm.IDCard,
+                Professional:
+                  this.ruleForm.Professional == ""
+                    ? 0
+                    : this.ruleForm.Professional,
+                SalaryType:
+                  this.ruleForm.SalaryType == "" ? 0 : this.ruleForm.SalaryType,
+                HouseType:
+                  this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
+                HousePlace:
+                  this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
+                IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
+                MonthHouse:
+                  this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
+                MonthHousePrice:
+                  this.ruleForm.MonthHousePrice == ""
+                    ? 0
+                    : this.ruleForm.MonthHousePrice,
+                IshaveCar:
+                  this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
+                CarPlace:
+                  this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
+                CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
+                socialsecurity:
+                  this.ruleForm.socialsecurity == ""
+                    ? 0
+                    : this.ruleForm.socialsecurity,
+                Accumulationfund:
+                  this.ruleForm.Accumulationfund == 0
+                    ? 0
+                    : this.ruleForm.Accumulationfund,
+                ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
+                WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
+                Businessinsurance:
+                  this.ruleForm.Businessinsurance == ""
+                    ? 0
+                    : this.ruleForm.Businessinsurance,
+                BankLoanID: window.location.href.split("id=")[1],
+                BankID: ""
+              })
+            )
+            .then(
+              function(response) {
+                loading.close();
+                var status = response.data.Status;
+                if (status === 1) {
+                  this.$message({
+                    showClose: true,
+                    type: "success",
+                    message: response.data.Result
+                  });
+                  this.getInfo();
+                  this.seconed = false;
+                } else {
+                  this.$message({
+                    showClose: true,
+                    type: "warning",
+                    message: response.data.Result
+                  });
+                }
+              }.bind(this)
+            )
+            .catch(
+              function(error) {
+                loading.close();
+                this.$notify.error({
+                  title: "错误",
+                  message: "错误：请检查网络"
+                });
+              }.bind(this)
+            );
+        } else {
+          return false;
+        }
+      });
+      // this.$router.push("/Finance/BankLoanApplythird/id=" + window.location.href.split("id=")[1]);
+    },
+    getInfo() {
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      this.$http
+        .get("api/Web_BankLoan/GetBankList", {
+          params: {
+            bankApplyID: window.location.href.split("id=")[1],
+            pageIndex: this.pageIndex,
+            pageSize: 8
+          }
+        })
+        .then(
+          function(response) {
+            loading.close();
+            var status = response.data.Status;
+            if (status === 1) {
+              this.list = response.data.Result.bank;
+              this.pageCount = response.data.Result.page;
+            } else if (status === 40001) {
+              this.$message({
+                showClose: true,
+                type: "warning",
+                message: response.data.Result
+              });
+              setTimeout(() => {
+                this.$router.push({
+                  path: "/login"
+                });
+              }, 1500);
+            } else {
+              loading.close();
+              this.$message({
+                showClose: true,
+                type: "warning",
+                message: response.data.Result
+              });
+            }
+          }.bind(this)
+        )
+        // 请求error
+        .catch(
+          function(error) {
+            console.log(error);
+            loading.close();
+            this.$notify.error({
+              title: "错误",
+              message: "错误：请检查网络"
+            });
+          }.bind(this)
+        );
+    },
+    apply(id) {
+      if (getCookie("token") == undefined || getCookie("token") == null) {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请先登录"
+        });
+        setTimeout(() => {
+          this.$router.push("/Login");
+        }, 1000);
+        return;
+      }
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      this.$http
+        .post(
+          "api/Web_BankLoan/BankApply",
+          qs.stringify({
+            Token: getCookie("token"),
+            Price: this.ruleForm.Price == "" ? 0 : this.ruleForm.Price,
+            IDCard: this.ruleForm.IDCard == "" ? "" : this.ruleForm.IDCard,
+            Professional:
+              this.ruleForm.Professional == "" ? 0 : this.ruleForm.Professional,
+            SalaryType:
+              this.ruleForm.SalaryType == "" ? 0 : this.ruleForm.SalaryType,
+            HouseType:
+              this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
+            HousePlace:
+              this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
+            IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
+            MonthHouse:
+              this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
+            MonthHousePrice:
+              this.ruleForm.MonthHousePrice == ""
+                ? 0
+                : this.ruleForm.MonthHousePrice,
+            IshaveCar:
+              this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
+            CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
+            CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
+            socialsecurity:
+              this.ruleForm.socialsecurity == ""
+                ? 0
+                : this.ruleForm.socialsecurity,
+            Accumulationfund:
+              this.ruleForm.Accumulationfund == 0
+                ? 0
+                : this.ruleForm.Accumulationfund,
+            ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
+            WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
+            Businessinsurance:
+              this.ruleForm.Businessinsurance == ""
+                ? 0
+                : this.ruleForm.Businessinsurance,
+            BankLoanID: window.location.href.split("id=")[1],
+            BankID: id
+          })
+        )
+        .then(
+          function(response) {
+            loading.close();
+            var status = response.data.Status;
+            if (status === 1) {
+              this.$message({
+                showClose: true,
+                type: "success",
+                message: response.data.Result
+              });
+            } else {
+              this.$message({
+                showClose: true,
+                type: "warning",
+                message: response.data.Result
+              });
+            }
+          }.bind(this)
+        )
+        .catch(
+          function(error) {
+            loading.close();
+            this.$notify.error({
+              title: "错误",
+              message: "错误：请检查网络"
+            });
+          }.bind(this)
+        );
     }
   }
-
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .main {
-    margin-top: 60px;
-    background-color: #fff;
-    margin-bottom: 60px;
-  }
+.main {
+  margin-top: 60px;
+  background-color: #fff;
+  margin-bottom: 60px;
+}
 
-  form {
-    padding: 50px 0 0 0;
-    width: 80%;
-    margin-left: 10%;
-  }
+form {
+  padding: 50px 0 0 0;
+  width: 80%;
+  margin-left: 10%;
+}
 
-  .two {
-    padding-top: 20px;
-  }
+.two {
+  padding-top: 20px;
+}
 
+.step {
+  padding: 100px 0 0 0;
+  width: 50%;
+  margin-left: 25%;
+  padding-bottom: 50px;
+}
+.tip {
+  width: 50%;
+  margin-left: 25%;
+  padding-bottom: 50px;
+}
+
+.text-center {
+  padding: 20px 0;
+}
+
+@media (max-width: 768px) {
   .step {
     padding: 100px 0 0 0;
-    width: 50%;
-    margin-left: 25%;
-    padding-bottom: 50px;
+    width: 90%;
+    margin-left: 5%;
   }
   .tip {
-    width: 50%;
-    margin-left: 25%;
-    padding-bottom: 50px;
+    width: 90%;
+    margin-left: 5%;
   }
+}
 
-  .text-center {
-    padding: 20px 0;
-  }
+.tip {
+  text-align: center;
+  color: #f9183d;
+}
 
-  @media (max-width:768px) {
-    .step{
-      padding: 100px 0 0 0;
-      width: 90%;
-      margin-left: 5%;
-    }
-    .tip {
-      width: 90%;
-      margin-left: 5%;
-    }
-  }
+/* 第三步 */
 
-  .tip {
-    text-align: center;
-    color: #F9183D;
-  }
+.dark.two {
+  margin: 0 30px;
+}
 
-  /* 第三步 */
+.managerlist {
+  display: inline-block;
+  width: 100%;
+  padding: 20px 0;
+  border-bottom: 1px solid #eeeeee;
+}
 
-  .dark.two {
-    margin: 0 30px;
-  }
+.manager-icon {
+  width: 100px;
+  height: 100px;
+  float: left;
+  border-radius: 50%;
+}
 
-  .managerlist {
-    display: inline-block;
-    width: 100%;
-    padding: 20px 0;
-    border-bottom: 1px solid #EEEEEE;
-  }
+.manager-msg {
+  float: left;
+  margin-left: 30px;
+}
 
+@media (max-width: 768px) {
   .manager-icon {
-    width: 100px;
-    height: 100px;
-    float: left;
-    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
   }
-
   .manager-msg {
-    float: left;
-    margin-left: 30px;
+    margin-left: 1rem;
   }
+}
 
-  @media (max-width:768px) {
-    .manager-icon {
-      width: 3rem;
-      height: 3rem;
-    }
-    .manager-msg {
-      margin-left: 1rem;
-    }
-  }
+.manager-name {
+  margin: 10px 0;
+  font-weight: bolder;
+  color: #333333;
+}
 
-  .manager-name {
-    margin: 10px 0;
-    font-weight: bolder;
-    color: #333333;
-  }
+.manager-money {
+  margin: 10px 0;
+  font-size: 15px;
+  color: #bbbbbb;
+}
 
-  .manager-money {
-    margin: 10px 0;
-    font-size: 15px;
-    color: #BBBBBB;
-  }
+span.yellow {
+  color: #ceaa70;
+}
 
-  span.yellow {
-    color: #CEAA70;
-  }
+.tall {
+  margin-left: 20px;
+}
 
-  .tall {
-    margin-left: 20px;
-  }
+.manager-text {
+  margin: 10px 0;
+  font-size: 15px;
+  color: #bbbbbb;
+}
 
-  .manager-text {
-    margin: 10px 0;
-    font-size: 15px;
-    color: #BBBBBB;
-  }
+.manager-btn {
+  float: right;
+  margin-top: 33px;
+}
 
-  .manager-btn {
-    float: right;
-    margin-top: 33px;
-  }
-
-  .block {
-    text-align: center;
-    margin-top: 50px;
-    padding-bottom: 80px;
-    width: 100%;
-  }
-
+.block {
+  text-align: center;
+  margin-top: 50px;
+  padding-bottom: 80px;
+  width: 100%;
+}
 </style>

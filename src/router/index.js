@@ -56,9 +56,9 @@ Vue.use(Router)
 export default new Router({
   routes: [
     { 
-      path: '/',name: '主页',component: Index,
+      path: '/',name: '小火金融',component: Index,
       children:[
-        { path: '/', component: Home, name: '首页' },       
+        { path: '/', component: Home, name: '小火金融' },       
         { path: '/Finance/SmallSupermarket', component: SmallSupermarket, name: '小额超市' },       
         { path: '/Finance/SmallSupermarketDetail/:id', component: SmallSupermarketDetail, name: '小额超市详情' },       
         { path: '/Finance/SmallSupermarketApply/:id', component: SmallSupermarketApply, name: '小额超市申请' },       

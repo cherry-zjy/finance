@@ -37,7 +37,7 @@
         this.$http
           .get("api/Web_UserInfo/GetProcess", {
             params: {
-              type:1,
+              type:2,
               pageIndex: 1,
               pageSize: 6,
             }

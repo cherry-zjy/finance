@@ -116,6 +116,7 @@
             params: {
               Token:getCookie("token"),
               pageIndex:1,
+              CardID:window.location.href.split("id=")[1],
               pageSize:999
             }
           })

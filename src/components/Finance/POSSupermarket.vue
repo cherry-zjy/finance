@@ -135,6 +135,7 @@
   .row-name {
     color: #2B2B2B;
     padding: 10px 40px;
+    line-height: 21px;
   }
 
   .row-price {

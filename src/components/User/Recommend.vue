@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <h3 >专属推荐人</h3>
-    <div class="info">
+    <h3>专属推荐人</h3>
+    <div class="info" v-if="isshow">
       <img :src="list.Image" class="icon">
       <p>姓名：{{list.Name}}</p>
       <p>推荐码：{{list.InviteCode}}</p>
@@ -9,9 +9,13 @@
       <p>电话：{{list.Phone}}</p>
       <p>微信号：{{list.Wxin}}</p>
     </div>
-    <div class="tip">
+    <div class="tip" v-if="isshow">
       <p class="tip-tltle">温馨提示</p>
       <p class="tip-connect" v-html="decodeURIComponent(list.Tips)"></p>
+    </div>
+    <div class="text-center" v-if="!isshow">
+      <img src="../../../static/img/kong.png">
+      <p>您的上级不存在</p>
     </div>
   </div>
 </template>
@@ -20,8 +24,9 @@
   export default {
     data() {
       return {
-        list:[],
-        mainurl:''
+        list: [],
+        mainurl: '',
+        isshow:true
       }
     },
     mounted: function () {
@@ -43,7 +48,7 @@
         this.$http
           .get("api/Web_UserInfo/Referee", {
             params: {
-              Token:getCookie("token")
+              Token: getCookie("token")
             }
           })
           .then(
@@ -52,6 +57,8 @@
               var status = response.data.Status;
               if (status === 1) {
                 this.list = response.data.Result;
+              } else if (status === -1) {
+                this.isshow = false
               } else {
                 this.$message({
                   showClose: true,
@@ -93,22 +100,25 @@
     border-bottom: 1px solid #EEEEEE;
   }
 
-  .info{
+  .info {
     text-align: center;
   }
-  .icon{
+
+  .icon {
     width: 100px;
     height: 100px;
     border-radius: 50%
   }
-  .tip{
+
+  .tip {
     padding: 0 30px;
     /* font-size: 14px; */
     margin-top: 100px;
     border-top: 1px solid #EEEEEE;
     padding-bottom: 30px;
   }
-  .tip-connect{
+
+  .tip-connect {
     color: #999999;
     line-height: 40px;
   }

@@ -74,7 +74,7 @@
           <el-input v-model="form.Phone"></el-input>
         </el-form-item>
         <el-form-item prop="type">
-          <el-checkbox-group v-model="form.Type">
+          <el-checkbox-group v-model="form.type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
@@ -114,7 +114,7 @@
           Address: '',
           Name: '',
           Phone: '',
-          Type: false
+          type: false
         },
         editform: {},
         rules: {
@@ -330,7 +330,7 @@
                   name: this.form.Name,
                   phone: this.form.Phone,
                   address: this.form.Address,
-                  isDefault: this.form.Type ? 1 : 0,
+                  isDefault: this.form.type ? 1 : 0,
                   provice: this.myAddressCity(this.form.city),
                   city: this.myAddressErae(this.form.erae),
                   region: this.myAddressMinerae(this.form.minerae),
@@ -387,7 +387,8 @@
         this.form.city = this.form.selectedOptions[0];
         this.form.erae = this.form.selectedOptions[1]
         this.form.minerae = this.form.selectedOptions[2]
-        console.log(this.myAddressCity(this.form.city))
+        // console.log(this.myAddressCity(this.form.city))
+        console.log(this.form.Type)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             const loading = this.$loading({
@@ -405,7 +406,7 @@
                   name: this.form.Name,
                   phone: this.form.Phone,
                   address: this.form.Address,
-                  isDefaul: this.form.Type ? 1 : 0,
+                  IsDefault: this.form.type ? 1 : 0,
                   provice: this.myAddressCity(this.form.city),
                   city: this.myAddressErae(this.form.erae),
                   region: this.myAddressMinerae(this.form.minerae),

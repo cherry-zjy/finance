@@ -48,314 +48,315 @@
 </template>
 
 <script>
-  import qs from "qs";
-  export default {
-    data() {
-      return {
-        choose: 0,
-        checked: false,
-        dialogFormVisible: false,
-        form: {
-          code: ''
-        },
-        list: [],
-        LoanOrderID: '',
-        Name: "",
-        Phone: '',
-        currentTime: 61,
-        time: '获取验证码', //倒计时 
-        disabled: false
+import qs from "qs";
+export default {
+  data() {
+    return {
+      choose: 0,
+      checked: false,
+      dialogFormVisible: false,
+      form: {
+        code: ""
+      },
+      list: [],
+      LoanOrderID: "",
+      Name: "",
+      Phone: "",
+      currentTime: 61,
+      time: "获取验证码", //倒计时
+      disabled: false
+    };
+  },
+  mounted: function() {
+    this.mainurl = mainurl;
+    this.getInfo();
+    document.getElementsByTagName("body")[0].className = "add_bg";
+  },
+  beforeDestroy: function() {
+    document.body.removeAttribute("class", "add_bg");
+  },
+  computed: {},
+  methods: {
+    getInfo() {
+      if (getCookie("token") == undefined || getCookie("token") == null) {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请先登录"
+        });
+        setTimeout(() => {
+          this.$router.push("/Login");
+        }, 1000);
+        return;
       }
-    },
-    mounted: function () {
-      this.mainurl = mainurl;
-      this.getInfo();
-      document.getElementsByTagName("body")[0].className = "add_bg";
-    },
-    beforeDestroy: function () {
-      document.body.removeAttribute("class", "add_bg");
-    },
-    computed: {
-
-    },
-    methods: {
-      getInfo() {
-        if (getCookie("token") == undefined || getCookie("token") == null) {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: '请先登录'
-          });
-          setTimeout(() => {
-            this.$router.push("/Login");
-          }, 1000);
-          return;
-        }
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
-        });
-        this.$http
-          .get("api/Web_SmailMarket/AmountSqXq", {
-            params: {
-              pageIndex: 1,
-              pageSize: 999,
-              Token: getCookie("token")
-            }
-          })
-          .then(
-            function (response) {
-              loading.close();
-              var status = response.data.Status;
-              if (status === 1) {
-                this.list = response.data.Result.list;
-                this.LoanOrderID = response.data.Result.list[0].ID;
-                this.Name = this.list[0].Name
-                this.Phone = this.list[0].Phone
-              } else {
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
-              }
-            }.bind(this)
-          )
-          // 请求error
-          .catch(
-            function (error) {
-              loading.close();
-              this.$notify.error({
-                title: "错误",
-                message: "错误：请检查网络"
-              });
-            }.bind(this)
-          );
-      },
-      back() {
-        this.$router.push("/Finance/SmallSupermarketApply/id=" + window.location.href.split("id=")[1]);
-      },
-      choosethis(index, id) {
-        console.log(this.choose)
-        this.choose = index;
-        this.LoanOrderID = id;
-        this.Name = this.list[index].Name
-        this.Phone = this.list[index].Phone
-      },
-      next() {
-        if (!this.checked) {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: "请阅读并同意《金融联盟服务协议》"
-          });
-          return;
-        }
-        this.dialogFormVisible = true;
-      },
-      save() {
-        if (getCookie("token") == undefined || getCookie("token") == null) {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: '请先登录'
-          });
-          setTimeout(() => {
-            this.$router.push("/Login");
-          }, 1000);
-          return;
-        }
-        if (this.form.code == "") {
-          this.$message({
-            showClose: true,
-            type: "warning",
-            message: "请输入验证码"
-          });
-          return;
-        }
-        const loading = this.$loading({
-          lock: true,
-          text: "Loading",
-          spinner: "el-icon-loading",
-          background: "rgba(0, 0, 0, 0.7)"
-        });
-        this.$http
-          .get("api/Web_SmailMarket/EditAmountSq", {
-            params: {
-              AgreeProtocol: true,
-              LoanOrderID: this.LoanOrderID,
-              Token: getCookie("token"),
-              Code:this.form.code
-            }
-          })
-          .then(
-            function (response) {
-              loading.close();
-              var status = response.data.Status;
-              if (status === 1) {
-                this.$message({
-                  showClose: true,
-                  type: "success",
-                  message: response.data.Result
-                });
-              } else {
-                this.$message({
-                  showClose: true,
-                  type: "warning",
-                  message: response.data.Result
-                });
-              }
-            }.bind(this)
-          )
-          // 请求error
-          .catch(
-            function (error) {
-              loading.close();
-              this.$notify.error({
-                title: "错误",
-                message: "错误：请检查网络"
-              });
-            }.bind(this)
-          );
-      },
-      code() {
-        if (this.time == "获取验证码" || this.time == "重新发送") {
-          const loading = this.$loading({
-            lock: true,
-            text: "Loading",
-            spinner: "el-icon-loading",
-            background: "rgba(0, 0, 0, 0.7)"
-          });
-          this.$http
-            .get("api/VerifyCode/Send", {
-              params: {
-                phone: this.Phone,
-              }
-            })
-            .then(
-              function (response) {
-                loading.close();
-                var status = response.data.Status;
-                if (status === 1) {
-                  this.getCode();
-                  this.disabled = true
-                  wx.showToast({
-                    title: "发送验证码成功"
-                  })
-                } else {
-                  this.$message({
-                    showClose: true,
-                    type: "warning",
-                    message: response.data.Result
-                  });
-                }
-              }.bind(this)
-            )
-            // 请求error
-            .catch(
-              function (error) {
-                loading.close();
-                this.$notify.error({
-                  title: "错误",
-                  message: "错误：请检查网络"
-                });
-              }.bind(this)
-            );
-
-        }
-      },
-      getCode() {
-        var that = this
-        var currentTime = that.currentTime
-        var interval = setInterval(function () {
-          currentTime--;
-          that.time = currentTime + '秒'
-          if (currentTime <= 0) {
-            clearInterval(interval)
-            that.time = '重新发送',
-              that.currentTime = 61,
-              that.disabled = false
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      this.$http
+        .get("api/Web_SmailMarket/AmountSqXq", {
+          params: {
+            pageIndex: 1,
+            pageSize: 999,
+            Token: getCookie("token")
           }
-        }, 1000)
+        })
+        .then(
+          function(response) {
+            loading.close();
+            var status = response.data.Status;
+            if (status === 1) {
+              this.list = response.data.Result.list;
+              this.LoanOrderID = response.data.Result.list[0].ID;
+              this.Name = this.list[0].Name;
+              this.Phone = this.list[0].Phone;
+            } else {
+              this.$message({
+                showClose: true,
+                type: "warning",
+                message: response.data.Result
+              });
+            }
+          }.bind(this)
+        )
+        // 请求error
+        .catch(
+          function(error) {
+            loading.close();
+            this.$notify.error({
+              title: "错误",
+              message: "错误：请检查网络"
+            });
+          }.bind(this)
+        );
+    },
+    back() {
+      this.$router.push(
+        "/Finance/SmallSupermarketApply/id=" +
+          window.location.href.split("id=")[1]
+      );
+    },
+    choosethis(index, id) {
+      console.log(this.choose);
+      this.choose = index;
+      this.LoanOrderID = id;
+      this.Name = this.list[index].Name;
+      this.Phone = this.list[index].Phone;
+    },
+    next() {
+      if (!this.checked) {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请阅读并同意《金融联盟服务协议》"
+        });
+        return;
       }
+      this.dialogFormVisible = true;
+    },
+    save() {
+      if (getCookie("token") == undefined || getCookie("token") == null) {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请先登录"
+        });
+        setTimeout(() => {
+          this.$router.push("/Login");
+        }, 1000);
+        return;
+      }
+      if (this.form.code == "") {
+        this.$message({
+          showClose: true,
+          type: "warning",
+          message: "请输入验证码"
+        });
+        return;
+      }
+      const loading = this.$loading({
+        lock: true,
+        text: "Loading",
+        spinner: "el-icon-loading",
+        background: "rgba(0, 0, 0, 0.7)"
+      });
+      this.$http
+        .get("api/Web_SmailMarket/EditAmountSq", {
+          params: {
+            AgreeProtocol: true,
+            LoanOrderID: this.LoanOrderID,
+            Token: getCookie("token"),
+            Code: this.form.code
+          }
+        })
+        .then(
+          function(response) {
+            loading.close();
+            var status = response.data.Status;
+            if (status === 1) {
+              this.$message({
+                showClose: true,
+                type: "success",
+                message: "申请成功"
+              });
+              setTimeout(() => {
+                window.location.href = response.data.Result;
+              }, 1500);
+            } else {
+              this.$message({
+                showClose: true,
+                type: "warning",
+                message: response.data.Result
+              });
+            }
+          }.bind(this)
+        )
+        // 请求error
+        .catch(
+          function(error) {
+            loading.close();
+            this.$notify.error({
+              title: "错误",
+              message: "错误：请检查网络"
+            });
+          }.bind(this)
+        );
+    },
+    code() {
+      if (this.time == "获取验证码" || this.time == "重新发送") {
+        const loading = this.$loading({
+          lock: true,
+          text: "Loading",
+          spinner: "el-icon-loading",
+          background: "rgba(0, 0, 0, 0.7)"
+        });
+        this.$http
+          .get("api/VerifyCode/Send", {
+            params: {
+              phone: this.Phone
+            }
+          })
+          .then(
+            function(response) {
+              loading.close();
+              var status = response.data.Status;
+              if (status === 1) {
+                this.getCode();
+                this.disabled = true;
+                wx.showToast({
+                  title: "发送验证码成功"
+                });
+              } else {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+              }
+            }.bind(this)
+          )
+          // 请求error
+          .catch(
+            function(error) {
+              loading.close();
+              this.$notify.error({
+                title: "错误",
+                message: "错误：请检查网络"
+              });
+            }.bind(this)
+          );
+      }
+    },
+    getCode() {
+      var that = this;
+      var currentTime = that.currentTime;
+      var interval = setInterval(function() {
+        currentTime--;
+        that.time = currentTime + "秒";
+        if (currentTime <= 0) {
+          clearInterval(interval);
+          (that.time = "重新发送"),
+            (that.currentTime = 61),
+            (that.disabled = false);
+        }
+      }, 1000);
     }
   }
-
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .main {
-    margin-top: 60px;
-    background-color: #fff;
-    margin-bottom: 60px;
-  }
+.main {
+  margin-top: 60px;
+  background-color: #fff;
+  margin-bottom: 60px;
+}
 
-  h3 {
-    padding: 20px 30px;
-  }
+h3 {
+  padding: 20px 30px;
+}
 
-  .dark {
-    padding: 30px 0 80px 0;
-    margin: 0 30px;
-    color: #666666;
-    font-family: MicrosoftYaHei;
-    border-top: 1px solid #EEEEEE;
-  }
+.dark {
+  padding: 30px 0 80px 0;
+  margin: 0 30px;
+  color: #666666;
+  font-family: MicrosoftYaHei;
+  border-top: 1px solid #eeeeee;
+}
 
-  .text {
-    font-size: 14px;
-  }
+.text {
+  font-size: 14px;
+}
 
-  .item {
-    margin-bottom: 18px;
-  }
+.item {
+  margin-bottom: 18px;
+}
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+}
 
-  .clearfix:after {
-    clear: both
-  }
+.clearfix:after {
+  clear: both;
+}
 
-  .el-card {
-    width: 92%;
-    margin-left: auto;
-    margin-right: auto;
-    background-color: #F5F5F5;
-    color: #666666;
-    position: relative;
-    margin-top: 20px;
-    cursor: pointer;
-  }
+.el-card {
+  width: 92%;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f5f5f5;
+  color: #666666;
+  position: relative;
+  margin-top: 20px;
+  cursor: pointer;
+}
 
-  .tick-icon {
-    position: absolute;
-    right: 10px;
-    top: 15px;
-  }
+.tick-icon {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
 
-  .el-checkbox {
-    padding: 30px 10px;
-  }
+.el-checkbox {
+  padding: 30px 10px;
+}
 
-  .btnbox {
-    text-align: center;
-    margin-top: 30px;
-    padding-bottom: 50px;
-  }
+.btnbox {
+  text-align: center;
+  margin-top: 30px;
+  padding-bottom: 50px;
+}
 
-  .form-input {
-    width: 50%;
-  }
+.form-input {
+  width: 50%;
+}
 
-  #getcode {
-    margin-left: 10px;
-  }
-
+#getcode {
+  margin-left: 10px;
+}
 </style>
