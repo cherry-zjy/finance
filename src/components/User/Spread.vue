@@ -16,7 +16,10 @@
       </el-pagination>
     </div>
     <div v-if="detail" class="detail">
-      <img :src="Info.Image" class="detail-img">
+      <div class="haibao">
+        <img :src="Info.Image" class="detail-img">
+        <img :src="Info.QrCode" class="code-img">
+      </div>
       <p>{{Info.Title}}</p>
       <div class="sharebox">
         <p class="share">分享至</p>
@@ -244,8 +247,20 @@
     font-weight: 600;
   }
 
+  .haibao {
+    position: relative;
+  }
+
   .detail-img {
     max-width: 100%;
+  }
+
+  .code-img {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    bottom: 20px;
+    left: calc(50% - 50px);
   }
 
   .sharebox img {

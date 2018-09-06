@@ -46,8 +46,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>急速贷款</p>
+                    <p class="advantage-text">多家银行受理贷款，银行自动审批，更快拿钱</p>
                   </div>
                 </el-card>
               </el-col>
@@ -55,8 +55,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>大数据服务</p>
+                    <p class="advantage-text">通过大数据分析技术智能匹配您的个人信息以及最适合属于您的银行</p>
                   </div>
                 </el-card>
               </el-col>
@@ -64,8 +64,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>产品多样</p>
+                    <p class="advantage-text">由宁波各大银行和金融机构提供的银行审贷、信用卡、小额贷、POS、、车险、信贷经理等等，方便、快捷、安心的信贷金融之选</p>
                   </div>
                 </el-card>
               </el-col>
@@ -73,8 +73,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>弹性额度</p>
+                    <p class="advantage-text">用户可自定义申请借款额度，期限灵活，10万起，最高可达40万</p>
                   </div>
                 </el-card>
               </el-col>
@@ -82,8 +82,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>操作简单</p>
+                    <p class="advantage-text">小火金融超市APP操作简单，线上申请，一对一专业服务</p>
                   </div>
                 </el-card>
               </el-col>
@@ -91,8 +91,8 @@
                 <el-card class="box-card" shadow="hover">
                   <div class="body">
                     <img src="../../static/img/apxq_head_portrait@2x.png" class="advantage-icon">
-                    <p>高校专业</p>
-                    <p class="advantage-text">优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势优势</p>
+                    <p>服务保障</p>
+                    <p class="advantage-text">7*24小时服务，用心服务每一次信任</p>
                   </div>
                 </el-card>
               </el-col>
@@ -385,7 +385,8 @@
   }
 
   .advantage-text {
-    text-align: left
+    text-align: left;
+    min-height: 65px;
   }
 
   .advantage {
