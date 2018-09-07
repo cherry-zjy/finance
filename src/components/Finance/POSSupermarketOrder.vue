@@ -236,7 +236,7 @@
                 this.tableData.push(response.data.Result)
                 this.getInfo(response.data.Result.AddressID)
                 // this.Default = response.data.Result
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -307,7 +307,7 @@
                 }
                 console.log(this.Default)
                 // this.getAdd()
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -370,7 +370,7 @@
                   }
                 }
                 this.isshow = true
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -478,7 +478,7 @@
                     });
                     this.getInfo()
                     this.dialogFormVisible2 = false
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",
@@ -560,7 +560,7 @@
                     });
                     this.getMsg()
                     this.dialogFormVisible = false
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",
@@ -715,7 +715,7 @@
                     path: "/Finance/POSSupermarketSubmitOrder/id=" + response.data.Result
                   });
                 }, 1500);
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",

@@ -405,7 +405,7 @@
               if (status === 1) {
                 this.list = response.data.Result.bank;
                 this.pageCount = response.data.Result.page;
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",

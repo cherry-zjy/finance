@@ -131,7 +131,7 @@
                   this.$router.push({
                     path: "/Finance/POSSupermarketOrder/id=" + response.data.Result + "&num=" + this.num1
                   });
-                } else if (status === 40001) {
+                } else if (status === -1) {
                   this.$message({
                     showClose: true,
                     type: "warning",

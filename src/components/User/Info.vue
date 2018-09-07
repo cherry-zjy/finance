@@ -213,7 +213,7 @@
               if (status === 1) {
                 this.Info = response.data.Result;
                 this.getAdd()
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -281,7 +281,7 @@
                 this.addfilters(this.Info.ProvinceID, this.Info.CityID,
                   this.Info.RegionID)
 
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -398,7 +398,7 @@
                 this.$emit('changeicon', this.Info.Image);
                 console.log(this.Info.Image)
                 this.$emit('changename', this.Info.NickName);
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",

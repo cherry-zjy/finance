@@ -113,7 +113,7 @@
                   }
                 }
                 this.isshow = true
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -188,7 +188,7 @@
                     setTimeout(() => {
                       this.$router.push("/Finance/CarSupermarketDeatil/id=" + response.data.Result);
                     }, 1000);
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",

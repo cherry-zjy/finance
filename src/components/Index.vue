@@ -153,7 +153,7 @@
               var status = response.data.Status;
               if (status === 1) {
                 this.Info = response.data.Result;
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",

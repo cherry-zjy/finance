@@ -142,7 +142,7 @@
                   }
                 }
                 this.isshow = true
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -233,7 +233,7 @@
                     setTimeout(() => {
                       this.$router.push("/Finance/CardSupermarketsecond/id=" + window.location.href.split("id=")[1]);
                     }, 1000);
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",

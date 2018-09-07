@@ -182,7 +182,7 @@
                 this.list = response.data.Result.Data;
                 this.pageCount = response.data.Result.page
                 this.getAdd()
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -245,7 +245,7 @@
                   }
                 }
                 this.isshow = true
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -348,7 +348,7 @@
                     });
                     this.getInfo()
                     this.dialogFormVisible = false
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",
@@ -424,7 +424,7 @@
                     });
                     this.getInfo()
                     this.dialogFormVisible2 = false
-                  } else if (status === 40001) {
+                  } else if (status === -1) {
                     this.$message({
                       showClose: true,
                       type: "warning",
@@ -484,7 +484,7 @@
                   message: response.data.Result
                 });
                 this.getInfo()
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -547,7 +547,7 @@
                   message: response.data.Result
                 });
                 this.getInfo()
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",

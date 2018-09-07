@@ -149,7 +149,7 @@
                   });
                 }
                 this.shareurl = "../../../static/share.html?index=" +index+"&"
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
