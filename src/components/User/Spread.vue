@@ -9,25 +9,21 @@
           <p>{{item.Title}}</p>
         </div>
       </el-col>
-
     </el-row>
     <div class="block" v-if="!detail&&pageCount>0">
       <el-pagination :page-count="pageCount" layout="prev, pager, next" :current-page="currentPage">
       </el-pagination>
     </div>
     <div v-if="detail" class="detail">
-      <div class="haibao">
+      <!-- <div class="haibao">
         <img :src="Info.Image" class="detail-img">
         <img :src="Info.QrCode" class="code-img">
-      </div>
-      <p>{{Info.Title}}</p>
-      <div class="sharebox">
-        <p class="share">分享至</p>
-        <img src="../../../static/img/sharewechat.png">
-        <img src="../../../static/img/circle_friends.png">
-        <div class="btnbox">
-          <el-button type="primary" @click="detail=false">上一步</el-button>
-        </div>
+      </div> -->
+      <iframe id="show-iframe" frameborder=0 scrolling="auto" :src="shareurl">
+      </iframe>
+      <!-- <p>{{Info.Title}}</p> -->
+      <div class="btnbox">
+        <el-button type="primary" @click="detail=false">上一步</el-button>
       </div>
     </div>
   </div>
@@ -42,6 +38,7 @@
         Info: [],
         pageIndex: 1,
         pageCount: 0,
+        shareurl: '../../../static/share.html'
       }
     },
     mounted: function () {
@@ -151,6 +148,7 @@
                     this.detail = true
                   });
                 }
+                this.shareurl = "../../../static/share.html?index=" +index+"&"
               } else if (status === 40001) {
                 this.$message({
                   showClose: true,
@@ -239,10 +237,6 @@
     width: 100%;
   }
 
-  .sharebox {
-    margin-top: 20px;
-  }
-
   .sharebox .share {
     font-weight: 600;
   }
@@ -255,20 +249,6 @@
     max-width: 100%;
   }
 
-  .code-img {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    bottom: 20px;
-    left: calc(50% - 50px);
-  }
-
-  .sharebox img {
-    width: 60px;
-    height: 60px;
-    cursor: pointer;
-  }
-
   .btnbox {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -279,6 +259,17 @@
     margin-top: 20px;
     padding-bottom: 80px;
     width: 100%;
+  }
+
+  #show-iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (min-width:768px) {
+    #show-iframe {
+      min-height: 750px;
+    }
   }
 
 </style>
