@@ -44,11 +44,11 @@
         <el-form-item label="联系方式：" prop="Phone">
           <el-input v-model="form.Phone"></el-input>
         </el-form-item>
-        <el-form-item prop="type">
+        <!-- <el-form-item prop="type">
           <el-checkbox-group v-model="form.Type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -73,11 +73,11 @@
         <el-form-item label="联系方式：" prop="Phone">
           <el-input v-model="form.Phone"></el-input>
         </el-form-item>
-        <el-form-item prop="type">
+        <!-- <el-form-item prop="type">
           <el-checkbox-group v-model="form.type">
             <el-checkbox label="设置默认地址" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible2 = false">取 消</el-button>

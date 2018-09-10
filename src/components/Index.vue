@@ -153,6 +153,7 @@
               var status = response.data.Status;
               if (status === 1) {
                 this.Info = response.data.Result;
+                setCookie("userid",response.data.Result.ID)
               } else if (status === -1) {
                 this.$message({
                   showClose: true,

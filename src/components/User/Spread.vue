@@ -68,7 +68,8 @@
           .get("api/Web_UserInfo/GetPosterList", {
             params: {
               pageIndex: this.pageIndex,
-              pageSize: 6
+              pageSize: 6,
+              Token:getCookie("token")
             }
           })
           .then(
@@ -78,7 +79,7 @@
               if (status === 1) {
                 this.list = response.data.Result.list;
                 this.pageCount = response.data.Result.page
-              } else if (status === 40001) {
+              } else if (status === -1) {
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -148,7 +149,7 @@
                     this.detail = true
                   });
                 }
-                this.shareurl = "../../../static/share.html?index=" +index+"&"
+                this.shareurl = "../../../static/share.html?index=" +getCookie("userid")+"&"+this.list[index].ID+"#"
               } else if (status === -1) {
                 this.$message({
                   showClose: true,

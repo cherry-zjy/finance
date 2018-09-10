@@ -73,27 +73,30 @@
 
   </script>
   <script src="js/jquery.min.js"></script>
+  <script src="js/index.js"></script>
   <script>
-	var index = location.href.split("index=")[1].split("&")[0];
-	// var first = code.split("**")[0]
-	// var second = code.split("**")[1]
+	var index = location.href.split("index=")[1];
+	var first = index.split("&")[0]
+	var second = index.split("&")[1].split("|")[0].split("#")[0]
+	// var three = index.split("&")[1].split("|")[1]
     // $("#codeimg").attr("src", second.split("||")[0])
-    // $("#img").attr("src", first)
-	// $("#title").html(decodeURIComponent(second.split("||")[1]))
-	// document.title = decodeURIComponent(second.split("||")[1])
+  // $("#img").attr("src", second)
+	// $("#title").html(decodeURIComponent(three))
+	// document.title = decodeURIComponent(three)
 	$.ajax({
 		type:"get",
-		url: "http://zyjf.nbzzjr.com/api/Web_UserInfo/GetPosterList",
+		url: "http://zyjf.nbzzjr.com/api/Web_UserInfo/GetUserQrcode",
 		data:{
-			pageIndex: 1,
-            pageSize: 9999
+      userID: first,
+      postID:second
 		},
 		success:function(data){
+      console.log(data)
 			if(data.Status==1){
-				$("#codeimg").attr("src", data.Result.list[index].QrCode)
-				$("#img").attr("src", data.Result.list[index].Image)
-				$("#title").html(data.Result.list[index].Title)
-				document.title = data.Result.list[index].Title
+				$("#codeimg").attr("src", mainurl+data.Result.Qrcode)
+				$("#img").attr("src", mainurl+data.Result.Image)
+				$("#title").html(data.Result.Title)
+				document.title = data.Result.Title
 			}
 		}
 	})

@@ -225,6 +225,21 @@
             },
             trigger: 'blur'
           }],
+          Price: [{
+            required: true,
+            message: '请输入金额',
+            trigger: 'blur'
+          }, {
+            validator: (rule, value, callback) => {
+              if (value == "") {
+                callback();
+              } else if (/^\d+$/.test(value) == false) {
+                callback(new Error("请输入正确的数字"));
+              } else {
+                callback();
+              }
+            },
+          }],
           type: [{
             type: "array",
             required: true,
@@ -242,18 +257,6 @@
               }
             },
             required: false,
-            trigger: "blur"
-          }],
-          Price: [{
-            validator: (rule, value, callback) => {
-              if (value == "") {
-                callback();
-              } else if (/^\d+$/.test(value) == false) {
-                callback(new Error("请输入数字"));
-              } else {
-                callback();
-              }
-            },
             trigger: "blur"
           }],
           // 必填项身份验证
