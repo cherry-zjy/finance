@@ -347,7 +347,7 @@
                     0 :
                     this.ruleForm.Businessinsurance,
                   BankLoanID: window.location.href.split("id=")[1],
-                  BankID: ""
+                  // BankID: ""
                 })
               )
               .then(
@@ -460,39 +460,12 @@
           background: "rgba(0, 0, 0, 0.7)"
         });
         this.$http
-          .post(
-            "api/Web_BankLoan/BankApply",
-            qs.stringify({
-              Token: getCookie("token"),
-              Price: this.ruleForm.Price == "" ? 0 : this.ruleForm.Price,
-              IDCard: this.ruleForm.IDCard == "" ? "" : this.ruleForm.IDCard,
-              Professional: this.ruleForm.Professional == "" ? 0 : this.ruleForm.Professional,
-              SalaryType: this.ruleForm.SalaryType == "" ? 0 : this.ruleForm.SalaryType,
-              HouseType: this.ruleForm.HouseType == "" ? 0 : this.ruleForm.HouseType,
-              HousePlace: this.ruleForm.HousePlace == "" ? 0 : this.ruleForm.HousePlace,
-              IsSelf: this.ruleForm.IsSelf == "" ? 0 : this.ruleForm.IsSelf,
-              MonthHouse: this.ruleForm.MonthHouse == "" ? 0 : this.ruleForm.MonthHouse,
-              MonthHousePrice: this.ruleForm.MonthHousePrice == "" ?
-                0 :
-                this.ruleForm.MonthHousePrice,
-              IshaveCar: this.ruleForm.IshaveCar == "" ? 0 : this.ruleForm.IshaveCar,
-              CarPlace: this.ruleForm.CarPlace == "" ? 0 : this.ruleForm.CarPlace,
-              CarAge: this.ruleForm.CarAge == "" ? 0 : this.ruleForm.CarAge,
-              socialsecurity: this.ruleForm.socialsecurity == "" ?
-                0 :
-                this.ruleForm.socialsecurity,
-              Accumulationfund: this.ruleForm.Accumulationfund == 0 ?
-                0 :
-                this.ruleForm.Accumulationfund,
-              ZhiM: this.ruleForm.ZhiM == "" ? 0 : this.ruleForm.ZhiM,
-              WeiL: this.ruleForm.WeiL == "" ? 0 : this.ruleForm.WeiL,
-              Businessinsurance: this.ruleForm.Businessinsurance == "" ?
-                0 :
-                this.ruleForm.Businessinsurance,
+          .get("api/App_BankLoan/ChoiceBank", {
+            params: {
               BankLoanID: window.location.href.split("id=")[1],
-              BankID: id
-            })
-          )
+              bankID: id,
+            }
+          })
           .then(
             function (response) {
               loading.close();
@@ -503,7 +476,19 @@
                   type: "success",
                   message: response.data.Result
                 });
+              } else if (status === -1) {
+                this.$message({
+                  showClose: true,
+                  type: "warning",
+                  message: response.data.Result
+                });
+                setTimeout(() => {
+                  this.$router.push({
+                    path: "/login"
+                  });
+                }, 1500);
               } else {
+                loading.close();
                 this.$message({
                   showClose: true,
                   type: "warning",
@@ -512,8 +497,10 @@
               }
             }.bind(this)
           )
+          // 请求error
           .catch(
             function (error) {
+              console.log(error);
               loading.close();
               this.$notify.error({
                 title: "错误",
