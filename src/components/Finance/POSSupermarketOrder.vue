@@ -66,7 +66,7 @@
       <div v-for="(item,index) in addlist" :key="index" class="card">
         <P>收货人：{{item.Name}}</P>
         <P>联系方式：{{item.Phone}}</P>
-        <P>收货地址：{{item.Province+item.City+item.Region}}</P>
+        <P>收货地址：{{item.Province+item.City+item.Region+item.Address}}</P>
         <img src="../../../static/img/tick.png" class="tick-img" v-if="tick == index">
         <img src="../../../static/img/tick_no.png" class="tick-img" v-if="tick !== index" @click="tick = index">
       </div>
