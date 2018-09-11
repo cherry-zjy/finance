@@ -2,7 +2,7 @@
   <div id="app">
     <div class="container">
       <div class="main">
-        <h3>平台手册</h3>
+        <h3>关于我们</h3>
         <p class="detail"></p>
       </div>
     </div>

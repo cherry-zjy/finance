@@ -4,7 +4,7 @@
       <div class="main">
         <el-row :gutter="10">
           <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" class="picture">
-            <div @click="one(0)">
+            <div @click="one(0)" v-if="list[0].Title">
               <img src="../../../static/img/credit_card.png">
               <div class="step-text">{{list[0].Title}}</div>
             </div>
@@ -13,7 +13,7 @@
             <img src="../../../static/img/jiantou.png" class="right">
           </el-col>
           <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" class="picture">
-            <div @click="one(1)">
+            <div @click="one(1)" v-if="list[1].Title">
               <img src="../../../static/img/illegal.png">
               <div class="step-text">{{list[1].Title}}</div>
             </div>
@@ -22,7 +22,7 @@
             <img src="../../../static/img/jiantou.png" class="right">
           </el-col>
           <el-col :xs="24" :sm="8" :md="8" :lg="6" :xl="6" @click="one(2)" class="picture">
-            <div @click="one(2)">
+            <div @click="one(2)" v-if="list[2].Title">
               <img src="../../../static/img/merchants_gathering.png">
               <div class="step-text">{{list[2].Title}}</div>
             </div>

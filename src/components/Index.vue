@@ -53,7 +53,7 @@
                     <a @click="navto('/Help/Flow')">流程说明</a>
                   </li>
                   <li>
-                    <a @click="navto('/Help/Formmanual')">平台手册</a>
+                    <a @click="navto('/Help/Formmanual')">关于我们</a>
                   </li>
                   <li>
                     <a @click="navto('/Help/HelpCenter')">帮助中心</a>
