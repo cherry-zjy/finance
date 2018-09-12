@@ -97,6 +97,7 @@
               )
               .catch(
                 function (error) {
+                  console.log(error)
                   loading.close();
                   this.$notify.error({
                     title: "错误",
@@ -145,9 +146,11 @@
                   if (status === 1) {
                     this.getCode();
                     this.disabled = true
-                    wx.showToast({
-                      title: "发送验证码成功"
-                    })
+                    this.$message({
+                      showClose: true,
+                      type: "success",
+                      message: "发送验证码成功"
+                    });
                   } else {
                     this.$message({
                       showClose: true,
@@ -160,6 +163,7 @@
               // 请求error
               .catch(
                 function (error) {
+                  console.log(error)
                   loading.close();
                   this.$notify.error({
                     title: "错误",

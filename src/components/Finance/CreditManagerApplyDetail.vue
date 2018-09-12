@@ -243,9 +243,11 @@
                 if (status === 1) {
                   this.getCode();
                   this.disabled = true
-                  wx.showToast({
-                    title: "发送验证码成功"
-                  })
+                  this.$message({
+                    showClose: true,
+                    type: "success",
+                    message: "发送验证码成功"
+                  });
                 } else {
                   this.$message({
                     showClose: true,
